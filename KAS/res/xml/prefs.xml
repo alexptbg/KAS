@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:title="Потребителско име"
+        android:summary="Редактира твоето потребителско име"
+        android:key="USR"
+    />
+    <CheckBoxPreference 
+        android:title="Запиши паролата?"
+        android:summaryOn="Паролата е записана."
+        android:summaryOff="Паролата не е записана."
+        android:key="chkbox_second_custom_message" 
+    />
+    <EditTextPreference
+        android:title="Парола"
+        android:summary="Не давайте паролата си на никого."
+        android:key="PASSWORD"
+        android:dependency="chkbox_second_custom_message"
+        android:password="true"
+    />
+    <ListPreference 
+        android:key="language_preference"
+        android:title="Език"
+        android:summary="Промени език на системата."
+        android:entries="@array/Languages"
+        android:entryValues="@array/Lang"
+        android:defaultValue="bg"
+    />
+    <ListPreference 
+        android:key="notify_preference"
+        android:title="Аудио известия"
+        android:summary="Избере аудио файл."
+        android:entries="@array/audio"
+        android:entryValues="@array/avalues"
+        android:defaultValue="standard"
+    />
+</PreferenceScreen>
