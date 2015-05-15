@@ -1,0 +1,13 @@
+SELECT klimatiki.id,klimatiki.router,klimatiki.inv,klimatiki.rtu,klimatiki.addr,routers.router_sname FROM klimatiki
+INNER JOIN routers ON klimatiki.router=routers.router_name 
+ORDER BY klimatiki.id DESC
+
+
+SELECT * FROM klimatiki
+INNER JOIN routers ON klimatiki.router=routers.router_name 
+ORDER BY klimatiki.id DESC
+
+SELECT k.id,k.router,k.inv,k.rtu,k.addr,r.router_sname FROM klimatiki AS k
+INNER JOIN routers AS r ON k.router=r.router_name
+WHERE k.id=63
+ORDER BY k.id DESC
