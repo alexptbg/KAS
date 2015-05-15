@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="Languages">
+        <item>български</item>
+        <item>English</item>
+    </array>
+    <array name="Lang">
+        <item>bg</item>
+        <item>en</item>
+    </array>
+    <array name="audio">
+        <item>Standard</item>
+        <item>Аларма</item>
+        <item>Сигнал за тревога</item>
+        <item>Звънец</item>
+        <item>Котка</item>
+        <item>Рог</item>
+        <item>МП5</item>
+        <item>Пейджър</item>
+        <item>Свистене</item>
+        <item>Петел</item>
+        <item>Сирена</item>
+    </array>
+    <array name="avalues">
+        <item>standard</item>
+        <item>alarm</item>
+        <item>alert</item>
+        <item>bell</item>
+        <item>cat</item>
+        <item>horn</item>
+        <item>mp5</item>
+        <item>pager</item>
+        <item>ping</item>
+        <item>rooster</item>
+        <item>siren</item>
+    </array>
+</resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World!</string>
+    <string name="app_name">KAS</string>
+    <string name="desc">KAS</string>
+    <string name="menu">Опции менюто</string>
+    <string name="exit">Изход от KAS</string>
+    <string name="options_saved">Опциите е записан успешно</string>
+    <string name="error_69">Грешка 69!</string>
+    <string name="error_int">Липсва мрежова комуникация, проверете мрежовите настройки.</string>
+    <string name="HandleNotification">Teste test!!</string>
+</resources>
