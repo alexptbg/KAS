@@ -1,0 +1,4 @@
+                                    <p><script type="text/javascript"> getsize(); </script></p>
+								    <p><?php echo getOS($_SERVER['HTTP_USER_AGENT']); ?></p>
+								    <p><?php $ua=getBrowser(); echo $yourbrowser = $ua['name']." ".$ua['version']; ?></p>
+									<p><?php echo $_SERVER['REMOTE_ADDR']; ?></p>
