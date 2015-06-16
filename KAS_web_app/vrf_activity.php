@@ -73,7 +73,8 @@ check_login($lang,$web_dir);
                     </li>
                 </ul>
             </nav>
-
+            <!-- /.navbar-static-top -->
+            <?php @include($core); ?>
             <nav class="navbar-default navbar-static-side" role="navigation">
                 <div class="sidebar-collapse">
 				    <span class="system_name"><?=$system_name?>&nbsp;<?=$version?></span>
@@ -241,10 +242,13 @@ check_login($lang,$web_dir);
                                 </li>
 								<?php if ($user_settings['level'] > 20): ?>
                                 <li>
-                                    <a href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k11'); ?></a>
+                                    <a href="logs.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k13'); ?></a>
                                 </li>
                                 <li>
-                                    <a href="logs.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k13'); ?></a>
+                                    <a href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k11'); ?></a>
+                                </li>
+                                <li>
+                                    <a href="license.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k209'); ?></a>
                                 </li>
 								<?php endif; ?>
                             </ul>
@@ -257,6 +261,7 @@ check_login($lang,$web_dir);
 					        <i class="fa fa-copyright"></i>&nbsp;2014&nbsp;|
 					        <script type="text/javascript">document.write(new Date().getFullYear())</script>
 					    </h5>
+					    <h6><?php echo get_lang($lang,'k243')."&nbsp;".date("Y-m-d H:i:s",filemtime("index.php")); ?></h6>
 					</div>
                 </div>
             </nav>
@@ -341,7 +346,7 @@ Highcharts.setOptions({
 });
 $(function () {
     Highcharts.setOptions({
-        colors: ['#06a7ec', '#f9932d', '#20ed1b', '#f724e1', '#24CBE5', '#fd0909', '#de76b1', '#FFF263', '#6AF9C4']
+        colors: ['#06a7ec', '#f9932d', '#20ed1b', '#f724e1', '#24CBE5', '#fd0909', '#de76b1', '#FFF263', '#6AF9C4', '#ec7792', '#d2dd86']
     });
     Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function (color) {
         return {

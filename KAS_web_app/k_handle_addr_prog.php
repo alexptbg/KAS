@@ -25,7 +25,7 @@ if (mysql_num_rows($result) != 0) {
 	}
 	foreach($invs as $klima) {
         if (($klima != NULL) && ($ad != NULL)) {
-            $query = "UPDATE `klimatiki` SET `prog`='$status' WHERE `router`='$router' AND `addr`='$ad' AND `inv`='$klima'";
+            $query = "UPDATE `klimatiki` SET `prog`='".$status."' WHERE `router`='".$router."' AND `addr`='".$ad."' AND `inv`='".$klima."'";
             $result = mysql_query($query);
             confirm_query($result);
             if ($result) {

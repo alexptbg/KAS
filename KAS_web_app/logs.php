@@ -72,7 +72,8 @@ check_login($lang,$web_dir);
                     </li>
                 </ul>
             </nav>
-
+            <!-- /.navbar-static-top -->
+            <?php @include($core); ?>
             <nav class="navbar-default navbar-static-side" role="navigation">
                 <div class="sidebar-collapse">
 				    <span class="system_name"><?=$system_name?>&nbsp;<?=$version?></span>
@@ -208,7 +209,7 @@ check_login($lang,$web_dir);
                         </li>
 						<?php if ($user_settings['level'] > 10): ?>
                         <li class="active">
-                            <a class="active" href="#"><i class="fa fa-cog fa-fw fa-3x"></i> <?php echo get_lang($lang, 'Settings'); ?><span class="fa arrow"></span></a>
+                            <a class="active" href="#"><i class="fa fa-cog fa-fw fa-3x"></i> <?php echo get_lang($lang,'Settings'); ?><span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
 							    <?php if ($user_settings['level'] > 20): ?>
                                 <li>
@@ -239,11 +240,14 @@ check_login($lang,$web_dir);
                                     <a href="users.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k12'); ?></a>
                                 </li>
 								<?php if ($user_settings['level'] > 20): ?>
-                                <li>
-                                    <a href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k11'); ?></a>
-                                </li>
                                 <li class="active">
                                     <a class="active" href="logs.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k13'); ?></a>
+                                </li>
+                                <li>
+                                    <a href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k11'); ?></a>
+                                </li>
+                                <li>
+                                    <a href="license.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k209'); ?></a>
                                 </li>
 								<?php endif; ?>
                             </ul>
@@ -256,6 +260,7 @@ check_login($lang,$web_dir);
 					        <i class="fa fa-copyright"></i>&nbsp;2014&nbsp;|
 					        <script type="text/javascript">document.write(new Date().getFullYear())</script>
 					    </h5>
+					    <h6><?php echo get_lang($lang,'k243')."&nbsp;".date("Y-m-d H:i:s",filemtime("index.php")); ?></h6>
 					</div>
                 </div>
             </nav>

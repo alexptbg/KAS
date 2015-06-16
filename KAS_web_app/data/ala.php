@@ -295,3 +295,6 @@
 08/05/2015 - 06:41:07 - IRCD started
 08/05/2015 - 06:41:07 - Socket Server module loaded - 4013
 08/05/2015 - 06:41:07 - Web Server module loaded
+01/06/2015 - 05:54:33 - IRCD started
+01/06/2015 - 05:54:33 - Socket Server module loaded - 4013
+01/06/2015 - 05:54:33 - Web Server module loaded

@@ -1,0 +1,661 @@
+@charset "UTF-8";
+@font-face {
+  font-family: "ka-ex";
+  src:url("../fonts/ka-ex.eot");
+  src:url("../fonts/ka-ex.eot?#iefix") format("embedded-opentype"),
+      url("../fonts/ka-ex.woff") format("woff"),
+      url("../fonts/ka-ex.ttf") format("truetype"),
+      url("../fonts/ka-ex.svg#ka-ex") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+[data-icon]:before {
+  font-family: "ka-ex" !important;
+  content: attr(data-icon);
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+[class^="ka-"]:before,
+[class*=" ka-"]:before {
+  font-family: "ka-ex" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.ka-status {
+    line-height: 6px;
+	font-weight: 400;
+	vertical-align: middle;
+	font-size: 10px;
+}
+.ka-status-lg {
+	font-size: 18px;
+	line-height: 6px;
+	vertical-align: middle;
+}
+.ka-fire:before {
+  content: "a";
+}
+.ka-fire-extinguisher:before {
+  content: "b";
+}
+.ka-fire-1:before {
+  content: "c";
+}
+.ka-campfire:before {
+  content: "d";
+}
+.ka-burning-fire:before {
+  content: "e";
+}
+.ka-fire-2:before {
+  content: "f";
+}
+.ka-fire-station:before {
+  content: "g";
+}
+.ka-air:before {
+  content: "h";
+}
+.ka-water:before {
+  content: "i";
+}
+.ka-water-1:before {
+  content: "j";
+}
+.ka-tint:before {
+  content: "k";
+}
+.ka-droplet:before {
+  content: "l";
+}
+.ka-drops:before {
+  content: "m";
+}
+.ka-drop:before {
+  content: "n";
+}
+.ka-fuel:before {
+  content: "o";
+}
+.ka-oil-well:before {
+  content: "p";
+}
+.ka-flash:before {
+  content: "q";
+}
+.ka-lightbulb:before {
+  content: "r";
+}
+.ka-lamp:before {
+  content: "s";
+}
+.ka-bulb:before {
+  content: "t";
+}
+.ka-lightbulb-shine:before {
+  content: "u";
+}
+.ka-lightbulb-1:before {
+  content: "v";
+}
+.ka-light-bulb:before {
+  content: "w";
+}
+.ka-thermometer:before {
+  content: "x";
+}
+.ka-thermometer-1:before {
+  content: "y";
+}
+.ka-thermometer-2:before {
+  content: "z";
+}
+.ka-celcius:before {
+  content: "A";
+}
+.ka-farenheit:before {
+  content: "B";
+}
+.ka-no-smoking:before {
+  content: "C";
+}
+.ka-streamline-umbrella-weather:before {
+  content: "D";
+}
+.ka-rain-weather:before {
+  content: "E";
+}
+.ka-hail-weather:before {
+  content: "F";
+}
+.ka-rain:before {
+  content: "G";
+}
+.ka-rain-black-1:before {
+  content: "H";
+}
+.ka-rain-1:before {
+  content: "I";
+}
+.ka-rain-2:before {
+  content: "J";
+}
+.ka-rain-black-2:before {
+  content: "K";
+}
+.ka-wind-rain-black:before {
+  content: "L";
+}
+.ka-wind-rain:before {
+  content: "M";
+}
+.ka-rain-3:before {
+  content: "N";
+}
+.ka-wind:before {
+  content: "O";
+}
+.ka-wind-cloud:before {
+  content: "P";
+}
+.ka-wind-1:before {
+  content: "Q";
+}
+.ka-wind-black:before {
+  content: "R";
+}
+.ka-moon-sleep:before {
+  content: "S";
+}
+.ka-moon:before {
+  content: "T";
+}
+.ka-params:before {
+  content: "U";
+}
+.ka-moon-fill:before {
+  content: "V";
+}
+.ka-moon-1:before {
+  content: "W";
+}
+.ka-moon-2:before {
+  content: "X";
+}
+.ka-graph-bar:before {
+  content: "Y";
+}
+.ka-graph-trend:before {
+  content: "Z";
+}
+.ka-bar-chart:before {
+  content: "0";
+}
+.ka-chart-area:before {
+  content: "1";
+}
+.ka-chart-bar:before {
+  content: "2";
+}
+.ka-chart-line:before {
+  content: "3";
+}
+.ka-chart-pie:before {
+  content: "4";
+}
+.ka-bars:before {
+  content: "5";
+}
+.ka-graph:before {
+  content: "6";
+}
+.ka-analytics-chart-graph:before {
+  content: "7";
+}
+.ka-chart-graph-file-1:before {
+  content: "8";
+}
+.ka-chart-down:before {
+  content: "9";
+}
+.ka-chart-alt:before {
+  content: "!";
+}
+.ka-chart:before {
+  content: "\"";
+}
+.ka-bars-1:before {
+  content: "#";
+}
+.ka-bars-alt:before {
+  content: "$";
+}
+.ka-signal:before {
+  content: "%";
+}
+.ka-signal-1:before {
+  content: "&";
+}
+.ka-statistics:before {
+  content: "'";
+}
+.ka-beer:before {
+  content: "(";
+}
+.ka-beer-1:before {
+  content: ")";
+}
+.ka-beer-2:before {
+  content: "*";
+}
+.ka-cup:before {
+  content: "+";
+}
+.ka-cup-1:before {
+  content: ",";
+}
+.ka-coffee:before {
+  content: "-";
+}
+.ka-cup-2:before {
+  content: ".";
+}
+.ka-cup-2-1:before {
+  content: "/";
+}
+.ka-cafe:before {
+  content: ":";
+}
+.ka-lightbulb-2:before {
+  content: ";";
+}
+.ka-wrench:before {
+  content: "<";
+}
+.ka-bones:before {
+  content: "=";
+}
+.ka-wrench-1:before {
+  content: ">";
+}
+.ka-phone-home:before {
+  content: "?";
+}
+.ka-phone-off:before {
+  content: "@";
+}
+.ka-phone-on:before {
+  content: "[";
+}
+.ka-sun-stroke:before {
+  content: "]";
+}
+.ka-target:before {
+  content: "^";
+}
+.ka-share:before {
+  content: "_";
+}
+.ka-wrench-2:before {
+  content: "`";
+}
+.ka-key-fill:before {
+  content: "{";
+}
+.ka-key-stroke:before {
+  content: "|";
+}
+.ka-hail:before {
+  content: "}";
+}
+.ka-cloud-1:before {
+  content: "~";
+}
+.ka-cloud-2:before {
+  content: "\\";
+}
+.ka-snow-2:before {
+  content: "\e000";
+}
+.ka-sunrise:before {
+  content: "\e001";
+}
+.ka-sun-half:before {
+  content: "\e002";
+}
+.ka-sun:before {
+  content: "\e003";
+}
+.ka-sun-black:before {
+  content: "\e004";
+}
+.ka-snow-1:before {
+  content: "\e005";
+}
+.ka-snow-black-2:before {
+  content: "\e006";
+}
+.ka-snow-black-1:before {
+  content: "\e007";
+}
+.ka-snow-4:before {
+  content: "\e008";
+}
+.ka-snow-3:before {
+  content: "\e009";
+}
+.ka-lightning-1:before {
+  content: "\e00a";
+}
+.ka-lightning-2:before {
+  content: "\e00b";
+}
+.ka-lightning-3:before {
+  content: "\e00c";
+}
+.ka-lightning-4:before {
+  content: "\e00d";
+}
+.ka-lightning-black-1:before {
+  content: "\e00e";
+}
+.ka-lightning-black-2:before {
+  content: "\e00f";
+}
+.ka-moon-3:before {
+  content: "\e010";
+}
+.ka-moon-black:before {
+  content: "\e011";
+}
+.ka-n-a:before {
+  content: "\e012";
+}
+.ka-hail-black:before {
+  content: "\e013";
+}
+.ka-fog-sunrise:before {
+  content: "\e014";
+}
+.ka-fog:before {
+  content: "\e015";
+}
+.ka-fog-sun:before {
+  content: "\e016";
+}
+.ka-fog-moon:before {
+  content: "\e017";
+}
+.ka-fog-cloud:before {
+  content: "\e018";
+}
+.ka-compass:before {
+  content: "\e019";
+}
+.ka-cloud-sun:before {
+  content: "\e01a";
+}
+.ka-cloud-sun-black:before {
+  content: "\e01b";
+}
+.ka-cloud-moon:before {
+  content: "\e01c";
+}
+.ka-cloud-moon-black:before {
+  content: "\e01d";
+}
+.ka-cloud-black-2:before {
+  content: "\e01e";
+}
+.ka-cloud-black-1:before {
+  content: "\e01f";
+}
+.ka-park2:before {
+  content: "\e020";
+}
+.ka-park:before {
+  content: "\e021";
+}
+.ka-cooler:before {
+  content: "\e022";
+}
+.ka-brightness:before {
+  content: "\e023";
+}
+.ka-brightness-half:before {
+  content: "\e024";
+}
+.ka-spinner:before {
+  content: "\e025";
+}
+.ka-settings:before {
+  content: "\e026";
+}
+.ka-flag:before {
+  content: "\e027";
+}
+.ka-light:before {
+  content: "\e028";
+}
+.ka-light-off:before {
+  content: "\e029";
+}
+.ka-rotate:before {
+  content: "\e02a";
+}
+.ka-circle-filled:before {
+  content: "\e02b";
+}
+.ka-clock-2:before {
+  content: "\e02c";
+}
+.ka-clock-2-outline:before {
+  content: "\e02d";
+}
+.ka-clock:before {
+  content: "\e02e";
+}
+.ka-clock-outline:before {
+  content: "\e02f";
+}
+.ka-clock-time:before {
+  content: "\e030";
+}
+.ka-clock-time-outline:before {
+  content: "\e031";
+}
+.ka-contrast:before {
+  content: "\e032";
+}
+.ka-crosshairpinpoint:before {
+  content: "\e033";
+}
+.ka-display-contrast:before {
+  content: "\e034";
+}
+.ka-disc:before {
+  content: "\e035";
+}
+.ka-data:before {
+  content: "\e036";
+}
+.ka-globe-world:before {
+  content: "\e037";
+}
+.ka-globe-world-1:before {
+  content: "\e038";
+}
+.ka-hammer:before {
+  content: "\e039";
+}
+.ka-heart:before {
+  content: "\e03a";
+}
+.ka-heart-small:before {
+  content: "\e03b";
+}
+.ka-heart-small-outline:before {
+  content: "\e03c";
+}
+.ka-lightbulb-3:before {
+  content: "\e03d";
+}
+.ka-lightbulb-4:before {
+  content: "\e03e";
+}
+.ka-lightbulb-2-1:before {
+  content: "\e03f";
+}
+.ka-lightbulb-outline:before {
+  content: "\e040";
+}
+.ka-speedometer:before {
+  content: "\e041";
+}
+.ka-speedometer-1:before {
+  content: "\e042";
+}
+.ka-speedometer-outline:before {
+  content: "\e043";
+}
+.ka-stopwatch:before {
+  content: "\e044";
+}
+.ka-stopwatch-1:before {
+  content: "\e045";
+}
+.ka-stopwatch-outline:before {
+  content: "\e046";
+}
+.ka-setting-tools:before {
+  content: "\e047";
+}
+.ka-waterdrop:before {
+  content: "\e048";
+}
+.ka-volume-low:before {
+  content: "\e049";
+}
+.ka-volume-high:before {
+  content: "\e04a";
+}
+.ka-volume-mute:before {
+  content: "\e04b";
+}
+.ka-volume-speaker:before {
+  content: "\e04c";
+}
+.ka-thermometer-3:before {
+  content: "\e04d";
+}
+.ka-timer-clock-outline:before {
+  content: "\e04e";
+}
+.ka-timer-clock:before {
+  content: "\e04f";
+}
+.ka-bulb-1:before {
+  content: "\e050";
+}
+.ka-certificate:before {
+  content: "\e051";
+}
+.ka-broom:before {
+  content: "\e052";
+}
+.ka-elusive-icons:before {
+  content: "\e053";
+}
+.ka-heart-1:before {
+  content: "\e054";
+}
+.ka-heart-circled:before {
+  content: "\e055";
+}
+.ka-heart-empty:before {
+  content: "\e056";
+}
+.ka-idea:before {
+  content: "\e057";
+}
+.ka-setting-gear:before {
+  content: "\e058";
+}
+.ka-tint-1:before {
+  content: "\e059";
+}
+.ka-wrench-circled:before {
+  content: "\e05a";
+}
+.ka-radar-2:before {
+  content: "\e05b";
+}
+.ka-rocket:before {
+  content: "\e05c";
+}
+.ka-snow-weather:before {
+  content: "\e05d";
+}
+.ka-sun-weather:before {
+  content: "\e05e";
+}
+.ka-tree:before {
+  content: "\e05f";
+}
+.ka-usb:before {
+  content: "\e060";
+}
+.ka-subscript:before {
+  content: "\e061";
+}
+.ka-superscript:before {
+  content: "\e062";
+}
+.ka-wrench-3:before {
+  content: "\e063";
+}
+.ka-adjust:before {
+  content: "\e064";
+}
+.ka-globe:before {
+  content: "\e065";
+}
+.ka-light-down:before {
+  content: "\e066";
+}
+.ka-light-up:before {
+  content: "\e067";
+}
+.ka-shareable:before {
+  content: "\e068";
+}
+.ka-tools:before {
+  content: "\e069";
+}
+.ka-idea-1:before {
+  content: "\e06a";
+}
+.ka-bolt:before {
+  content: "\e06b";
+}
+.ka-sun-fill:before {
+  content: "\e06c";
+}
+.ka-umbrella:before {
+  content: "\e06d";
+}
+.ka-modem:before {
+  content: "\e06e";
+}

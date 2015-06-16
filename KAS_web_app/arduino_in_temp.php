@@ -6,7 +6,7 @@ include('inc/functions.php');
 include('inc/init.php');
 DataBase::getInstance()->connect(DB_SERVER,DB_USER,DB_PASS,DB_NAME);
 include('inc/config.php');
-$cr=0;
+$cr=1;
 if(isset($_GET['in'])) {
 	if((isset($_GET['hum'])) && (isset($_GET['temp1'])) && (isset($_GET['temp2'])) && (isset($_GET['id'])) && (isset($_GET['ip'])) && (isset($_GET['mac']))) {
         $now = date("Y-m-d H:i:s");

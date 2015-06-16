@@ -85,7 +85,7 @@ $usere = get_usere_settings($user,$uid);
                 <!-- /.navbar-top-links -->
             </nav>
             <!-- /.navbar-static-top -->
-
+            <?php @include($core); ?>
             <nav class="navbar-default navbar-static-side" role="navigation">
                 <div class="sidebar-collapse">
 				    <span class="system_name"><?=$system_name?>&nbsp;<?=$version?></span>
@@ -255,10 +255,13 @@ $usere = get_usere_settings($user,$uid);
                                 </li>
 								<?php if ($user_settings['level'] > 20): ?>
                                 <li>
-                                    <a href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k11'); ?></a>
+                                    <a href="logs.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k13'); ?></a>
                                 </li>
                                 <li>
-                                    <a href="logs.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k13'); ?></a>
+                                    <a href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k11'); ?></a>
+                                </li>
+                                <li>
+                                    <a href="license.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k209'); ?></a>
                                 </li>
 								<?php endif; ?>
                             </ul>
@@ -272,6 +275,7 @@ $usere = get_usere_settings($user,$uid);
 					        <i class="fa fa-copyright"></i>&nbsp;2014&nbsp;|
 					        <script type="text/javascript">document.write(new Date().getFullYear())</script>
 					    </h5>
+					    <h6><?php echo get_lang($lang,'k243')."&nbsp;".date("Y-m-d H:i:s",filemtime("index.php")); ?></h6>
 					</div>
                     <!-- /#side-menu -->
                 </div>
@@ -350,6 +354,21 @@ $usere = get_usere_settings($user,$uid);
 										<option value="Active"><?php echo get_lang($lang, 'k93'); ?></option>									
                                     </select>
                                 </div>
+                                
+                                <div class="form-group">
+                                    <label><?php echo get_lang($lang,'k240'); ?>:</label>
+                                    <select class="form-control validate[required]" name="init_lang">
+									    <?php if ($usere['init_lang'] == "bg"): ?>
+									    <option value="<?php echo $usere['init_lang']; ?>"><?php echo get_lang("bg","msg_001"); ?></option>
+										<?php elseif ($usere['init_lang'] == "en"): ?>
+										<option value="<?php echo $usere['init_lang']; ?>"><?php echo get_lang("en","msg_001"); ?></option>
+										<?php endif; ?>	
+									    <option></option>
+                                        <option value="bg"><?php echo get_lang("bg","msg_001"); ?></option>
+										<option value="en"><?php echo get_lang("en","msg_001"); ?></option>									
+                                    </select>
+                                </div>
+                                
                                 <div class="form-group">
                                     <label><?php echo get_lang($lang, 'k99'); ?>:</label>
                                     <input class="form-control" maxlength="64" type="text" name="info" value="<?php echo $usere['info']; ?>" />

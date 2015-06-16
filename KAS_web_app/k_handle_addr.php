@@ -45,7 +45,7 @@ try {
     	    $sc = new ClientSocket();
     	    $sc->open($socket_ip,$socket_port);
     	    $sc->send("$server $com $command $timer $frame\r\n");
-			$obs = $router." | ".$addr." | ".$status;
+			$obs = $router." | ".$addr." | ".$status." ALL";
 			$SYS = get_device($user_settings['user_name']);
 			insert_log($lang,$SYS,$user_settings['user_name'],'error','k127',$obs);
 		}

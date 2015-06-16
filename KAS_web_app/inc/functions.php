@@ -14,7 +14,7 @@ function mysql_prep($value) {
     }
     return $value;
 }
-function get_lang($lang, $ins) {
+function get_lang($lang,$ins) {
     $translation = Translate::getInstance();
     if (!$translation->languageExist($lang))
     $lang = "en";
@@ -30,42 +30,44 @@ function set_lang() {
 function check_username($lang,$username,$password,$web_dir) {
 	$u = base64_decode($username);
 	$p = md5(base64_decode($password));
-    $query = "SELECT * FROM `users` WHERE `user_name`='$u'";
+    $query = "SELECT * FROM `users` WHERE `user_name`='".$u."'";
     $result = mysql_query($query);
     confirm_query($result);
 	$check = mysql_num_rows($result);
 	if ($check==1) { check_password($lang,$u,$p,$web_dir); }
     else {
-	    $error = get_lang($lang, '1010');
+	    $error = get_lang($lang,'1010');
 		$location = "error.php?lang=".$lang."&error=".$error;
 		header("location:$location");
     }
 }
 function check_password($lang,$username,$password,$web_dir) {
-    $query = "SELECT * FROM `users` WHERE `user_name`='$username' and `h_password`='$password'";
+    $query = "SELECT * FROM `users` WHERE `user_name`='".$username."' and `h_password`='".$password."'";
     $result = mysql_query($query);
     confirm_query($result);
 	$check = mysql_num_rows($result);
 	if ($check==1) { check_status($lang,$username,$password,$web_dir); }
     else {
-	    $error = get_lang($lang, '1011');
+	    $error = get_lang($lang,'1011');
 		$location = "error.php?lang=".$lang."&error=".$error;
 		header("location:$location");
     }
 }
 function check_status($lang,$username,$password,$web_dir) {
-    $query = "SELECT * FROM `users` WHERE `user_name`='$username' and `h_password`='$password'";
+    $query = "SELECT * FROM `users` WHERE `user_name`='".$username."' and `h_password`='".$password."'";
     $result = mysql_query($query);
     confirm_query($result);
 	if (mysql_num_rows($result) == 1) {
         while($row = mysql_fetch_array($result)) {
 		    $status = $row['status'];
+		    $user_lang = $row['init_lang'];
         }
         if ($status == 'Active') {
 			session_name($web_dir);
             session_start();
 			$_SESSION[$web_dir] = $web_dir;
             $_SESSION[$web_dir.'_username'] = $username;
+            $_SESSION[$web_dir.'_language'] = $user_lang;
 			$location = "success.php?lang=".$lang;
             header("location:$location");
         }
@@ -86,7 +88,7 @@ function check_status($lang,$username,$password,$web_dir) {
         }
 	}
     else {
-	    $error = get_lang($lang, '1001');
+	    $error = get_lang($lang,'1001');
 		$location = "error.php?lang=".$lang."&error=".$error;
 		header("location:$location");	
     }
@@ -94,7 +96,8 @@ function check_status($lang,$username,$password,$web_dir) {
 function update_login($lang,$username) {
 	$updated = date('Y-m-d H:i:s');
     mysql_query("UPDATE `users` SET `last_login`='".$updated."' WHERE `user_name`='".$username."'");
-	$location = "index.php?lang=".$lang;
+    $user_lang = get_user_lang($username);
+	$location = "index.php?lang=".$user_lang;
 	header("location:$location");
 }
 function check_login($lang,$web_dir){
@@ -137,11 +140,18 @@ function upd_device($username) {
 }
 function get_user_settings($user) {
 	global $user_settings;
-    $query = "SELECT * FROM `users` WHERE `user_name`='$user'";
+    $query = "SELECT * FROM `users` WHERE `user_name`='".$user."'";
     $result = mysql_query($query);
     confirm_query($result);
     $user_settings = mysql_fetch_array($result);
     return $user_settings;
+}
+function get_user_lang($user) {
+    $query = "SELECT `init_lang` FROM `users` WHERE `user_name`='".$user."'";
+    $result = mysql_query($query);
+    confirm_query($result);
+    $user_settings = mysql_fetch_array($result);
+    return $user_settings['init_lang'];
 }
 function get_settings() {
     global $settings;
@@ -152,84 +162,84 @@ function get_settings() {
     return $settings;
 }
 function get_router_settings($router,$id) {
-    $query = "SELECT * FROM `routers` WHERE `router_name`='$router' AND `id`='$id'";
+    $query = "SELECT * FROM `routers` WHERE `router_name`='".$router."' AND `id`='".$id."'";
     $result = mysql_query($query);
     confirm_query($result);
     $router_settings = mysql_fetch_array($result);
     return $router_settings;
 }
 function get_rout_settings($router) {
-    $query = "SELECT * FROM `routers` WHERE `router_name`='$router'";
+    $query = "SELECT * FROM `routers` WHERE `router_name`='".$router."'";
     $result = mysql_query($query);
     confirm_query($result);
     $router_settings = mysql_fetch_array($result);
     return $router_settings;
 }
 function get_klimatik_settings($kid,$kinv) {
-    $query = "SELECT * FROM `klimatiki` WHERE `id`='$kid' AND `inv`='$kinv'";
+    $query = "SELECT * FROM `klimatiki` WHERE `id`='".$kid."' AND `inv`='".$kinv."'";
     $result = mysql_query($query);
     confirm_query($result);
     $klimatik_settings = mysql_fetch_array($result);
     return $klimatik_settings;
 }
 function get_klima_settings($kinv) {
-    $query = "SELECT * FROM `klimatiki` WHERE `inv`='$kinv'";
+    $query = "SELECT * FROM `klimatiki` WHERE `inv`='".$kinv."'";
     $result = mysql_query($query);
     confirm_query($result);
     $klima_settings = mysql_fetch_array($result);
     return $klima_settings;
 }
 function check_router_name($router) {
-    $query = "SELECT `router_name` FROM `routers` WHERE `router_name`='$router'";
+    $query = "SELECT `router_name` FROM `routers` WHERE `router_name`='".$router."'";
     $result = mysql_query($query);
     confirm_query($result);
 	$c = mysql_num_rows($result);
     if ($c != NULL) { return TRUE; } else { return FALSE; }
 }
 function check_user_name_before_add($user) {
-    $query = "SELECT `user_name` FROM `users` WHERE `user_name`='$user'";
+    $query = "SELECT `user_name` FROM `users` WHERE `user_name`='".$user."'";
     $result = mysql_query($query);
     confirm_query($result);
 	$c = mysql_num_rows($result);
     if ($c != NULL) { return TRUE; } else { return FALSE; }
 }
 function get_usere_settings($user,$id) {
-    $query = "SELECT * FROM `users` WHERE `user_name`='$user' AND `id`='$id'";
+    $query = "SELECT * FROM `users` WHERE `user_name`='".$user."' AND `id`='".$id."'";
     $result = mysql_query($query);
     confirm_query($result);
     $usr_settings = mysql_fetch_array($result);
     return $usr_settings;
 }
 function check_router_id_and_name($id,$router) {
-    $query = "SELECT `id`,`router_name` FROM `routers` WHERE `router_name`='$router' AND `id` NOT LIKE '$id'";
+    $query = "SELECT `id`,`router_name` FROM `routers` WHERE `router_name`='".$router."' AND `id` NOT LIKE '".$id."'";
     $result = mysql_query($query);
     confirm_query($result);
     $c = mysql_num_rows($result);
 	if ($c != NULL) { return TRUE; } else { return FALSE; }
 }
 function check_klimatik_before_add($inv,$rtu) {
-    $query = "SELECT `inv`,`rtu` FROM `klimatiki` WHERE `inv`='$inv' AND `rtu`='$rtu'";
+    $query = "SELECT `inv`,`rtu` FROM `klimatiki` WHERE `inv`='".$inv."' AND `rtu`='".$rtu."'";
     $result = mysql_query($query);
     confirm_query($result);
 	$c = mysql_num_rows($result);
     if ($c != NULL) { return TRUE; } else { return FALSE; }
 }
 function check_klimatik_id_and_inv($kid,$kinv) {
-    $query = "SELECT `id`,`inv` FROM `klimatiki` WHERE `inv`='$kinv' AND `id` NOT LIKE '$kid'";
+    $query = "SELECT `id`,`inv` FROM `klimatiki` WHERE `inv`='".$kinv."' AND `id` NOT LIKE '".$kid."'";
     $result = mysql_query($query);
     confirm_query($result);
     $c = mysql_num_rows($result);
 	if ($c != NULL) { return TRUE; } else { return FALSE; }
 }
 function check_klimatik_id_and_inv_and_rtu($kid,$kinv,$rtu) {
-    $query = "SELECT `id`,`inv`,`rtu` FROM `klimatiki` WHERE `inv`='$kinv' AND `rtu`='$rtu' AND `id` NOT LIKE '$kid'";
+    $query = "SELECT `id`,`inv`,`rtu` FROM `klimatiki` WHERE `inv`='".$kinv."' AND `rtu`='".$rtu."' AND `id` NOT LIKE '".$kid."'";
     $result = mysql_query($query);
     confirm_query($result);
     $c = mysql_num_rows($result);
 	if ($c != NULL) { return TRUE; } else { return FALSE; }
 }
 function check_username_id_and_username($uid,$user_name) {
-    $query = "SELECT `id`,`user_name` FROM `users` WHERE `user_name`='$user_name' AND `id` NOT LIKE '$uid'";
+    $query = "SELECT `id`,`user_name` FROM `users` WHERE `user_name`='".$user_name."' AND `id` NOT LIKE '".$uid."'";
     $result = mysql_query($query);
     confirm_query($result);
     $c = mysql_num_rows($result);
@@ -240,12 +250,12 @@ function insert_log($lang,$device,$user,$filter,$action,$obs) {
 	$time = date('H:i:s');
 	if ($obs == NULL) { $obs = ""; }
 	$query = "INSERT INTO `logs` (`date`, `time`, `device`, `user`, `filter`, `action`, `obs`) 
-		      VALUES ('$date', '$time', '$device', '$user', '$filter', '$action', '$obs')";
+		      VALUES ('".$date."', '".$time."', '".$device."', '".$user."', '".$filter."', '".$action."', '".$obs."')";
     $result = mysql_query($query);
     confirm_query($result);
 }
 function get_table_size($table) {
-	$query = "SHOW TABLE STATUS LIKE '$table'";
+	$query = "SHOW TABLE STATUS LIKE '".$table."'";
 	$result = mysql_query($query);
 	confirm_query($result);
     $dbsize = 0;
@@ -256,14 +266,14 @@ function get_table_size($table) {
 }
 function decodeSize($bytes) {
     $types = array('B','KB','MB','GB','TB','PB','EB','ZB','YB');
-    for($i = 0; $bytes >= 1024 && $i < (count($types ) -1 ); $bytes /= 1024, $i++);
-    return(round($bytes, 2) . " " . $types[$i]);
+    for($i = 0; $bytes >= 1024 && $i < (count($types)-1); $bytes /= 1024, $i++);
+    return(round($bytes,2)." ".$types[$i]);
 }
 function redir($url,$seconds) {
     echo "
         <script type=\"text/javascript\">
-            function redirect() { window.location = '" . $url . "'; }
-            timer = setTimeout('redirect()', '" . ($seconds*1000) . "')
+            function redirect() { window.location = '".$url."'; }
+            timer = setTimeout('redirect()','".($seconds*1000)."')
         </script>\n";
     return true;
 }
@@ -304,6 +314,21 @@ function curPageURL() {
 }
 function curPageName() {
     return substr($_SERVER["SCRIPT_NAME"],strrpos($_SERVER["SCRIPT_NAME"],"/")+1);
+}
+function get_domain($domain) { 
+    $domain = explode('/', str_replace('www.', '', str_replace('http://', '', $domain)));
+    return $domain[0];
+}
+function load($string,$key) {
+  $result = '';
+  $string = base64_decode($string);
+  for($i=0; $i<strlen($string); $i++) {
+    $char = substr($string, $i, 1);
+    $keychar = substr($key, ($i % strlen($key))-1, 1);
+    $char = chr(ord($char)-ord($keychar));
+    $result.=$char;
+  }
+  return $result;
 }
 function getBrowser() {
     $u_agent = $_SERVER['HTTP_USER_AGENT'];
@@ -507,5 +532,84 @@ function array_random($arr,$num=1) {
         $r[] = $arr[$i];
     }
     return $num == 1 ? $r[0] : $r;
+}
+function get_data($url) {
+	$ch = curl_init();
+	$timeout = 15;
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+	$data = curl_exec($ch);
+	curl_close($ch);
+	return $data;
+}
+function decrypt($string,$key) {
+  $result = '';
+  $string = base64_decode($string);
+  for($i=0; $i<strlen($string); $i++) {
+    $char = substr($string, $i, 1);
+    $keychar = substr($key, ($i % strlen($key))-1, 1);
+    $char = chr(ord($char)-ord($keychar));
+    $result.=$char;
+  }
+  return $result;
+}
+final class BarcodeQR {
+	const API_CHART_URL = "http://chart.apis.google.com/chart";
+	private $_data;
+	public function bookmark($title = null, $url = null) {
+		$this->_data = "MEBKM:TITLE:{$title};URL:{$url};;";
+	}
+	public function contact($name = null, $address = null, $phone = null, $email = null) {
+		$this->_data = "MECARD:N:{$name};ADR:{$address};TEL:{$phone};EMAIL:{$email};;";
+	}
+	public function content($type = null, $size = null, $content = null) {
+		$this->_data = "CNTS:TYPE:{$type};LNG:{$size};BODY:{$content};;";
+	}
+	public function draw($size = 512, $filename = null) {
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, self::API_CHART_URL);
+		curl_setopt($ch, CURLOPT_POST, true);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, "chs={$size}x{$size}&cht=qr&chl=" . urlencode($this->_data));
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_HEADER, false);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+		$img = curl_exec($ch);
+		curl_close($ch);
+		if($img) {
+			if($filename) {
+				if(!preg_match("#\.png$#i", $filename)) {
+					$filename .= ".png";
+				}
+				return file_put_contents($filename, $img);
+			} else {
+				header("Content-type: image/png");
+				print $img;
+				return true;
+			}
+		}
+		return false;
+	}
+	public function email($email = null, $subject = null, $message = null) {
+		$this->_data = "MATMSG:TO:{$email};SUB:{$subject};BODY:{$message};;";
+	}
+	public function geo($lat = null, $lon = null, $height = null) {
+		$this->_data = "GEO:{$lat},{$lon},{$height}";
+	}
+	public function phone($phone = null) {
+		$this->_data = "TEL:{$phone}";
+	}
+	public function sms($phone = null, $text = null) {
+		$this->_data = "SMSTO:{$phone}:{$text}";
+	}
+	public function text($text = null) {
+		$this->_data = $text;
+	}
+	public function url($url = null) {
+		$this->_data = preg_match("#^https?\:\/\/#", $url) ? $url : "http://{$url}";
+	}
+	public function wifi($type = null, $ssid = null, $password = null) {
+		$this->_data = "WIFI:T:{$type};S{$ssid};{$password};;";
+	}
 }
 ?>

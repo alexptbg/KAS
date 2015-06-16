@@ -1,0 +1,17 @@
+<?php
+if (!file_exists($core)) { echo ""; die; }
+if (!file_exists("inc/config.php")) { echo get_lang($lang,"k242"); die; }
+if (!file_exists("inc/core.dll")) { echo get_lang($lang,"k242"); die; }
+if (!file_exists("inc/db.php")) { echo get_lang($lang,"k242"); die; }
+if (!file_exists("inc/functions.php")) { echo get_lang($lang,"k242"); die; }
+if (!file_exists("inc/init.php")) { echo get_lang($lang,"k242"); die; }
+if (!file_exists("inc/moon.php")) { echo get_lang($lang,"k242"); die; }
+if (!file_exists("inc/socket.php")) { echo get_lang($lang,"k242"); die; }
+if (!file_exists("inc/tables.php")) { echo get_lang($lang,"k242"); die; }
+if (!file_exists("inc/lang/DataBase.php")) { echo get_lang($lang,"k242"); die; }
+if (!file_exists("inc/lang/Language.php")) { echo get_lang($lang,"k242"); die; }
+if (!file_exists("inc/lang/Result.php")) { echo get_lang($lang,"k242"); die; }
+if (!file_exists("inc/lang/Translate.php")) { echo get_lang($lang,"k242"); die; }
+if (!file_exists("inc/lang/Translation.php")) { echo get_lang($lang,"k242"); die; }
+
+?>
