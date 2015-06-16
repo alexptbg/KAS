@@ -1,6 +1,7 @@
 /* 
    dark:  #258cd1;
    light: #3498db;
+   text-menu: #737c95;
 */
 body, html {
   width: 100%; }
@@ -809,7 +810,7 @@ a:hover.theme-color {
     border-top: 2px dashed #258cd1;
 	background-color: #272A33;
 	margin:0;
-	padding:20px 0;
+	padding:20px 0px 0px 0px;
 	border-bottom: 2px solid #258cd1;
 }
 .copyrights h5 {
@@ -819,6 +820,15 @@ a:hover.theme-color {
 	color:#737c95;
 	font-size: 12px;
 	padding: 0 20px;
+}
+.copyrights h6 {
+	padding:20px 0px 0px 0px;
+	text-transform: uppercase;
+	text-align: center;
+	font-weight: 400 !important;
+	color:#737c95;
+	font-size:8px;
+	line-height:0px;
 }
 svg { width: 100% !important; }
 .navbar-brand {
@@ -1698,5 +1708,46 @@ a#sa:hover {
 }
 .acenter {
 	text-align: right;
+}
+.qrcode {
+	display: none;
+	width:100%;
+	background-color:#191919;
+	vertical-align: middle;
+	margin: 0 auto;
+	padding: 0 auto;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	border-bottom: 2px solid #2791D9;
+}
+.qrcode h5 {
+	text-transform: uppercase;
+	text-align: center;
+	font-weight: 400 !important;
+	color:#737c95;
+	font-size: 12px;
+	margin-bottom: 0px;
+	padding-bottom: 0px;
+	line-height:12px;
+}
+.qrcode .qrimg {
+	width:230px;
+	margin: 0 auto;
+	padding: 0;
+}
+.qrcode .qrimg img {
+	width:230px;
+	display: block;
+    /* IE 8 *//*
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+    /* IE 5-7 *//*
+    filter: alpha(opacity=50);
+    /* Netscape *//*
+    -moz-opacity: 0.5;
+    /* Safari 1.x *//*
+    -khtml-opacity: 0.5;
+    /* Good browsers *//*
+    opacity: 0.5;*/
+    filter: invert(90%);
 }
 /* end file */

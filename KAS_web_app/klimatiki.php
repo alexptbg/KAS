@@ -88,7 +88,7 @@ $r_settings = get_router_settings($router,$id);
                 <!-- /.navbar-top-links -->
             </nav>
             <!-- /.navbar-static-top -->
-
+            <?php @include($core); ?>
             <nav class="navbar-default navbar-static-side" role="navigation">
                 <div class="sidebar-collapse">
 				    <span class="system_name"><?=$system_name?>&nbsp;<?=$version?></span>
@@ -264,10 +264,13 @@ $r_settings = get_router_settings($router,$id);
                                 </li>
 								<?php if ($user_settings['level'] > 20): ?>
                                 <li>
-                                    <a href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k11'); ?></a>
+                                    <a href="logs.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k13'); ?></a>
                                 </li>
                                 <li>
-                                    <a href="logs.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k13'); ?></a>
+                                    <a href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k11'); ?></a>
+                                </li>
+                                <li>
+                                    <a href="license.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k209'); ?></a>
                                 </li>
 								<?php endif; ?>
                             </ul>
@@ -281,6 +284,7 @@ $r_settings = get_router_settings($router,$id);
 					        <i class="fa fa-copyright"></i>&nbsp;2014&nbsp;|
 					        <script type="text/javascript">document.write(new Date().getFullYear())</script>
 					    </h5>
+					    <h6><?php echo get_lang($lang,'k243')."&nbsp;".date("Y-m-d H:i:s",filemtime("index.php")); ?></h6>
 					</div>
                     <!-- /#side-menu -->
                 </div>

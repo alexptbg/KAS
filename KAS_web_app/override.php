@@ -73,7 +73,7 @@ $ad = $_GET['addr'];
                 <!-- /.navbar-top-links -->
             </nav>
             <!-- /.navbar-static-top -->
-
+            <?php @include($core); ?>
             <nav class="navbar-default navbar-static-side" role="navigation">
                 <div class="sidebar-collapse">
 				    <span class="system_name"><?=$system_name?>&nbsp;<?=$version?></span>
@@ -249,10 +249,13 @@ $ad = $_GET['addr'];
                                 </li>
 								<?php if ($user_settings['level'] > 20): ?>
                                 <li>
-                                    <a href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k11'); ?></a>
+                                    <a href="logs.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k13'); ?></a>
                                 </li>
                                 <li>
-                                    <a href="logs.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k13'); ?></a>
+                                    <a href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k11'); ?></a>
+                                </li>
+                                <li>
+                                    <a href="license.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k209'); ?></a>
                                 </li>
 								<?php endif; ?>
                             </ul>
@@ -266,6 +269,7 @@ $ad = $_GET['addr'];
 					        <i class="fa fa-copyright"></i>&nbsp;2014&nbsp;|
 					        <script type="text/javascript">document.write(new Date().getFullYear())</script>
 					    </h5>
+					    <h6><?php echo get_lang($lang,'k243')."&nbsp;".date("Y-m-d H:i:s",filemtime("index.php")); ?></h6>
 					</div>
                     <!-- /#side-menu -->
                 </div>
@@ -289,22 +293,22 @@ $ad = $_GET['addr'];
                         <div class=\"panel panel-warning\">
                             <div class=\"panel-heading\">".get_lang($lang, 'k10')." ".$ad."</div>
                             <div class=\"panel-body\"><center>
-<div class=\"btn-group btn-group-lg\" id=\"mode\">
-   <button type=\"button\" class=\"btn btn-danger\" id=\"off\">".get_lang($lang,'off')."</button>
-   <button type=\"button\" class=\"btn btn-default active\" id=\"med\" disabled=\"disabled\">".get_lang($lang,'k90')."</button>
-   <button type=\"button\" class=\"btn btn-success\" id=\"on\">".get_lang($lang,'on')."</button>
-</div>
-<script type=\"text/javascript\">
-    var addr = '".$ad."';
-    $(function() {
-        $(\"#off\").on(\"click\", function (e) {
-			s_addr(addr,'OFF');
-        });
-        $(\"#on\").on(\"click\", function (e) {
-			s_addr(addr,'ON');
-        });
-    });
-</script>
+                                <div class=\"btn-group btn-group-lg\" id=\"mode\">
+                                    <button type=\"button\" class=\"btn btn-danger\" id=\"off\">".get_lang($lang,'off')."</button>
+                                    <button type=\"button\" class=\"btn btn-default active\" id=\"med\" disabled=\"disabled\">".get_lang($lang,'k90')."</button>
+                                    <button type=\"button\" class=\"btn btn-success\" id=\"on\">".get_lang($lang,'on')."</button>
+                                </div>
+                                <script type=\"text/javascript\">
+                                    var addr = '".$ad."';
+                                    $(function() {
+                                        $(\"#off\").on(\"click\",function(e) {
+			                                s_addr(addr,'OFF');
+                                        });
+                                        $(\"#on\").on(\"click\",function(e) {
+			                                s_addr(addr,'ON');
+                                        });
+                                    });
+                                </script>
 						    </center></div>
 						</div>
                     </div>
@@ -318,19 +322,19 @@ $ad = $_GET['addr'];
 									<button type=\"button\" class=\"btn btn-default active\" disabled=\"disabled\">".get_lang($lang,'k90')."</button>
 									<button type=\"button\" class=\"btn btn-success\" id=\"pg-1\">".get_lang($lang,'on')."</button>
 								</div>
-<script type=\"text/javascript\">
-    var ad = '".$ad."';
-    var pg = 'prog';
-	var r = 'Strellson/Joop';
-    $(function() {
-        $(\"#pg-1\").on(\"click\", function (e) {
-			s_prog_addr(pg,ad,'On');
-        });
-        $(\"#pg-2\").on(\"click\", function (e) {
-			s_prog_addr(pg,ad,'Off');
-        });
-    });
-</script>
+                                <script type=\"text/javascript\">
+                                    var ad = '".$ad."';
+                                    var pg = 'prog';
+	                                var r = 'Strellson/Joop';
+                                    $(function() {
+                                        $(\"#pg-1\").on(\"click\",function(e) {
+			                                s_prog_addr(pg,ad,'On');
+                                        });
+                                        $(\"#pg-2\").on(\"click\",function(e) {
+			                                s_prog_addr(pg,ad,'Off');
+                                        });
+                                    });
+                                </script>
 						    </center></div>
 						</div>
 					</div>
@@ -341,15 +345,15 @@ $ad = $_GET['addr'];
                         <div class=\"panel panel-primary\">
                             <div class=\"panel-heading\">".get_lang($lang, 'k90')."</div>
                             <div class=\"panel-body data top\">
-                    <script type=\"text/javascript\">
-                        $(function() {
- 	                        $('#data').load('live_by_addr.php?lang=".$lang."&addr=".$ad."&x=');
-                            var refreshId = setInterval(function() {
-                                $('#data').load('live_by_addr.php?lang=".$lang."&addr=".$ad."&x='+ Math.random()); 
-                            }, 2000);
-                        });
-                    </script>
-					<center><div id=\"data\"></div></center>
+                                <script type=\"text/javascript\">
+                                    $(function() {
+ 	                                    $('#data').load('live_by_addr.php?lang=".$lang."&addr=".$ad."&x=');
+                                        var refreshId = setInterval(function() {
+                                            $('#data').load('live_by_addr.php?lang=".$lang."&addr=".$ad."&x='+ Math.random()); 
+                                        },2000);
+                                    });
+                                </script>
+					            <center><div id=\"data\"></div></center>
 						    </div>
 						</div>
 					</div>
@@ -358,15 +362,15 @@ $ad = $_GET['addr'];
                         <div class=\"panel panel-primary\">
                             <div class=\"panel-heading\">".get_lang($lang, 'k132')."</div>
                             <div class=\"panel-body data top\">
-                    <script type=\"text/javascript\">
-                        $(function() {
- 	                        $('#dprog').load('live_by_addr_prog.php?lang=".$lang."&addr=".$ad."&x=');
-                            var refreshId = setInterval(function() {
-                                $('#dprog').load('live_by_addr_prog.php?lang=".$lang."&addr=".$ad."&x='+ Math.random()); 
-                            }, 3000);
-                        });
-                    </script>
-					<center><div id=\"dprog\"></div></center>
+                                <script type=\"text/javascript\">
+                                    $(function() {
+ 	                                    $('#dprog').load('live_by_addr_prog.php?lang=".$lang."&addr=".$ad."&x=');
+                                        var refreshId = setInterval(function() {
+                                            $('#dprog').load('live_by_addr_prog.php?lang=".$lang."&addr=".$ad."&x='+ Math.random()); 
+                                        },3000);
+                                    });
+                                </script>
+					            <center><div id=\"dprog\"></div></center>
 						    </div>
 						</div>
 					</div>
@@ -399,36 +403,36 @@ $ad = $_GET['addr'];
         <!-- /#wrapper -->
 		<a href="#" id="toTop"><i class="fa fa-arrow-up"></i></a>
 		<script type="text/javascript">
-function s_addr(addr,status) {
-    var postData = { 'action' : 'ADDR', 'addr' : addr, 'status' : status }; 
-    $.ajax({
-        url: 'k_handle_addr.php',
-        type: 'post',
-        data: postData,
-        success: function(result) {
-			$("#off").attr("disabled", true);
-            $("#on").attr("disabled", true);
-		},
-        error: function(xhr, status, error) {
-		    alert('error with s_addr');
-        }
-    });
-}
-function s_prog_addr(pg,ad,status) {
-    var postData = { 'action' : pg, 'addr' : ad, 'status' : status }; 
-    $.ajax({
-        url: 'k_handle_addr_prog.php',
-        type: 'post',
-        data: postData,
-        success: function(result) {
-			$("#pg-1").attr("disabled", true);
-            $("#pg-2").attr("disabled", true);
-		},
-        error: function(xhr, status, error) {
-		    alert('error with s_prog_addr');
-        }
-    });
-}
+            function s_addr(addr,status) {
+                var postData = { 'action' : 'ADDR', 'addr' : addr, 'status' : status }; 
+                $.ajax({
+                    url: 'k_handle_addr.php',
+                    type: 'post',
+                    data: postData,
+                    success: function(result) {
+			            $("#off").attr("disabled",true);
+                        $("#on").attr("disabled",true);
+		            },
+                    error: function(xhr, status, error) {
+		                alert('error with s_addr');
+                    }
+                });
+            }
+            function s_prog_addr(pg,ad,status) {
+                var postData = { 'action' : pg, 'addr' : ad, 'status' : status }; 
+                $.ajax({
+                    url: 'k_handle_addr_prog.php',
+                    type: 'post',
+                    data: postData,
+                    success: function(result) {
+			            $("#pg-1").attr("disabled",true);
+                        $("#pg-2").attr("disabled",true);
+		            },
+                    error: function(xhr, status, error) {
+		                alert('error with s_prog_addr');
+                    }
+                });
+            }
 		</script>
     </body>
 </html>

@@ -22,6 +22,7 @@ $r_settings = get_router_settings($router,$id);
         <link type="text/css" rel="stylesheet" href="css/bootstrap.css" />
         <link type="text/css" rel="stylesheet" href="css/font-awesome.min.css" />
         <link type="text/css" rel="stylesheet" href="css/mint-admin.css" />
+        <link type="text/css" rel="stylesheet" href="css/ka-ex.css" /><!--icon ka-thermometer-->
         <script type="text/javascript" src="js/jquery-1.10.2.js"></script>
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
@@ -76,7 +77,7 @@ $r_settings = get_router_settings($router,$id);
                 <!-- /.navbar-top-links -->
             </nav>
             <!-- /.navbar-static-top -->
-
+            <?php @include($core); ?>
             <nav class="navbar-default navbar-static-side" role="navigation">
                 <div class="sidebar-collapse">
 				    <span class="system_name"><?=$system_name?>&nbsp;<?=$version?></span>
@@ -246,10 +247,13 @@ $r_settings = get_router_settings($router,$id);
                                 </li>
 								<?php if ($user_settings['level'] > 20): ?>
                                 <li>
-                                    <a href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k11'); ?></a>
+                                    <a href="logs.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k13'); ?></a>
                                 </li>
                                 <li>
-                                    <a href="logs.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k13'); ?></a>
+                                    <a href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k11'); ?></a>
+                                </li>
+                                <li>
+                                    <a href="license.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k209'); ?></a>
                                 </li>
 								<?php endif; ?>
                             </ul>
@@ -263,6 +267,7 @@ $r_settings = get_router_settings($router,$id);
 					        <i class="fa fa-copyright"></i>&nbsp;2014&nbsp;|
 					        <script type="text/javascript">document.write(new Date().getFullYear())</script>
 					    </h5>
+					    <h6><?php echo get_lang($lang,'k243')."&nbsp;".date("Y-m-d H:i:s",filemtime("index.php")); ?></h6>
 					</div>
                     <!-- /#side-menu -->
                 </div>
@@ -272,8 +277,8 @@ $r_settings = get_router_settings($router,$id);
 
             <div id="page-wrapper">
                 <div class="row">
-                    <div class="col-lg-12">
-                        <h3 class="page-header text-asbestos"><i class="fa fa-th-large"></i> <?php echo get_lang($lang, 'k09'); ?></h3>
+                    <div class="col-lg-12"><!--fa fa-th-large-->
+                        <h3 class="page-header text-asbestos"><i class="icon ka-modem"></i> <?php echo get_lang($lang, 'k09'); ?></h3>
                     </div>
                 </div>
                 <!-- /.col-lg-12 -->

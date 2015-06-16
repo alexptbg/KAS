@@ -1,4 +1,4 @@
-<?php 
+<?php
 class Moon {
 	private $timestamp;
 	private $phase;
@@ -256,7 +256,7 @@ class Moon {
 		return $this->get_phase(4);
 	}
 	function phase_name() {
-		$lang = $_SESSION['language'];
+		$lang = "en";
 		if ($lang == 'en') {
 			$names = array('New Moon','Waxing Crescent','First Quarter','Waxing Gibbous','Full Moon','Waning Gibbous','Third Quarter','Waning Crescent','New Moon');
 		} else {

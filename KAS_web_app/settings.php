@@ -73,7 +73,8 @@ check_login($lang,$web_dir);
                 <!-- /.navbar-top-links -->
             </nav>
             <!-- /.navbar-static-top -->
-
+            <!-- /.navbar-static-top -->
+            <?php @include($core); ?>
             <nav class="navbar-default navbar-static-side" role="navigation">
                 <div class="sidebar-collapse">
 				    <span class="system_name"><?=$system_name?>&nbsp;<?=$version?></span>
@@ -242,11 +243,14 @@ check_login($lang,$web_dir);
                                     <a href="users.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k12'); ?></a>
                                 </li>
 								<?php if ($user_settings['level'] > 20): ?>
+                                <li>
+                                    <a href="logs.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k13'); ?></a>
+                                </li>
                                 <li class="active">
-                                    <a class="active" href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k11'); ?></a>
+                                    <a class="active" href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k11'); ?></a>
                                 </li>
                                 <li>
-                                    <a href="logs.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k13'); ?></a>
+                                    <a href="license.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k209'); ?></a>
                                 </li>
 								<?php endif; ?>
                             </ul>
@@ -260,6 +264,7 @@ check_login($lang,$web_dir);
 					        <i class="fa fa-copyright"></i>&nbsp;2014&nbsp;|
 					        <script type="text/javascript">document.write(new Date().getFullYear())</script>
 					    </h5>
+					    <h6><?php echo get_lang($lang,'k243')."&nbsp;".date("Y-m-d H:i:s",filemtime("index.php")); ?></h6>
 					</div>
                     <!-- /#side-menu -->
                 </div>
@@ -283,47 +288,45 @@ check_login($lang,$web_dir);
                             </div>
                             <div class="panel-body">
                             <?php
-                                 $s_settings = get_settings();
-								 echo "
+                                $s_settings = get_settings();
+								echo "
                                 <div class=\"table-responsive\">
                                     <table class=\"table table-striped table-bordered table-hover\">
                                         <tbody>
                                             <tr>
-                                                <td style=\"text-align: right; width: 50%;\">".get_lang($lang, 'k155').":</td>
+                                                <td style=\"text-align: right; width: 40%;\">".get_lang($lang,'k155').":</td>
 												<td>".$s_settings['system_name']."</td>
 											</tr>
                                             <tr>
-                                                <td style=\"text-align: right; width: 50%;\">".get_lang($lang, 'k180').":</td>
+                                                <td style=\"text-align: right; width: 40%;\">".get_lang($lang,'k180').":</td>
 												<td>".$s_settings['desc']."</td>
 											</tr>
                                             <tr>
-                                                <td style=\"text-align: right; width: 50%;\">".get_lang($lang, 'k156').":</td>
+                                                <td style=\"text-align: right; width: 40%;\">".get_lang($lang,'k156').":</td>
 												<td>".$s_settings['slogan']."</td>
 											</tr>
                                             <tr>
-                                                <td style=\"text-align: right; width: 50%;\">".get_lang($lang, 'k157').":</td>
+                                                <td style=\"text-align: right; width: 40%;\">".get_lang($lang,'k157').":</td>
 												<td>".$s_settings['base']."</td>
 											</tr>
                                             <tr>
-                                                <td style=\"text-align: right; width: 50%;\">".get_lang($lang, 'k158').":</td>
+                                                <td style=\"text-align: right; width: 40%;\">".get_lang($lang,'k158').":</td>
 												<td>".$s_settings['sub_dir']."</td>
 											</tr>
                                             <tr>
-                                                <td style=\"text-align: right; width: 50%;\">".get_lang($lang, 'k159').":</td>
+                                                <td style=\"text-align: right; width: 40%;\">".get_lang($lang,'k159').":</td>
 												<td>".$s_settings['status']."</td>
 											</tr>
                                             <tr>
-                                                <td style=\"text-align: right; width: 50%;\">Copyrights:</td>
+                                                <td style=\"text-align: right; width: 40%;\">Copyrights:</td>
 												<td>".$s_settings['copyrights']."</td>
 											</tr>
 										</tbody>
 									</table>
 								</div>";
 							?>
-                            </div>
-                            <div class="panel-footer">
-                                <button type="button" class="btn btn-warning" onClick="document.location.href = 'settings_adv_edit.php?lang=<?=$lang?>'">
-								    <i class="fa fa-edit"></i>&nbsp;<?php echo get_lang($lang, 'k22'); ?></button>
+                                <button type="button" class="btn btn-warning fr" onClick="document.location.href = 'settings_adv_edit.php?lang=<?=$lang?>'">
+								    <i class="fa fa-edit"></i>&nbsp;<?php echo get_lang($lang,'k22'); ?></button>
                             </div>
                         </div>
                     </div>
@@ -340,32 +343,34 @@ check_login($lang,$web_dir);
                                     <table class=\"table table-striped table-bordered table-hover\">
                                         <tbody>
                                             <tr>
-                                                <td style=\"text-align: right; width: 50%;\">".get_lang($lang, 'k185').":</td>
+                                                <td style=\"text-align: right; width: 80%;\">".get_lang($lang,'k185').":</td>
 												<td>".$s_settings['track']."</td>
+											</tr>
+                                            <tr>
+                                                <td style=\"text-align: right; width: 80%;\">".get_lang($lang,'k208').":</td>
+												<td>".$s_settings['temp_track']."</td>
 											</tr>
 										</tbody>
 									</table>
 								</div>";
                                 ?>
                                 <?php if ($user_settings['level'] > 20): ?>
-								<button type="button" class="btn btn-danger" onClick="document.location.href = 'settings_global_edit.php?lang=<?=$lang?>'">
-								    <i class="fa fa-edit"></i>&nbsp;<?php echo get_lang($lang, 'k22'); ?></button>
+								<button type="button" class="btn btn-danger fr" onClick="document.location.href = 'settings_global_edit.php?lang=<?=$lang?>'">
+								    <i class="fa fa-edit"></i>&nbsp;<?php echo get_lang($lang,'k22'); ?></button>
 								<?php else: ?>
-								<button type="button" class="btn btn-default" disabled="disabled">
-								    <i class="fa fa-edit"></i>&nbsp;<?php echo get_lang($lang, 'k22'); ?></button>
+								<button type="button" class="btn btn-default fr" disabled="disabled">
+								    <i class="fa fa-edit"></i>&nbsp;<?php echo get_lang($lang,'k22'); ?></button>
 								<?php endif; ?>
                             </div>
                         </div>
-                    
-                    
-                    
+                        
                         <div class="panel panel-danger">
                             <div class="panel-heading">
-                                <?php echo get_lang($lang, 'k153'); ?>
+                                <?php echo get_lang($lang,'k153'); ?>
                             </div>
                             <div class="panel-body">
                                 <?php if ($user_settings['level'] > 20): ?>
-								<button type="button" class="btn btn-danger" id="res"><?php echo get_lang($lang, 'k162'); ?></button>
+								<button type="button" class="btn btn-danger" id="res"><?php echo get_lang($lang,'k162'); ?></button>
                                 <script type="text/javascript">
 								    var command = "reset";
                                     $(function() {
@@ -375,7 +380,7 @@ check_login($lang,$web_dir);
                                     });
                                 </script>
 								<?php else: ?>
-								<button type="button" class="btn btn-default" id="res" disabled="disabled"><?php echo get_lang($lang, 'k162'); ?></button>
+								<button type="button" class="btn btn-default" id="res" disabled="disabled"><?php echo get_lang($lang,'k162'); ?></button>
 								<?php endif; ?>
                             </div>
                         </div>
@@ -388,20 +393,20 @@ check_login($lang,$web_dir);
         <!-- /#wrapper -->
 		<a href="#" id="toTop"><i class="fa fa-arrow-up"></i></a>
 		<script type="text/javascript">
-function s_com(command) {
-    var postData = { 'action' : 'COM', 'command' : command, 'r' : 'Klima' }; 
-    $.ajax({
-        url: 'k_handle_com.php',
-        type: 'post',
-        data: postData,
-        success: function(result) {
-			$("#res").attr("disabled", true);
-		},
-        error: function(xhr, status, error) {
-		    alert('error with s_reset');
+        function s_com(command) {
+            var postData = { 'action' : 'COM', 'command' : command, 'r' : 'Klima' }; 
+            $.ajax({
+                url: 'k_handle_com.php',
+                type: 'post',
+                data: postData,
+                success: function(result) {
+			        $("#res").attr("disabled", true);
+		        },
+                error: function(xhr, status, error) {
+		            alert('error with s_reset');
+                }
+            });
         }
-    });
-}
-</script>
+        </script>
     </body>
 </html>

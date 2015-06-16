@@ -9,8 +9,6 @@ include('inc/init.php');
 DataBase::getInstance()->connect(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
 include('inc/config.php');
 check_login($lang,$web_dir);
-$user = mysql_prep($_GET['user']);
-$uid = mysql_prep($_GET['uid']);
 ?>
 <head>
         <title><?=$slogan?></title>
@@ -26,11 +24,12 @@ $uid = mysql_prep($_GET['uid']);
         <script type="text/javascript" src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
         <script type="text/javascript" src="js/mint-admin.js"></script>
 		
-		<link type="text/css" rel="stylesheet" href="js/plugins/dataTables/dataTables.bootstrap.css" />
-        <script type="text/javascript" src="js/plugins/dataTables/jquery.dataTables.js"></script>
-        <script type="text/javascript" src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
+		<script type="text/javascript" src="js/ka-ex.js"></script>
 		
-	    <script type="text/javascript" src="js/ka-ex.js"></script>
+		<link rel="stylesheet" type="text/css" href="js/plugins/validation/jquery.validationEngine.css" />
+		<script type="text/javascript" src="js/plugins/validation/jquery.validationEngine.js"></script>
+		<script type="text/javascript" src="js/plugins/validation/lang/jquery.validationEngine-<?=$lang?>.js"></script>
+		<script type="text/javascript" src="js/forms.js"></script>
     </head>
     <body>
         <div id="wrapper">
@@ -45,15 +44,11 @@ $uid = mysql_prep($_GET['uid']);
                     <a class="navbar-brand" href="index.php?lang=<?=$lang?>">
 					    <i class="fa fa-sun-o fa-fw fa-spin"></i>&nbsp;<?=$slogan?></a>
                 </div>
+                <!-- /.navbar-header -->
                 <ul class="nav navbar-top-links navbar-right">
                     <li>
                         <a href="index.php?lang=<?=$lang?>">
                             <i class="fa fa-dashboard fa-2x fa-fw"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" id="goback" onClick="javascript: history.go(-1); return false;">
-                            <i class="fa fa-arrow-left fa-2x fa-fw"></i>
                         </a>
                     </li>
                     <li>
@@ -63,7 +58,7 @@ $uid = mysql_prep($_GET['uid']);
                     </li>
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="fa fa-user fa-2x fa-fw"></i>
+                            <i class="fa fa-user  fa-2x fa-fw"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-user">
                             <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
@@ -75,8 +70,11 @@ $uid = mysql_prep($_GET['uid']);
 							    <i class="fa fa-sign-out fa-fw"></i> <?php echo get_lang($lang, 'Logout'); ?></a>
                             </li>
                         </ul>
+                        <!-- /.dropdown-user -->
                     </li>
+                    <!-- /.dropdown -->
                 </ul>
+                <!-- /.navbar-top-links -->
             </nav>
             <!-- /.navbar-static-top -->
             <?php @include($core); ?>
@@ -99,6 +97,7 @@ $uid = mysql_prep($_GET['uid']);
                                 </div>
                             </div>
                         </li>
+
                         <li>
                             <a href="index.php?lang=<?=$lang?>">
 							    <i class="fa fa-dashboard fa-fw fa-3x"></i> <?php echo get_lang($lang, 'Home'); ?></a>
@@ -125,6 +124,7 @@ $uid = mysql_prep($_GET['uid']);
 	                            }
 	                            $klimas_u_all = explode(", ",$klimas_list);
                             }
+							
                             if (!empty($buildings)) {
 	                            foreach ($buildings as $building) {
 									$klimas_all_list="";
@@ -242,8 +242,8 @@ $uid = mysql_prep($_GET['uid']);
 									?>
                                 </li>
 								<?php endif; ?>
-                                <li class="active">
-                                    <a class="active" href="users.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k12'); ?></a>
+                                <li>
+                                    <a href="users.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k12'); ?></a>
                                 </li>
 								<?php if ($user_settings['level'] > 20): ?>
                                 <li>
@@ -252,11 +252,12 @@ $uid = mysql_prep($_GET['uid']);
                                 <li>
                                     <a href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k11'); ?></a>
                                 </li>
-                                <li>
-                                    <a href="license.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k209'); ?></a>
+                                <li class="active">
+                                    <a class="active" href="license.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k209'); ?></a>
                                 </li>
 								<?php endif; ?>
                             </ul>
+                            <!-- /.nav-second-level -->
                         </li>
 						<?php endif; ?>
                     </ul>
@@ -268,258 +269,70 @@ $uid = mysql_prep($_GET['uid']);
 					    </h5>
 					    <h6><?php echo get_lang($lang,'k243')."&nbsp;".date("Y-m-d H:i:s",filemtime("index.php")); ?></h6>
 					</div>
+                    <!-- /#side-menu -->
                 </div>
+                <!-- /.sidebar-collapse -->
             </nav>
+            <!-- /.navbar-static-side -->
 
             <div id="page-wrapper">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h3 class="page-header text-asbestos"><i class="fa fa-users"></i> <?php echo get_lang($lang, 'k12'); ?></h3>
+                        <h3 class="page-header text-asbestos"><i class="fa fa-key"></i>&nbsp;<?php echo get_lang($lang,'k217'); ?></h3>
                     </div>
                 </div>
-				
-                <?php
-				if ($user_settings['level'] > 10) {
-                    $query = "SELECT * FROM `users` WHERE `user_name`='$user' AND `id`='$uid'";
-                    $result = mysql_query($query);
-                    confirm_query($result);
-                    if (mysql_num_rows($result) != 0) {
-		                while($users = mysql_fetch_array($result)) {
-							if ($users['user_name'] != 'Alex') {
-                            //while
-						echo "
-                <div class=\"row\">
-                    <div class=\"col-lg-12\">
-                        <div class=\"panel panel-primary\">
-                            <div class=\"panel-heading\">".$users['user_name']."</div>
-                            <div class=\"panel-body\">
-                                <div class=\"table-responsive\">
-                                    <table class=\"table table-striped table-bordered table-hover\">
-                                        <tbody>
-                                            <tr>
-                                                <td style=\"text-align: right; width: 50%;\">".get_lang($lang, 'k05').":</td>
-												<td>".$users['user_name']."</td>
-											</tr>
-                                            <tr>
-                                                <td style=\"text-align: right; width: 50%;\">".get_lang($lang, 'k88').":</td>
-												<td>".$users['first_name']." ".$users['last_name']."</td>
-											</tr>
-                                            <tr>
-                                                <td style=\"text-align: right; width: 50%;\">".get_lang($lang, 'k91').":</td>
-												<td>".$users['email']."</td>
-											</tr>
-                                            <tr>
-                                                <td style=\"text-align: right; width: 50%;\">".get_lang($lang, 'k92').":</td>
-												<td>".$users['phone']."</td>
-											</tr>
-											<tr>
-                                                <td style=\"text-align: right; width: 50%;\">".get_lang($lang, 'k89').":</td>";
-									if ($users['level'] < 3) {
-										echo "<td><span class=\"label label-danger\">".$users['level']."</span></td>";
-									}
-									elseif (($users['level'] < 5) && ($users['level'] > 2)) {
-										echo "<td><span class=\"label label-warning\">".$users['level']."</span></td>";
-									}
-									elseif (($users['level'] < 10) && ($users['level'] > 4)) {
-										echo "<td><span class=\"label label-success\">".$users['level']."</span></td>";
-									}
-									elseif (($users['level'] < 100) && ($users['level'] > 9)) {
-										echo "<td><span class=\"label label-info\">".$users['level']."</span></td>";
-									}
-									elseif ($users['level'] > 50) {
-										echo "<td><span class=\"label label-primary\">".$users['level']."</span></td>";
-									}
-					                else {
-						                echo "<td><span class=\"label label-default\">".$users['level']."</span></td>";
-					                }
-									echo "</tr>
-											<tr>
-                                                <td style=\"text-align: right; width: 50%;\">".get_lang($lang, 'k90').":</td>";
-									//status
-					                if ($users['status'] == "Active") {
-						                echo "<td><span class=\"label label-success\">".get_lang($lang, 'k93')."</span></td>";
-					                }
-					                elseif ($users['status'] == "Pending") {
-						                echo "<td><span class=\"label label-warning\">".get_lang($lang, 'k94')."</span></td>";
-					                }
-					                elseif ($users['status'] == "Deactivated") {
-						                echo "<td><span class=\"label label-danger\">".get_lang($lang, 'k95')."</span></td>";
-					                }
-					                else {
-						                echo "<td>".$users['status']."</td>";
-					                }
-									echo "</tr>
-                                            <tr>
-                                                <td style=\"text-align: right; width: 50%;\">".get_lang($lang,'k240').":</td>
-												<td>".get_lang($users['init_lang'],"msg_001")."</td>
-											</tr>
-                                            <tr>
-                                                <td style=\"text-align: right; width: 50%;\">".get_lang($lang, 'k116').":</td>
-												<td>".$users['last_login']."</td>
-											</tr>
-                                            <tr>
-                                                <td style=\"text-align: right; width: 50%;\">".get_lang($lang, 'k120').":</td>
-												<td>".$users['device']."</td>
-											</tr>
-                                            <tr>
-                                                <td style=\"text-align: right; width: 50%;\">".get_lang($lang, 'k99').":</td>
-												<td>".$users['info']."</td>
-											</tr>
-                                            <tr>
-                                                <td style=\"text-align: right; width: 50%;\">".get_lang($lang, 'k43').":</td>
-												<td>".$users['buildings']."</td>
-											</tr>
-                                            <tr>
-                                                <td style=\"text-align: right; width: 50%;\">".get_lang($lang, 'k10').":</td>
-												<td>".$users['klimas']."</td>
-											</tr>
-                                        </tbody>
-                                    </table>
+                <!-- /.col-lg-12 -->
+                <?php if ($user_settings['level'] > 20): ?>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-danger">
+                            <div class="panel-heading">
+                                <?php echo get_lang($lang,'k236'); ?>
+                            </div>
+                            <form method="POST" action="license_update.php?lang=<?=$lang?>" id="forms">
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    <input class="form-control" type="hidden" name="id" value="<?php echo $settings['id']; ?>" readonly="readonly" />
+                                </div>
+                                <div class="form-group">
+                                    <label><?php echo get_lang($lang,'k213'); ?>:</label>
+                                    <input class="form-control" type="text" name="host" value="<?php echo HOST; ?>" readonly="readonly" />
+                                </div>
+                                <div class="form-group">
+                                    <label><?php echo get_lang($lang,'k214'); ?>:</label>
+                                    <input class="form-control validate[required]" maxlength="32" type="text" name="hash" value="<?php echo $settings['hash']; ?>" />
+                                </div>
+                                <div class="form-group">
+                                    <label><?php echo get_lang($lang,'k215'); ?>:</label>
+                                    <input class="form-control validate[required]" maxlength="32" type="text" name="code" value="<?php echo $settings['code']; ?>" />
+                                </div>
+                                <div class="form-group">
+                                    <label><?php echo get_lang($lang,'k216'); ?>:</label>
+                                    <input class="form-control validate[required]" maxlength="64" type="text" name="lkey" value="<?php echo $settings['lkey']; ?>" />
                                 </div>
                             </div>
-                            <div class=\"panel-footer\">
-                              <button type=\"button\" class=\"btn btn-warning btn-lg\" onClick=\"document.location.href = 'users_edit.php?lang=".$lang."&user=".$users['user_name']."&uid=".$users['id']."'\">
-							    <i class=\"fa fa-edit\"></i>&nbsp;".get_lang($lang, 'k106')."</button>
+                            <div class="panel-footer">
+                                <button type="button" class="btn btn-primary btn-lg" onClick="document.location.href = 'license.php?lang=<?=$lang?>'; return false;">
+								    <i class="fa fa-times"></i>&nbsp;<?php echo get_lang($lang,'k28'); ?></button>
+								<button type="submit" name="submit" class="btn btn-danger btn-lg">
+								    <i class="fa fa-save"></i>&nbsp;<?php echo get_lang($lang,'k29'); ?></button>
                             </div>
+                            </form>
                         </div>
                     </div>
-				</div>";
-							}
-						}
-                    $query = "SELECT * FROM `logs` WHERE `user`='$user' ORDER BY `id` DESC";
-                    $result = mysql_query($query);
-                    confirm_query($result);
-                    if (mysql_num_rows($result) != 0) {
-								echo "
-                <div class=\"row\">
-                    <div class=\"col-lg-12\">
-                        <div class=\"panel panel-primary\">
-                            <div class=\"panel-heading\">".get_lang($lang, 'k13')."</div>
-                            <div class=\"panel-body\">
-								<div class=\"table-responsive\">
-                                    <table class=\"table table-striped table-bordered table-hover\" id=\"logs_user\">
-                                        <thead>
-                                            <tr>
-                                                <th>".get_lang($lang, 'k27')."</th>
-                                                <th>".get_lang($lang, 'k117')."</th>
-                                                <th>".get_lang($lang, 'k118')."</th>
-                                                <th>".get_lang($lang, 'k120')."</th>
-                                                <th>".get_lang($lang, 'k119')."</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>";
-		                while($logs = mysql_fetch_array($result)) {
-							if ($user != 'Alex') {
-								echo "
-                                    <tr>
-										<td>".$logs['id']."</td>
-										<td>".$logs['date']."</td>
-										<td>".$logs['time']."</td>
-										<td>".$logs['device']."</td>
-										<td class=\"log\">
-										    <span class=\"primary\">".$logs['user']."</span>&nbsp;
-											<span class=\"".$logs['filter']."\">".get_lang($lang,$logs['action'])." (".$logs['obs'].")</span></td>
-									</tr>
-                                ";
-							}
-						}
-					    echo "
-	                                    </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
+                </div>
+                <?php else: ?>
+                <div class="row">
+                    <div class="col-lg-12">
+                    
                     </div>
-				</div>";
-                    } else {
-						//echo no logs for this user
-			        echo "
-                <div class=\"row\">
-                    <div class=\"col-lg-12\">
-                        <div class=\"panel panel-primary\">
-                            <div class=\"panel-heading\">".get_lang($lang, 'k13')."</div>
-                            <div class=\"panel-body\">
-                                <div class=\"alert alert-info\">".get_lang($lang, 'k121')."</div>
-                            </div>
-                        </div>
-                    </div>
-				</div>";
-					}
-			    } else {
-			        echo "
-                <div class=\"row\">
-                    <div class=\"col-lg-12\">
-                        <div class=\"panel panel-danger\">
-                            <div class=\"panel-heading\">".get_lang($lang, 'Error')."</div>
-                            <div class=\"panel-body\">
-                                <div class=\"alert alert-warning\">
-                                    ".get_lang($lang, 'k96')."
-                                </div>
-                            </div>
-                            <div class=\"panel-footer\">
-                              <button type=\"button\" class=\"btn btn-primary btn-lg\" onClick=\"document.location.href = 'users_add.php?lang=".$lang."'\">
-							    <i class=\"fa fa-plus\"></i>&nbsp;".get_lang($lang, 'k97')."</button>
-                            </div>
-                        </div>
-                    </div>
-				</div>";
-				}
-			} else {
-				echo "
-                <div class=\"row\">
-                    <div class=\"col-lg-12\">
-                        <div class=\"panel panel-danger\">
-                            <div class=\"panel-heading\">".get_lang($lang, 'Error')."</div>
-                            <div class=\"panel-body\">
-							    <div class=\"alert alert-warning\">
-                                    ".get_lang($lang, 'k30')."
-								</div>
-                            </div>
-                            <div class=\"panel-footer\">
-                                <button type=\"button\" class=\"btn btn-primary btn-lg\" onClick=\"document.location.href = 'index.php?lang=".$lang."'; return false;\">
-								    <i class=\"fa fa-times\"></i>&nbsp;".get_lang($lang, 'k28')."</button>
-                            </div>
-                        </div>
-                    </div>
-				</div>";
-			}
-			?>
+                </div>
+                <?php endif; ?>
+				<!--end row-->
             </div>
+            <!-- /#page-wrapper -->
         </div>
+        <!-- /#wrapper -->
 		<a href="#" id="toTop"><i class="fa fa-arrow-up"></i></a>
-        <script type="text/javascript">
-        $(function () {
-            if(jQuery().dataTable) {
-         if($("#logs_user").length > 0) { 
-             $('#logs_user').dataTable({
-			     "aaSorting": [[ 0, "desc" ]],
-				 "iDisplayLength": 25,
-				 "aLengthMenu": [[25, 50, 75, 100, -1], [25, 50, 75, 100, "Всички"]],
-                 "aoColumns": [
-				     { "bSearchable": false },
-					 { "bSortable": false },
-					 { "bSortable": false },
-					 { "bSortable": false },
-					 { "bSortable": false }					 
-                 ],
-		         "oLanguage": {
-			         "sLengthMenu": "Показване _MENU_ на записи на страница.",
-			         "sSearch": "Търсене: ",
-			         "sZeroRecords": "Нищо не е намерено - Съжалявам",
-			         "sInfo": "Показващ _START_ от _END_ от _TOTAL_ общо записи",
-			         "sInfoEmpty": "Показващ 0 от 0 от 0 общо записи",
-			         "sInfoFiltered": "(филтрира от общо 5 от _MAX_ общо записи)",
-                     "oPaginate": {
-                         "sFirst":    "Първи",
-                         "sPrevious": "Предишен",
-                         "sNext":     "Напред",
-                         "sLast":     "Последно"
-                     }
-                 }
-		});
-        }
-			}
-		});
-        </script>
     </body>
 </html>

@@ -187,10 +187,10 @@
 
     ctx.fillStyle = color;
 	/*
-ctx.shadowColor = 'rgba(255, 255, 255, 0.1)'; // string
-ctx.shadowOffsetX = 0; // integer
-ctx.shadowOffsetY = 0; // integer
-ctx.shadowBlur = 1; // integer
+    ctx.shadowColor = 'rgba(255, 255, 255, 0.1)'; // string
+    ctx.shadowOffsetX = 0; // integer
+    ctx.shadowOffsetY = 0; // integer
+    ctx.shadowBlur = 1; // integer
 	*/
     puffs(ctx, t, cx, cy, a, b, c, d);
 

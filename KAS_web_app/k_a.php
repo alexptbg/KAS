@@ -9,16 +9,13 @@ include('inc/config.php');
 check_login($lang,$web_dir);
 $r = $_GET['router'];
 $u = $user_settings['user_name'];
-
 $r_settings = get_rout_settings($r);
 $datafile = "data/{$r_settings['data_file']}";
 if (file_exists($datafile)) { include("$datafile"); } 
 else { echo "<div class=\"alert alert-warning\">".get_lang($lang, 'k164')."</div>"; exit; }
 $exclude = $r_settings['ex_table'];
 $ex = explode(',', $exclude);
-
 echo "<div class=\"list-group\">";
-
 $query = "SELECT `inv` FROM `klimatiki` WHERE `router`='".$r."' ORDER BY `inv` ASC";
 $result = mysql_query($query);
 confirm_query($result);
@@ -35,7 +32,6 @@ if (!empty($klimas)) {
 		}
 	}
 }
-
 function p($d,$r,$lang,$u,$ex) {
 	$d0 = $d[0];//inv
 	$d1 = $d[1];//time
@@ -52,6 +48,16 @@ function p($d,$r,$lang,$u,$ex) {
 	$set_point = ($d2*256+$d3)/10;
 	$in_temp = ($d8*256+$d9)/10;
     //mode
+if ($mode == "1") {      $mode_name = substr(get_lang($lang,'k69'),0,6).'.'; } 
+elseif ($mode == "9") {  $mode_name = substr(get_lang($lang,'k69'),0,6).'.'; }
+elseif ($mode == "2") {  $mode_name = substr(get_lang($lang,'k70'),0,6).'.'; }
+elseif ($mode == "10") { $mode_name = substr(get_lang($lang,'k70'),0,6).'.'; }
+elseif ($mode == "3") {  $mode_name = substr(get_lang($lang,'k71'),0,6).'.'; }
+elseif ($mode == "11") { $mode_name = substr(get_lang($lang,'k71'),0,6).'.'; }
+elseif ($mode == "4") {  $mode_name = substr(get_lang($lang,'k72'),0,6).'.'; }
+elseif ($mode == "12") { $mode_name = substr(get_lang($lang,'k72'),0,6).'.'; }
+elseif ($mode == "0") {  $mode_name = substr(get_lang($lang,'k73'),0,6).'.'; }
+else { $mode_name = $mode; }
 	//step
 	//led
 	if (($mode < 8) && ($mode > 0)) { $led = 'off'; $checked = ""; $data_off = "danger"; } 
@@ -63,8 +69,10 @@ function p($d,$r,$lang,$u,$ex) {
 	echo "
         <div class=\"col-xs-6 col-sm-3\">
             <a href=\"klima_i.php?lang=".$lang."&user=".$u."&klima=".$d0."&r=".$r."\" class=\"list-group-item\">
-                <i class=\"fa fa-th fa-fw\"></i> ".$d0."
-                <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$set_point."ºC</span>
+                <i class=\"fa fa-square fa-fw\"></i>&nbsp;".$d0."
+                <span>&nbsp;&nbsp;&nbsp;&nbsp;".$set_point."<i class=\"icon ka-celcius ka-status-lg\"></i></span>
+                <span>&nbsp;&nbsp;&nbsp;&nbsp;".$mode_name."</span>
+                <span>&nbsp;&nbsp;&nbsp;&nbsp;<i class=\"icon ka-cooler ka-status\"></i>&nbsp;".$vent."</span>
                 <span class=\"pull-right\" style=\"margin-top:4px;vertical-align:middle;\">
 				    <span class=\"lamp fr\"><span class=\"".$led."\"></span></span>
 				</span>

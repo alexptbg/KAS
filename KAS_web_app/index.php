@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <?php
-error_reporting(0);
+//error_reporting(0);
 define('start', TRUE);
 include('inc/db.php');
 include('inc/functions.php');
@@ -26,6 +26,7 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
         <link type="text/css" rel="stylesheet" href="css/mint-admin.css" />
         <link type="text/css" rel="stylesheet" href="css/weather.css" />
         <link type="text/css" rel="stylesheet" href="css/iconmoon.min.css" />
+        
         <script type="text/javascript" src="js/jquery-1.10.2.js"></script>
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
@@ -62,10 +63,10 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 				cache: false
 			});
 	        get_live_out();
-
+            //get weather
 	        $.simpleWeather({
 		        //zipcode: 'BUXX0015',
-		        woeid: '836607',
+		        woeid: '836607',//gotse delchev
 		        unit: 'c',
 		        success: function(weather) {
 			        low = weather.low-3;
@@ -92,7 +93,6 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 			        html += '<strong>Влажност: </strong><span>'+weather.humidity+' %</span><br/>';
 			        html += '<strong>Налягане: </strong><span>'+weather.pressure+' mb</span><br/>';
 			        html += '<strong>Ветрове: </strong><span>'+weather.wind.direction+' '+weather.wind.speed+' '+weather.units.speed+'</span><br/>';
-				    //html += '<strong>Видимост: </strong><span>'+weather.visibility+' '+weather.units.distance+'</span><br/>';
 			        //html += '<span>'+weather.code+'</span><br/>';
 			        html += '<span>'+prog+'</span></p>';
 			        $("#weather").html(html);
@@ -101,6 +101,30 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 		        cache: false,
 		        error: function(error) { $("#weather").html('<p>'+error+'</p>'); }
 	        });
+            var isMobile = {
+                Android: function() {
+                    return navigator.userAgent.match(/Android/i);
+                },
+                BlackBerry: function() {
+                    return navigator.userAgent.match(/BlackBerry/i);
+                },
+                iOS: function() {
+                    return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+                },
+                Opera: function() {
+                    return navigator.userAgent.match(/Opera Mini/i);
+                },
+                Windows: function() {
+                    return navigator.userAgent.match(/IEMobile/i);
+                },
+                any: function() {
+                    return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+                }
+            };
+            //if(isMobile.iOS()) alert('iOS');
+            if(!isMobile.any()){
+	            $('.qrcode').css('display','block');
+		    }
         });
         function showAndroidToast(toast) {
             Android.showToast(toast);
@@ -167,7 +191,8 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
                     </li>
                 </ul>
             </nav>
-
+            <!-- /.navbar-static-top -->
+            <?php @include($core); ?>
             <nav class="navbar-default navbar-static-side" role="navigation">
                 <div class="sidebar-collapse">
 				    <span class="system_name"><?=$system_name?>&nbsp;<?=$version?></span>
@@ -335,10 +360,13 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
                                 </li>
 								<?php if ($user_settings['level'] > 20): ?>
                                 <li>
-                                    <a href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k11'); ?></a>
+                                    <a href="logs.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k13'); ?></a>
                                 </li>
                                 <li>
-                                    <a href="logs.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k13'); ?></a>
+                                    <a href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k11'); ?></a>
+                                </li>
+                                <li>
+                                    <a href="license.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k209'); ?></a>
                                 </li>
 								<?php endif; ?>
                             </ul>
@@ -351,6 +379,11 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 					        <i class="fa fa-copyright"></i>&nbsp;2014&nbsp;|
 					        <script type="text/javascript">document.write(new Date().getFullYear())</script>
 					    </h5>
+                        <h6><?php echo get_lang($lang,'k243')."&nbsp;".date("Y-m-d H:i:s",filemtime("index.php")); ?></h6>
+					</div>
+					<div class="qrcode">
+					    <h5><?php echo get_lang($lang,'k241'); ?></h5>
+					    <div class="qrimg"><img src="qrcode.php" /></div>
 					</div>
                 </div>
             </nav>
@@ -358,10 +391,12 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
             <div id="page-wrapper">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h3 class="page-header text-asbestos"><i class="fa fa-dashboard"></i> <?php echo get_lang($lang, 'Home'); ?></h3>
+                        <h3 class="page-header text-asbestos"><i class="fa fa-dashboard"></i>&nbsp;<?php echo get_lang($lang,'Home'); ?></h3>
                     </div>
                 </div>
+                <?php 
                 
+                ?>
                 <div class="row">
                     <div class="col-xs-12 col-sm-6 col-md-3">
                         <div class="panel panel-primary text-center panel-eyecandy">

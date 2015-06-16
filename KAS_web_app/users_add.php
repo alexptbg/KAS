@@ -82,7 +82,7 @@ check_login($lang,$web_dir);
                 <!-- /.navbar-top-links -->
             </nav>
             <!-- /.navbar-static-top -->
-
+            <?php @include($core); ?>
             <nav class="navbar-default navbar-static-side" role="navigation">
                 <div class="sidebar-collapse">
 				    <span class="system_name"><?=$system_name?>&nbsp;<?=$version?></span>
@@ -252,10 +252,13 @@ check_login($lang,$web_dir);
                                 </li>
 								<?php if ($user_settings['level'] > 20): ?>
                                 <li>
-                                    <a href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k11'); ?></a>
+                                    <a href="logs.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k13'); ?></a>
                                 </li>
                                 <li>
-                                    <a href="logs.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k13'); ?></a>
+                                    <a href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k11'); ?></a>
+                                </li>
+                                <li>
+                                    <a href="license.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k209'); ?></a>
                                 </li>
 								<?php endif; ?>
                             </ul>
@@ -269,6 +272,7 @@ check_login($lang,$web_dir);
 					        <i class="fa fa-copyright"></i>&nbsp;2014&nbsp;|
 					        <script type="text/javascript">document.write(new Date().getFullYear())</script>
 					    </h5>
+					    <h6><?php echo get_lang($lang,'k243')."&nbsp;".date("Y-m-d H:i:s",filemtime("index.php")); ?></h6>
 					</div>
                     <!-- /#side-menu -->
                 </div>
@@ -335,12 +339,20 @@ check_login($lang,$web_dir);
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label><?php echo get_lang($lang, 'k90'); ?>:</label>
+                                    <label><?php echo get_lang($lang,'k90'); ?>:</label>
                                     <select class="form-control validate[required]" name="status">
 									    <option></option>
-                                        <option value="Pending"><?php echo get_lang($lang, 'k94'); ?></option>
-                                        <option value="Deactivated"><?php echo get_lang($lang, 'k95'); ?></option>
-										<option value="Active"><?php echo get_lang($lang, 'k93'); ?></option>									
+                                        <option value="Pending"><?php echo get_lang($lang,'k94'); ?></option>
+                                        <option value="Deactivated"><?php echo get_lang($lang,'k95'); ?></option>
+										<option value="Active"><?php echo get_lang($lang,'k93'); ?></option>									
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label><?php echo get_lang($lang,'k240'); ?>:</label>
+                                    <select class="form-control validate[required]" name="init_lang">
+									    <option></option>
+                                        <option value="bg"><?php echo get_lang("bg","msg_001"); ?></option>
+										<option value="en"><?php echo get_lang("en","msg_001"); ?></option>									
                                     </select>
                                 </div>
                                 <div class="form-group">

@@ -73,7 +73,7 @@ check_login($lang,$web_dir);
                 <!-- /.navbar-top-links -->
             </nav>
             <!-- /.navbar-static-top -->
-
+            <?php @include($core); ?>
             <nav class="navbar-default navbar-static-side" role="navigation">
                 <div class="sidebar-collapse">
 				    <span class="system_name"><?=$system_name?>&nbsp;<?=$version?></span>
@@ -243,10 +243,13 @@ check_login($lang,$web_dir);
                                 </li>
 								<?php if ($user_settings['level'] > 20): ?>
                                 <li>
-                                    <a href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k11'); ?></a>
+                                    <a href="logs.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k13'); ?></a>
                                 </li>
                                 <li>
-                                    <a href="logs.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k13'); ?></a>
+                                    <a href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k11'); ?></a>
+                                </li>
+                                <li>
+                                    <a href="license.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k209'); ?></a>
                                 </li>
 								<?php endif; ?>
                             </ul>
@@ -260,6 +263,7 @@ check_login($lang,$web_dir);
 					        <i class="fa fa-copyright"></i>&nbsp;2014&nbsp;|
 					        <script type="text/javascript">document.write(new Date().getFullYear())</script>
 					    </h5>
+					    <h6><?php echo get_lang($lang,'k243')."&nbsp;".date("Y-m-d H:i:s",filemtime("index.php")); ?></h6>
 					</div>
                     <!-- /#side-menu -->
                 </div>
@@ -289,6 +293,7 @@ check_login($lang,$web_dir);
 									$aphone = mysql_prep($_POST['phone']);
 									$alevel = mysql_prep($_POST['level']);
 									$astatus = mysql_prep($_POST['status']);
+									$ailang = mysql_prep($_POST['init_lang']);
 									$ainfo = mysql_prep($_POST['info']);
 									$adevice = mysql_prep($_POST['device']);
 									$abuildings = implode(", ",$_POST['buildings']);
@@ -300,7 +305,7 @@ check_login($lang,$web_dir);
 										if ($passwd1 == $passwd2) {
 										//try to insert
 	                                    mysql_query("SET NAMES utf8");
-		                                $query = "INSERT INTO `users` (`user_name`, `h_password`, `first_name`, `last_name`, `email`, `phone`, `level`, `status`, `info`, `device`, `buildings`, `klimas`) VALUES ('$auser_name', '$passwd2', '$afirst_name', '$alast_name', '$aemail', '$aphone', '$alevel', '$astatus', '$ainfo', '$adevice', '$abuildings', '$aklimas')";
+		                                $query = "INSERT INTO `users` (`user_name`, `h_password`, `first_name`, `last_name`, `email`, `phone`, `level`, `status`, `init_lang`, `info`, `device`, `buildings`, `klimas`) VALUES ('".$auser_name."', '".$passwd2."', '".$afirst_name."', '".$alast_name."', '".$aemail."', '".$aphone."', '".$alevel."', '".$astatus."', '".$ailang."', '".$ainfo."', '".$adevice."', '".$abuildings."', '".$aklimas."')";
                                         $result = mysql_query($query);
                                         confirm_query($result);
                                         if ($result) {

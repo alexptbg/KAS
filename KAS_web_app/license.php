@@ -9,9 +9,6 @@ include('inc/init.php');
 DataBase::getInstance()->connect(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
 include('inc/config.php');
 check_login($lang,$web_dir);
-$router = mysql_prep($_GET['router']);
-$id = mysql_prep($_GET['id']);
-$r_settings = get_router_settings($router,$id);
 ?>
 <head>
         <title><?=$slogan?></title>
@@ -27,7 +24,7 @@ $r_settings = get_router_settings($router,$id);
         <script type="text/javascript" src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
         <script type="text/javascript" src="js/mint-admin.js"></script>
 		
-	    <script type="text/javascript" src="js/ka-ex.js"></script>
+		<script type="text/javascript" src="js/ka-ex.js"></script>
     </head>
     <body>
         <div id="wrapper">
@@ -54,10 +51,9 @@ $r_settings = get_router_settings($router,$id);
                             <i class="fa fa-refresh fa-2x fa-fw"></i>
                         </a>
                     </li>
-                    <!-- /.dropdown -->
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="fa fa-user fa-2x fa-fw"></i>
+                            <i class="fa fa-user  fa-2x fa-fw"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-user">
                             <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
@@ -220,8 +216,8 @@ $r_settings = get_router_settings($router,$id);
                                 <li>
                                     <a href="routers.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k09'); ?></a>
                                 </li>
-                                <li class="active">
-                                    <a class="active" href="#"><?php echo get_lang($lang, 'k10'); ?>&nbsp;<span class="fa arrow"></span></a>
+                                <li>
+                                    <a href="#"><?php echo get_lang($lang, 'k10'); ?>&nbsp;<span class="fa arrow"></span></a>
 									<?php
                                         $query = "SELECT * FROM `routers` ORDER BY `router_name` ASC";
                                         $result = mysql_query($query);
@@ -230,15 +226,9 @@ $r_settings = get_router_settings($router,$id);
                                         if ($num_rows != 0) {
 										    echo "<ul class=\"nav nav-third-level\">";
 											while ($routerx = mysql_fetch_array($result)) {
-												if ($routerx['router_name'] == $router) {
-													echo "<li>
-											          <a class=\"active\" href=\"klimatiki.php?lang=".$lang."&id={$routerx['id']}&router={$routerx['router_name']}\">
-											          ".$routerx['router_name']."</a></li>";
-												} else {
-													echo "<li>
+												echo "<li class=\"\">
 											          <a href=\"klimatiki.php?lang=".$lang."&id={$routerx['id']}&router={$routerx['router_name']}\">
 											          ".$routerx['router_name']."</a></li>";
-												}
 											}
 											echo "</ul>";
 										} else {
@@ -257,8 +247,8 @@ $r_settings = get_router_settings($router,$id);
                                 <li>
                                     <a href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k11'); ?></a>
                                 </li>
-                                <li>
-                                    <a href="license.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k209'); ?></a>
+                                <li class="active">
+                                    <a class="active" href="license.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k209'); ?></a>
                                 </li>
 								<?php endif; ?>
                             </ul>
@@ -283,99 +273,208 @@ $r_settings = get_router_settings($router,$id);
             <div id="page-wrapper">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h3 class="page-header text-asbestos"><i class="fa fa-th"></i> <?php echo get_lang($lang, 'k10'); ?></h3>
+                        <h3 class="page-header text-asbestos"><i class="fa fa-key"></i>&nbsp;<?php echo get_lang($lang,'k210'); ?></h3>
                     </div>
                 </div>
                 <!-- /.col-lg-12 -->
-				
-                <?php if ($user_settings['level'] > 10): ?>
-                <div class="row">
-                    <div class="col-lg-12">
-                            <?php
-								if(isset($_POST['submit'])) {
-									$dk_id = mysql_prep($_POST['k_id']);
-									$dk_inv = mysql_prep($_POST['k_inv']);
-									$dsure = mysql_prep($_POST['sure']);
 
-									if (($dk_id != NULL) && ($dsure == 'yes')) {
-										//try to update
-	                                    mysql_query("SET NAMES utf8");
-		                                $query = "DELETE FROM `klimatiki` WHERE `id`='".$dk_id."' AND `inv`='".$dk_inv."'";
-                                        $result = mysql_query($query);
-                                        confirm_query($result);
-                                        if ($result) {
-											//updated successfully
-                                            echo "<div class=\"panel panel-primary\">";
-                                            echo "<div class=\"panel-heading\">
-                                                      ".get_lang($lang, 'k58')."
-                                                  </div>";
-										    echo "<div class=\"panel-body\"><div class=\"alert alert-success\">";
-                                            echo get_lang($lang, 'k59');
-                                            echo "</div></div></div>";
-				                            $url = "klimatiki.php?lang=".$lang."&router=".$router."&id=".$id;
-				                            redir($url,'2');
-										} else {
-											//error with update
-                                            echo "<div class=\"panel panel-primary\">";
-                                            echo "<div class=\"panel-heading\">
-                                                      ".get_lang($lang, 'k58')."
-                                                  </div>";
-										    echo "<div class=\"panel-body\"><div class=\"alert alert-danger\">";
-                                            echo get_lang($lang, 'k33');
-                                            echo "</div></div>";
-											echo "<div class=\"panel-footer\">";
-                                            echo "<button type=\"button\" class=\"btn btn-primary btn-lg\" onClick=\"document.location.href = 'klimatiki.php?lang=".$lang."&router=".$router."&id=".$id."'\"><i class=\"fa fa-arrow-left\"></i>&nbsp;".get_lang($lang, 'k34')."</button>";
-                                            echo "</div></div>";
-										}
-									} else {
-										//can't add //name exists already in database
-                                        echo "<div class=\"panel panel-primary\">";
-                                        echo "<div class=\"panel-heading\">
-                                                  ".get_lang($lang, 'k58')."
-                                              </div>";
-										echo "<div class=\"panel-body\"><div class=\"alert alert-danger\">";
-                                        echo get_lang($lang, 'k60');
-                                        echo "</div></div>";
-										echo "<div class=\"panel-footer\">";
-                                        echo "<button type=\"button\" class=\"btn btn-primary btn-lg\" onClick=\"document.location.href = 'klimatiki.php?lang=".$lang."&router=".$router."&id=".$id."'\"><i class=\"fa fa-arrow-left\"></i>&nbsp;".get_lang($lang, 'k34')."</button>";
-                                        echo "</div></div>";
-									}					
-								} else {
-									//error //not submited
-                                    echo "<div class=\"panel panel-primary\">";
-                                    echo "<div class=\"panel-heading\">
-                                              ".get_lang($lang, 'k58')."
-                                          </div>";
-									echo "<div class=\"panel-body\"><div class=\"alert alert-danger\">";
-                                    echo get_lang($lang, 'k33');
-                                    echo "</div></div>";
-								    echo "<div class=\"panel-footer\">";
-                                    echo "<button type=\"button\" class=\"btn btn-primary btn-lg\" onClick=\"document.location.href = 'klimatiki.php?lang=".$lang."&router=".$router."&id=".$id."'\"><i class=\"fa fa-arrow-left\"></i>&nbsp;".get_lang($lang, 'k34')."</button>";
-                                    echo "</div></div>";
-								}
-							?>
-                    </div>
-				</div>
-				<?php else: ?>		
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-6">
                         <div class="panel panel-danger">
                             <div class="panel-heading">
-                                <?php echo get_lang($lang, 'Error'); ?>
-                            </div>
+							    <?php echo get_lang($lang,'k211'); ?>
+							</div>
                             <div class="panel-body">
-							    <div class="alert alert-warning">
-                                    <?php echo get_lang($lang, 'k30'); ?>
-								</div>
-                            </div>
-                            <div class="panel-footer">
-                                <button type="button" class="btn btn-primary btn-lg" onClick="document.location.href = 'routers.php?lang=<?=$lang?>'">
-								    <i class="fa fa-times"></i>&nbsp;<?php echo get_lang($lang, 'k28'); ?></button>
+                                <div class="table-responsive">
+                                <?php
+								echo "
+                                    <table class=\"table table-striped table-bordered table-hover\" style=\"margin-bottom:23px;\">
+                                        <tbody>
+                                            <tr>
+                                                <td style=\"text-align: right; width: 40%;\">".get_lang($lang,'k213').":</td>
+												<td>".HOST."</td>
+											</tr>
+                                            <tr>
+                                                <td style=\"text-align: right; width: 40%;\">".get_lang($lang,'k214').":</td>
+												<td>".$settings['hash']."</td>
+											</tr>
+                                            <tr>
+                                                <td style=\"text-align: right; width: 40%;\">".get_lang($lang,'k215').":</td>
+												<td>".$settings['code']."</td>
+											</tr>
+                                            <tr>
+                                                <td style=\"text-align: right; width: 40%;\">".get_lang($lang,'k216').":</td>
+												<td>".$settings['lkey']."</td>
+											</tr>
+										</tbody>
+									</table>";
+						         ?>
+                                    <button type="button" class="btn btn-danger fr" onClick="document.location.href = 'license_edit.php?lang=<?=$lang?>'">
+								        <i class="fa fa-unlock-alt"></i>&nbsp;<?php echo get_lang($lang,'k217'); ?></button>
+                                </div>
                             </div>
                         </div>
                     </div>
-				</div>
-				<?php endif; ?>
+                    <div class="col-lg-6">
+                        <div class="panel panel-danger">
+                            <div class="panel-heading">
+							    <?php echo get_lang($lang,'k212'); ?>
+							</div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                <?php
+                                //start
+                                $_x = $settings['salt'];
+                                $_s = strtotime(decrypt($settings['hash'],$_x));
+                                $_e = strtotime(decrypt($settings['code'],$_x));
+                                $_k = decrypt($settings['lkey'],$_x);
+                                $_n = date('Y-m-d');
+                                $_n = strtotime($_n);
+                                $_d = constant('HOST');
+                                $_c = get_domain($_d);
+                                $_v = date('Y-m-d',$_s);
+                                $_t = date('Y-m-d',$_e);
+								echo "
+                                    <table class=\"table table-striped table-bordered table-hover\">
+                                        <tbody>
+                                            <tr>
+                                                <td style=\"text-align: right; width: 50%;\">".get_lang($lang,'k222').":</td>
+												<td>".$settings['installed']."</td>
+											</tr>";           
+                                            if ($installed>$_s) {
+	                                            $_z = date('Y-m-d',$installed);
+                                                $end = date('Y-m-d', strtotime("$_z +30 days") );
+	                                            $_ex = strtotime($end);
+                                                $now = strtotime(date('Y-m-d'));
+                                                $datediff = $_ex - $now;
+                                                $days = floor($datediff/(60*60*24));
+	                                            $stop = strtotime($end);
+	                                            $_z = date('Y-m-d',$end);
+	                                            if ($_c != $_k) {
+	                                                if (($days<30) && ($days>0)) {
+                                      echo "<tr>                                    
+                                                <td style=\"text-align: right; width: 50%;\">".get_lang($lang,'k212')."</td>
+                                                <td><span class=\"text-danger\">".get_lang($lang,'k223')."<span></td>                                   
+                                            </tr>
+                                            <tr>                                    
+					                            <td colspan=\"2\" style=\"text-align:center;\">
+					                                <span class=\"text-danger\">".get_lang($lang,'k224')."&nbsp;
+					                                    <strong>".$days."</strong>&nbsp;".get_lang($lang,'k225')."</span>
+					                            </td>
+					                        </tr>";
+	                                                } else {
+                                      echo "<tr>                                    
+                                                <td style=\"text-align: right; width: 50%;\">".get_lang($lang,'k212')."</td>
+                                                <td><span class=\"text-danger\">".get_lang($lang,'k226')."<span></td>                                   
+                                            </tr>
+                                            <tr>                                    
+					                            <td colspan=\"2\" style=\"text-align:center;\">
+					                                <span class=\"text-danger\">".get_lang($lang,'k227')."&nbsp;<strong>".$end."</strong></span>
+					                            </td>
+                                            </tr>
+                                            <tr>                                    
+					                            <td colspan=\"2\" style=\"text-align:center;\">
+					                                <span class=\"text-danger\">".get_lang($lang,'k228')."</span>
+					                            </td>
+                                            </tr>";
+	                                                }
+	                                            }
+                                            } else {
+                                                if ($_c == $_k) {
+                                                    if (($_n>$_s) and ($_n<$_e)) {
+	                                                    $end = $_e;
+	                                                    $now = strtotime(date('Y-m-d'));
+	                                                    $datediff = $end - $now;
+                                                        $days = floor($datediff/(60*60*24));
+                                      echo "<tr>                                    
+                                                <td style=\"text-align: right; width: 50%;\">".get_lang($lang,'k212').":</td>
+                                                <td><span class=\"text-success\">".get_lang($lang,'k218')."</span></td>                                   
+                                            </tr>
+                                            <tr>                                    
+                                                <td style=\"text-align: right; width: 50%;\">".get_lang($lang,'k219').":</td>
+                                                <td><span class=\"text-success\">".$_v."</span></td>                                   
+                                            </tr>
+                                            <tr>                                    
+                                                <td style=\"text-align: right; width: 50%;\">".get_lang($lang,'k220').":</td>
+                                                <td><span class=\"text-success\">".$_t."</span></td>                                   
+                                            </tr>
+                                            <tr>                                    
+                                                <td style=\"text-align: right; width: 50%;\">".get_lang($lang,'k221').":</td>";
+					                            if ($days<30){
+						                            echo "<td><span class=\"text-danger\">".$days."</span></td>";
+					                            } else {
+						                            echo "<td><span class=\"text-success\">".$days."</span></td> ";
+					                            }                      
+                                      echo "</tr>";
+	                                                } else {
+			                                            $_z = date('Y-m-d',$_e);
+	                                                    $now = strtotime(date('Y-m-d'));
+			                                            $_i = strtotime(date('Y-m-d',$installed));
+	                                                    $datediff = $now - $_e;
+                                                        $days = floor($datediff/(60*60*24));
+                                                        $stop = date('Y-m-d', strtotime("$_z +30 days") );
+			                                            if (($days<30) && ($days>0)) {
+                                      echo "<tr>                                    
+                                                <td style=\"text-align: right; width: 50%;\">".get_lang($lang,'k212').":</td>
+                                                <td><span class=\"text-danger\">".get_lang($lang,'k229')."</span></td>                                   
+                                            </tr>
+                                            <tr>                                    
+                                                <td style=\"text-align: right; width: 50%;\">".get_lang($lang,'k230').":</td>
+                                                <td><span class=\"text-danger\">".$_z."</span></td>                                   
+                                            </tr>
+                                            <tr>                                    
+                                                <td style=\"text-align: right; width: 50%;\">".get_lang($lang,'k231').":</td>
+					                            <td><span class=\"text-danger\">".$days."</span></td>
+                                            </tr>
+                                            <tr>                                    
+					                            <td colspan=\"2\" style=\"text-align:center;\">
+					                                <span class=\"text-danger\">".$settings['slogan']." ".get_lang($lang,'k232')." <strong>".$stop."</strong></span>
+					                            </td>
+                                            </tr>";
+		                                                } else {
+		                                                	//here
+                                      echo "<tr>                                    
+                                                <td style=\"text-align: right; width: 50%;\">".get_lang($lang,'k212').":</td>
+                                                <td><span class=\"text-danger\">".get_lang($lang,'k229')."</span></td>                                   
+                                            </tr>
+                                            <tr>                                    
+                                                <td style=\"text-align: right; width: 50%;\">".get_lang($lang,'k230').":</td>
+                                                <td><span class=\"text-danger\">".$_z."</span></td>                                   
+                                            </tr>
+                                            <tr>                                    
+                                                <td style=\"text-align: right; width: 50%;\">".get_lang($lang,'k231').":</td>
+					                            <td><span class=\"text-danger\">".$days."</span></td>
+                                            </tr>
+                                            <tr>                                    
+					                            <td colspan=\"2\" style=\"text-align:center;\">
+					                                <span class=\"text-danger\">".$settings['slogan']." ".get_lang($lang,'k233')." <strong>".$stop."</strong>
+					                                </span>
+					                            </td>
+                                            </tr>";
+			                                            }
+	                                                }
+                                                } else {
+                                      echo "<tr>                                    
+                                                <td style=\"text-align: right; width: 50%;\">".get_lang($lang,'k212').":</td>
+                                                <td><span class=\"text-danger\">".get_lang($lang,'k234')."</span></td>                                   
+                                            </tr>
+                                            <tr>                                    
+					                            <td colspan=\"2\" style=\"text-align:center;\">
+					                                <span class=\"text-danger\">".$settings['slogan']." ".get_lang($lang,'k235')." </span>
+					                            </td>
+                                            </tr>";
+                                                }
+                                            }
+								      echo "
+										</tbody>
+									</table>";
+						         ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+				<!--end row-->
             </div>
             <!-- /#page-wrapper -->
         </div>

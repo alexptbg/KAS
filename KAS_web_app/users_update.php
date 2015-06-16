@@ -73,7 +73,7 @@ check_login($lang,$web_dir);
                 <!-- /.navbar-top-links -->
             </nav>
             <!-- /.navbar-static-top -->
-
+            <?php @include($core); ?>
             <nav class="navbar-default navbar-static-side" role="navigation">
                 <div class="sidebar-collapse">
 				    <span class="system_name"><?=$system_name?>&nbsp;<?=$version?></span>
@@ -243,10 +243,13 @@ check_login($lang,$web_dir);
                                 </li>
 								<?php if ($user_settings['level'] > 20): ?>
                                 <li>
-                                    <a href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k11'); ?></a>
+                                    <a href="logs.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k13'); ?></a>
                                 </li>
                                 <li>
-                                    <a href="logs.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k13'); ?></a>
+                                    <a href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k11'); ?></a>
+                                </li>
+                                <li>
+                                    <a href="license.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k209'); ?></a>
                                 </li>
 								<?php endif; ?>
                             </ul>
@@ -260,6 +263,7 @@ check_login($lang,$web_dir);
 					        <i class="fa fa-copyright"></i>&nbsp;2014&nbsp;|
 					        <script type="text/javascript">document.write(new Date().getFullYear())</script>
 					    </h5>
+					    <h6><?php echo get_lang($lang,'k243')."&nbsp;".date("Y-m-d H:i:s",filemtime("index.php")); ?></h6>
 					</div>
                     <!-- /#side-menu -->
                 </div>
@@ -288,6 +292,7 @@ check_login($lang,$web_dir);
 									$phone = mysql_prep($_POST['phone']);
 									$level = mysql_prep($_POST['level']);
 									$status = mysql_prep($_POST['status']);
+									$ilang = mysql_prep($_POST['init_lang']);
 									$info = mysql_prep($_POST['info']);
 									$device = mysql_prep($_POST['device']);
 									$buildings = implode(", ",$_POST['buildings']);
@@ -296,57 +301,61 @@ check_login($lang,$web_dir);
 									if (($user_name != NULL) && ($check == FALSE)) {
 										//try to update
 	                                    mysql_query("SET NAMES utf8");
-		                                $query = "UPDATE `users` SET `user_name`='$user_name', `first_name`='$first_name', `last_name`='$last_name', `email`='$email', `phone`='$phone', `level`='$level', `status`='$status', `info`='$info', `device`='$device', `buildings`='$buildings', `klimas`='$klimas' WHERE `id`='$uid'";
+		                                $query = "UPDATE `users` SET `user_name`='".$user_name."', `first_name`='".$first_name."', `last_name`='".$last_name."', `email`='".$email."', `phone`='".$phone."', `level`='".$level."', `status`='".$status."', `init_lang`='".$ilang."', `info`='".$info."', `device`='".$device."', `buildings`='".$buildings."', `klimas`='".$klimas."' WHERE `id`='".$uid."'";
                                         $result = mysql_query($query);
                                         confirm_query($result);
                                         if ($result) {
 											//updated successfully
                                             echo "<div class=\"panel panel-primary\">";
                                             echo "<div class=\"panel-heading\">
-                                                      ".get_lang($lang, 'k107')."
+                                                      ".get_lang($lang,'k107')."
                                                   </div>";
 										    echo "<div class=\"panel-body\"><div class=\"alert alert-success\">";
-                                            echo get_lang($lang, 'k108');
+                                            echo get_lang($lang,'k108');
                                             echo "</div></div></div>";
-				                            $url = "users.php?lang=".$lang;
+                                            if ($user_settings['user_name'] == $user_name) {
+												$url = "users.php?lang=".$ilang;
+											} else {
+												$url = "users.php?lang=".$lang;
+											}
 				                            redir($url,'2');
 										} else {
 											//error with update
                                             echo "<div class=\"panel panel-primary\">";
                                             echo "<div class=\"panel-heading\">
-                                                      ".get_lang($lang, 'k107')."
+                                                      ".get_lang($lang,'k107')."
                                                   </div>";
 										    echo "<div class=\"panel-body\"><div class=\"alert alert-danger\">";
-                                            echo get_lang($lang, 'k33');
+                                            echo get_lang($lang,'k33');
                                             echo "</div></div>";
 											echo "<div class=\"panel-footer\">";
-                                            echo "<button type=\"button\" class=\"btn btn-primary btn-lg\" onClick=\"javascript: history.go(-1); return false;\"><i class=\"fa fa-arrow-left\"></i>&nbsp;".get_lang($lang, 'k34')."</button>";
+                                            echo "<button type=\"button\" class=\"btn btn-primary btn-lg\" onClick=\"javascript: history.go(-1); return false;\"><i class=\"fa fa-arrow-left\"></i>&nbsp;".get_lang($lang,'k34')."</button>";
                                             echo "</div></div>";
 										} 
 									} else {
 										//can't update //name exists already in database
                                         echo "<div class=\"panel panel-primary\">";
                                         echo "<div class=\"panel-heading\">
-                                                  ".get_lang($lang, 'k107')."
+                                                  ".get_lang($lang,'k107')."
                                               </div>";
 										echo "<div class=\"panel-body\"><div class=\"alert alert-danger\">";
-                                        echo get_lang($lang, 'k109');
+                                        echo get_lang($lang,'k109');
                                         echo "</div></div>";
 										echo "<div class=\"panel-footer\">";
-                                        echo "<button type=\"button\" class=\"btn btn-primary btn-lg\" onClick=\"javascript: history.go(-1); return false;\"><i class=\"fa fa-arrow-left\"></i>&nbsp;".get_lang($lang, 'k34')."</button>";
+                                        echo "<button type=\"button\" class=\"btn btn-primary btn-lg\" onClick=\"javascript: history.go(-1); return false;\"><i class=\"fa fa-arrow-left\"></i>&nbsp;".get_lang($lang,'k34')."</button>";
                                         echo "</div></div>";
 									} 			
 								} else {
 									//error //not submited
                                     echo "<div class=\"panel panel-primary\">";
                                     echo "<div class=\"panel-heading\">
-                                              ".get_lang($lang, 'k107')."
+                                              ".get_lang($lang,'k107')."
                                           </div>";
 									echo "<div class=\"panel-body\"><div class=\"alert alert-danger\">";
-                                    echo get_lang($lang, 'k33');
+                                    echo get_lang($lang,'k33');
                                     echo "</div></div>";
 								    echo "<div class=\"panel-footer\">";
-                                    echo "<button type=\"button\" class=\"btn btn-primary btn-lg\" onClick=\"javascript: history.go(-1); return false;\"><i class=\"fa fa-arrow-left\"></i>&nbsp;".get_lang($lang, 'k34')."</button>";
+                                    echo "<button type=\"button\" class=\"btn btn-primary btn-lg\" onClick=\"javascript: history.go(-1); return false;\"><i class=\"fa fa-arrow-left\"></i>&nbsp;".get_lang($lang,'k34')."</button>";
                                     echo "</div></div>";
 								}
 							?>
@@ -357,16 +366,16 @@ check_login($lang,$web_dir);
                     <div class="col-lg-12">
                         <div class="panel panel-danger">
                             <div class="panel-heading">
-                                <?php echo get_lang($lang, 'Error'); ?>
+                                <?php echo get_lang($lang,'Error'); ?>
                             </div>
                             <div class="panel-body">
 							    <div class="alert alert-warning">
-                                    <?php echo get_lang($lang, 'k30'); ?>
+                                    <?php echo get_lang($lang,'k30'); ?>
 								</div>
                             </div>
                             <div class="panel-footer">
                                 <button type="button" class="btn btn-primary btn-lg" onClick="document.location.href = 'index.php?lang=<?=$lang?>'">
-								    <i class="fa fa-times"></i>&nbsp;<?php echo get_lang($lang, 'k28'); ?></button>
+								    <i class="fa fa-times"></i>&nbsp;<?php echo get_lang($lang,'k28'); ?></button>
                             </div>
                         </div>
                     </div>
