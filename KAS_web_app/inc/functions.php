@@ -189,6 +189,14 @@ function get_klima_settings($kinv) {
     $klima_settings = mysql_fetch_array($result);
     return $klima_settings;
 }
+function count_klimas($router) {
+	$count = 0;
+    $query = "SELECT `inv` FROM `klimatiki` WHERE `router`='".$router."'";
+    $result = mysql_query($query);
+    confirm_query($result);
+	$count=mysql_num_rows($result);
+	return $count;
+}
 function check_router_name($router) {
     $query = "SELECT `router_name` FROM `routers` WHERE `router_name`='".$router."'";
     $result = mysql_query($query);

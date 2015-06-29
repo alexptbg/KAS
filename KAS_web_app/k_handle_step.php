@@ -44,6 +44,33 @@ if ($command == "ST") {//mode
 	}
 	elseif ($klima == "07") {
 	    $cc = array("$addr","16","00","33","00","01","02","00","$step");
+	}
+	elseif ($klima == "08") {
+	    $cc = array("$addr","16","00","38","00","01","02","00","$step");
+	}
+	elseif ($klima == "09") {
+	    $cc = array("$addr","16","00","43","00","01","02","00","$step");
+	}
+	elseif ($klima == "10") {
+	    $cc = array("$addr","16","00","48","00","01","02","00","$step");
+	}
+	elseif ($klima == "11") {
+	    $cc = array("$addr","16","00","53","00","01","02","00","$step");
+	}
+	elseif ($klima == "12") {
+	    $cc = array("$addr","16","00","58","00","01","02","00","$step");
+	}
+	elseif ($klima == "13") {
+	    $cc = array("$addr","16","00","63","00","01","02","00","$step");
+	}
+	elseif ($klima == "14") {
+	    $cc = array("$addr","16","00","68","00","01","02","00","$step");
+	}
+	elseif ($klima == "15") {
+	    $cc = array("$addr","16","00","73","00","01","02","00","$step");
+	}
+	elseif ($klima == "16") {
+	    $cc = array("$addr","16","00","78","00","01","02","00","$step");
 	}	
 }
 foreach ($cc as $e) {//dehex frame

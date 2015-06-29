@@ -13,7 +13,7 @@ check_login($lang,$web_dir);
 //index only
 include('inc/moon.php');
 //arduino inside temp controllers
-$inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_0004_2015_1.0");
+$inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_0004_2015_1.0","AR_0005_2015_1.0","AR_0006_2015_1.0");
 ?>
 <head>
         <title><?=$slogan?></title>
@@ -26,7 +26,7 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
         <link type="text/css" rel="stylesheet" href="css/mint-admin.css" />
         <link type="text/css" rel="stylesheet" href="css/weather.css" />
         <link type="text/css" rel="stylesheet" href="css/iconmoon.min.css" />
-        
+        <link type="text/css" rel="stylesheet" href="css/ka-ex.css" /><!--icon ka-thermometer-->
         <script type="text/javascript" src="js/jquery-1.10.2.js"></script>
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
@@ -35,7 +35,6 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 		<script type="text/javascript" src="js/skycons.js"></script>
 		<script type="text/javascript" src="js/index.js"></script>
 		<script type="text/javascript" src="js/ka-ex.js"></script>
-		<!-- End audio -->
 		<script type="text/javascript">
         function get_live_out() {
 	        setInterval(function () {
@@ -71,30 +70,30 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 		        success: function(weather) {
 			        low = weather.low-3;
 			        high = weather.high-1;
-			        if (weather.code == 26) { var condition = Skycons.CLOUDY; var prog = "Облачно"; }
-			        else if (weather.code == 27) { var condition = Skycons.PARTLY_CLOUDY_NIGHT; var prog = "Облачно"; }
-			        else if (weather.code == 28) { var condition = Skycons.PARTLY_CLOUDY_DAY; var prog = "Облачно"; }
-			        else if (weather.code == 29) { var condition = Skycons.PARTLY_CLOUDY_NIGHT; var prog = "Предимно облачно"; }
-			        else if (weather.code == 30) { var condition = Skycons.PARTLY_CLOUDY_DAY; var prog = "Предимно облачно"; }
-			        else if (weather.code == 31) { var condition = Skycons.CLEAR_NIGHT; var prog = "Слънчево"; }
-			        else if (weather.code == 32) { var condition = Skycons.CLEAR_DAY; var prog = "Слънчево"; }
-			        else if (weather.code == 11) { var condition = Skycons.RAIN; var prog = "Преваляване"; }//test
-			        else if (weather.code == 12) { var condition = Skycons.RAIN; var prog = "Преваляване"; }//test
-			        else if (weather.code == 18) { var condition = Skycons.SLEET; var prog = "Лапавица"; }
-			        else if (weather.code == 16) { var condition = Skycons.SNOW; var prog = "Сняг"; }
-			        else if (weather.code == 24) { var condition = Skycons.WIND; var prog = "Вятър"; }
-			        else if (weather.code == 20) { var condition = Skycons.FOG; var prog = "Мъгливо" }
-			        else if (weather.code == 42) { var condition = Skycons.SNOW; var prog = "Mалко сняг" }
-			        else if (weather.code == 14) { var condition = Skycons.SNOW; var prog = "Mалко сняг" }
-			        //now = weather.temp+' &deg;'+weather.units.temp;
-			        $("span.wi").html('<span class="w icon-'+weather.code+'"></span>');
-			        html = '<p><strong>Макс: </strong><span>'+high+' &deg;'+weather.units.temp+'</span><br/>';
-			        html += '<strong>Минимална: </strong><span>'+low+' &deg;'+weather.units.temp+'</span><br/>';
-			        html += '<strong>Влажност: </strong><span>'+weather.humidity+' %</span><br/>';
-			        html += '<strong>Налягане: </strong><span>'+weather.pressure+' mb</span><br/>';
-			        html += '<strong>Ветрове: </strong><span>'+weather.wind.direction+' '+weather.wind.speed+' '+weather.units.speed+'</span><br/>';
+			        if (weather.code == 26) { var condition = Skycons.CLOUDY; var prog = "<?php echo get_lang($lang,'k254'); ?>"; }
+			        else if (weather.code == 27) { var condition = Skycons.PARTLY_CLOUDY_NIGHT; var prog = "<?php echo get_lang($lang,'k254'); ?>"; }
+			        else if (weather.code == 28) { var condition = Skycons.PARTLY_CLOUDY_DAY; var prog = "<?php echo get_lang($lang,'k254'); ?>"; }
+			        else if (weather.code == 29) { var condition = Skycons.PARTLY_CLOUDY_NIGHT; var prog = "<?php echo get_lang($lang,'k255'); ?>"; }
+			        else if (weather.code == 30) { var condition = Skycons.PARTLY_CLOUDY_DAY; var prog = "<?php echo get_lang($lang,'k255'); ?>"; }
+			        else if (weather.code == 31) { var condition = Skycons.CLEAR_NIGHT; var prog = "<?php echo get_lang($lang,'k256'); ?>"; }
+			        else if (weather.code == 32) { var condition = Skycons.CLEAR_DAY; var prog = "<?php echo get_lang($lang,'k256'); ?>"; }
+			        else if (weather.code == 11) { var condition = Skycons.RAIN; var prog = "<?php echo get_lang($lang,'k257'); ?>"; }//test
+			        else if (weather.code == 12) { var condition = Skycons.RAIN; var prog = "<?php echo get_lang($lang,'k257'); ?>"; }//test
+			        else if (weather.code == 18) { var condition = Skycons.SLEET; var prog = "<?php echo get_lang($lang,'k258'); ?>"; }
+			        else if (weather.code == 16) { var condition = Skycons.SNOW; var prog = "<?php echo get_lang($lang,'k259'); ?>"; }
+			        else if (weather.code == 24) { var condition = Skycons.WIND; var prog = "<?php echo get_lang($lang,'k260'); ?>"; }
+			        else if (weather.code == 20) { var condition = Skycons.FOG; var prog = "<?php echo get_lang($lang,'k261'); ?>" }
+			        else if (weather.code == 42) { var condition = Skycons.SNOW; var prog = "<?php echo get_lang($lang,'k262'); ?>" }
+			        else if (weather.code == 14) { var condition = Skycons.SNOW; var prog = "<?php echo get_lang($lang,'k262'); ?>" }
+			        now = weather.temp+' &deg;'+weather.units.temp;
+			        $("span.wi").html('<span class="wl icon-'+weather.code+'"></span>');
+			        html = '<p><strong><?php echo get_lang($lang,'k249'); ?>: </strong><span>'+high+' &deg;'+weather.units.temp+'</span><br/>';
+			        html += '<strong><?php echo get_lang($lang,'k250'); ?>: </strong><span>'+low+' &deg;'+weather.units.temp+'</span><br/>';
+			        html += '<strong><?php echo get_lang($lang,'k251'); ?>: </strong><span>'+weather.humidity+' %</span><br/>';
+			        html += '<strong><?php echo get_lang($lang,'k252'); ?>: </strong><span>'+weather.pressure+' mb</span><br/>';
+			        html += '<strong><?php echo get_lang($lang,'k253'); ?>: </strong><span>'+weather.wind.direction+' '+weather.wind.speed+' '+weather.units.speed+'</span><br/>';
 			        //html += '<span>'+weather.code+'</span><br/>';
-			        html += '<span>'+prog+'</span></p>';
+			        html += '<span><strong>'+prog+'</strong></span></p>';
 			        $("#weather").html(html);
 			        var v=new Skycons({"color": "#FFFFFF","resizeClear": true});v.add("icon",condition);v.play();
 		        },
@@ -250,10 +249,15 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 							                $klimas_all_list[] = $klimas_all['inv'];
 					                    }
 					                }
-					                if (!empty($klimas_all_list)) {										
+					                if (!empty($klimas_all_list)) {
+					                	$z=0;
+					                	foreach ($klimas_all_list as $klima) {
+					                	    if (in_array($klima,$klimas_u_all)) { $z++; }
+					                	}
 						                echo "
                                              <li>
-                                                 <a href=\"#\"><i class=\"fa fa-th fa-fw fa-3x\"></i> ".$building."<span class=\"fa arrow\"></span></a>
+                                                 <a href=\"#\"><i class=\"fa fa-th fa-fw fa-3x\"></i>&nbsp;".$building."&nbsp;
+                                                     <span class=\"kcount\">".$z."</span><span class=\"fa arrow\"></span></a>
 							                     <ul class=\"nav nav-second-level\">";
 						                foreach ($klimas_all_list as $klima) {
 											if (in_array($klima,$klimas_u_all)) {
@@ -268,7 +272,7 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 									}
 							    }
 						    }
-						//all klimas by router
+						//all klimas by router //status for admins //all klimas by building//router
                         if ($user_settings['level'] > 10) {
 						echo "
                         <li>
@@ -288,6 +292,24 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 							}
                             echo "
                         </li>";
+                        //all klimas by router by user //status for users
+						} elseif ($user_settings['level'] == 10) {
+                            //get routers by user
+                            if (!empty($buildings)) {
+						echo "
+                        <li>
+                            <a href=\"#\"><i class=\"fa fa-exclamation-circle fa-fw fa-3x\"></i> ".get_lang($lang, 'k90')."
+							    <span class=\"fa arrow\"></span></a>";
+							    echo "<ul class=\"nav nav-second-level\">";
+	                            foreach ($buildings as $building) {
+									echo "
+                                        <li><a href=\"status.php?lang=".$lang."&router=".$building."\">
+										    ".$building."</a></li>";
+	                            }
+	                    echo "
+	                        </ul>
+                        </li>";
+	                        }
 						}
                         //by addr
 						if ($user_settings['level'] > 10) {
@@ -346,7 +368,7 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 											while ($routerx = mysql_fetch_array($result)) {
 												echo "<li class=\"\">
 											          <a href=\"klimatiki.php?lang=".$lang."&id={$routerx['id']}&router={$routerx['router_name']}\">
-											          ".$routerx['router_name']."</a></li>";
+											          ".$routerx['router_name']."&nbsp;&nbsp;<span class=\"kcount\">".count_klimas($routerx['router_name'])."</span></a></li>";
 											}
 											echo "</ul>";
 										} else {
@@ -408,7 +430,7 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 								<span id="up"></span>
                             </div>
                             <div class="panel-footer">
-                                <span class="panel-eyecandy-title"><?php echo get_lang($lang,'k62');?>&nbsp;-&nbsp;<?php echo get_lang($lang,'k64');?></span>
+                                <h5 class="hindex"><?php echo get_lang($lang,'k62');?>&nbsp;-&nbsp;<?php echo get_lang($lang,'k64');?></h5>
                             </div>
                         </div>
                     </div>
@@ -419,7 +441,7 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
                                 <div id="weather"></div>
                             </div>
                             <div class="panel-footer">
-                                <span class="panel-eyecandy-title"><?php echo get_lang($lang,'k63');?>&nbsp;-&nbsp;<?php echo get_lang($lang,'k64');?></span>
+                                <h5 class="hindex"><?php echo get_lang($lang,'k63');?>&nbsp;-&nbsp;<?php echo get_lang($lang,'k64');?></h5>
                             </div>
                         </div>
                     </div>
@@ -440,7 +462,7 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 								</div>
                             </div>
                             <div class="panel-footer">
-                                <span class="panel-eyecandy-title"><?php echo get_lang($lang,'k195'); ?></span>
+                                <h5 class="hindex"><?php echo get_lang($lang,'k195'); ?></h5>
                             </div>
                         </div>
                     </div>
@@ -480,7 +502,7 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 								</div>
                             </div>
                             <div class="panel-footer">
-                                <span class="panel-eyecandy-title"><?php echo get_lang($lang,'k66'); ?></span>
+                                <h5 class="hindex"><?php echo get_lang($lang,'k66'); ?></h5>
                             </div>
                         </div>
                     </div>
@@ -488,6 +510,19 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 
                 <?php
                     //another warnings
+                    /*
+                        echo "
+                <div class=\"row\">
+                    <div class=\"col-lg-12\">
+                        <div class=\"panel panel-danger\">
+                            <div class=\"panel-heading\">".get_lang($lang,'k152')."</div>
+                            <div class=\"panel-body\">
+                                <div class=\"alert alert-danger\">Климатици са в ремонт. не пипай...</div>
+                            </div>
+                        </div>
+                    </div>
+				</div>";
+				*/
                     /*
                         echo "
                 <div class=\"row\">
@@ -556,6 +591,8 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 					}
 					*/
                 ?>
+                
+                <!--
                 <div class="row">
                     <?php include('inc/tables.php'); ?>
                     <script type="text/javascript">
@@ -569,6 +606,53 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
                     </script>
                     <div id="data"></div>
                 </div>
+                
+                <div class="row">
+                    <script type="text/javascript">
+                        $(function() {
+ 	                        $('#data2').load('k_u.php?lang=<?=$lang?>&user=<?=$user_settings["user_name"]?>&router=Boss&x=');
+                            var refreshId = setInterval(function() {
+                                    $('#data2').load('k_u.php?lang=<?=$lang?>&user=<?=$user_settings["user_name"]?>&router=Boss&x='+ Math.random());
+                            }, 15000);
+                            /*$.ajaxSetup({ cache: false });*/
+                        });
+                    </script>
+                    <div id="data2"></div>
+                </div>
+                -->
+                
+                <?php
+                            if (!empty($buildings)) {
+                            	$y=count($buildings);
+	                            if ($y == 1) {
+									$div = "col-lg-12";
+								} elseif ($y == 2) {
+									$div = "col-xs-12 col-sm-6 col-md-6";
+								}
+				echo "
+				<div class=\"row\">
+				";
+	                            foreach ($buildings as $building) {
+                                    echo "
+                    <div class=\"".$div."\">
+                      <a href=\"klima_l.php?lang=".$lang."&user=".$user_settings["user_name"]."&router=".$building."\" class=\"no_underline\">
+                        <div class=\"panel panel-primary text-center panel-eyecandy\">
+                            <div class=\"panel-body peter-river bindex\">
+								<h1><i class=\"icon ka-modem fa-3x\"></i></h1>
+                            </div>
+                            <div class=\"panel-footer\">
+                                <h4 class=\"hindex\">".$building."</h4>
+                            </div>
+                        </div>
+                      </a>
+                    </div>
+                                    ";
+	                            }
+	                        }
+                echo "
+                </div>
+                ";
+                ?>
             </div>
         </div>
 		<a href="#" id="toTop"><i class="fa fa-arrow-up"></i></a>

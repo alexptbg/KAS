@@ -24,14 +24,53 @@ span.w {
     line-height: 1.0;
     overflow: hidden;
 }
+span.wil {
+    margin-top: -10px;
+    margin-left: 0px;
+	padding-top: 0;
+	position: relative;
+	display: inline-block;
+	float: right;
+}
+span.wl {
+    color: #fff;
+    font-family: weather;
+    font-size: 90px;
+    font-weight: 900;
+    font-style: normal;
+    line-height: 1.0;
+    overflow: hidden;
+}
+.systeml {
+	margin-top:15px;
+}
+.systeml p {
+	line-height:6px;
+	font-size: 12px;
+	font-weight: 500;
+	text-transform: uppercase;
+}
+.systeml p strong {
+	font-weight: 600;
+	font-size: 12px;
+}
+.systeml p span {
+	font-weight: 400;
+	font-size: 14px;
+}
+.sz40l {
+	float: right;
+	font-size: 50px;
+}
 #weather {
-	margin-top:-30px;
+	margin-top:-24px;
 }
 #weather p {
 	text-align: right;
 	text-transform: uppercase;
 	line-height: 16px;
 	font-size: 12px;
+	font-weight: 500;
 }
 #weather p strong {
 	font-weight: 600;
@@ -39,6 +78,50 @@ span.w {
 #weather p span {
 	font-weight: 400;
 	font-size: 14px;
+}
+#weatherl {
+	margin-top:10px;
+}
+#weatherl p {
+	line-height:15px;
+	font-size: 12px;
+	font-weight: 500;
+	text-transform: uppercase;
+}
+#weatherl p strong {
+	font-weight: 600;
+}
+#weatherl p span {
+	font-weight: 400;
+	font-size: 14px;
+}
+#weatherl p span:last-child {
+    line-height:25px;
+}
+#weather p span:last-child {
+    line-height:25px;
+}
+.nowl {
+	margin: 0 auto;
+	padding: 0;
+	display: inline-block;
+	float:right;
+	width:80px;
+	position: absolute;
+	right:30px;
+	margin-top: 80px;
+}
+.nowl small {
+	padding-left:12px;
+	font-size: 8px;
+	text-align: right;
+	text-transform: uppercase;
+	line-height:14px;
+	color: #adadad;
+}
+.nowl p {
+	line-height:14px;
+	font-size:30px;
 }
 .icon-0:before { content: ":"; }
 .icon-1:before { content: "p"; }

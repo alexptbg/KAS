@@ -135,9 +135,14 @@ $r = $_GET['router'];
 					                    }
 					                }
 					                if (!empty($klimas_all_list)) {										
+					                	$z=0;
+					                	foreach ($klimas_all_list as $klima) {
+					                	    if (in_array($klima,$klimas_u_all)) { $z++; }
+					                	}
 						                echo "
                                              <li>
-                                                 <a href=\"#\"><i class=\"fa fa-th fa-fw fa-3x\"></i> ".$building."<span class=\"fa arrow\"></span></a>
+                                                 <a href=\"#\"><i class=\"fa fa-th fa-fw fa-3x\"></i>&nbsp;".$building."&nbsp;
+                                                     <span class=\"kcount\">".$z."</span><span class=\"fa arrow\"></span></a>
 							                     <ul class=\"nav nav-second-level\">";
 						                foreach ($klimas_all_list as $klima) {
 											if (in_array($klima,$klimas_u_all)) {
@@ -152,7 +157,7 @@ $r = $_GET['router'];
 									}
 							    }
 						    }
-						//all klimas by router
+						//all klimas by router //status for admins //all klimas by building//router
                         if ($user_settings['level'] > 10) {
 						echo "
                         <li class=\"active\">
@@ -178,6 +183,30 @@ $r = $_GET['router'];
 							}
                             echo "
                         </li>";
+                        //all klimas by router by user //status for users
+						} elseif ($user_settings['level'] == 10) {
+                            //get routers by user
+                            if (!empty($buildings)) {
+						echo "
+                        <li class=\"active\">
+                            <a href=\"#\" class=\"active\"><i class=\"fa fa-exclamation-circle fa-fw fa-3x\"></i> ".get_lang($lang,'k90')."
+							    <span class=\"fa arrow\"></span></a>";
+							    echo "<ul class=\"nav nav-second-level\">";
+	                            foreach ($buildings as $building) {
+	                            	if ($building == $r) {
+									echo "
+                                        <li><a href=\"status.php?lang=".$lang."&router=".$building."\" class=\"active\">
+										    ".$building."</a></li>";
+									} else {
+									echo "
+                                        <li><a href=\"status.php?lang=".$lang."&router=".$building."\">
+										    ".$building."</a></li>";
+									}
+	                            }
+	                    echo "
+	                        </ul>
+                        </li>";
+	                        }
 						}
                         //by addr
 						if ($user_settings['level'] > 10) {
@@ -236,7 +265,7 @@ $r = $_GET['router'];
 											while ($routerx = mysql_fetch_array($result)) {
 												echo "<li class=\"\">
 											          <a href=\"klimatiki.php?lang=".$lang."&id={$routerx['id']}&router={$routerx['router_name']}\">
-											          ".$routerx['router_name']."</a></li>";
+											          ".$routerx['router_name']."&nbsp;&nbsp;<span class=\"kcount\">".count_klimas($routerx['router_name'])."</span></a></li>";
 											}
 											echo "</ul>";
 										} else {
@@ -290,7 +319,7 @@ $r = $_GET['router'];
                     <div class="col-lg-12">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
-                                <?php echo get_lang($lang, 'k128')." ".get_lang($lang, 'k10'); ?>
+                                <?php echo get_lang($lang,'k128')." ".get_lang($lang,'k10'); ?>
                             </div>
                             <div class="panel-body">
                                 <?php include('inc/tables.php'); ?>
@@ -307,21 +336,43 @@ $r = $_GET['router'];
                         </div>
                     </div>
 				</div>
+				<?php elseif ($user_settings['level'] == 10): ?>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <?php echo get_lang($lang,'k128')." ".get_lang($lang,'k10'); ?>
+                            </div>
+                            <div class="panel-body">
+                                <?php include('inc/tables.php'); ?>
+                                <script type="text/javascript">
+                                    $(function() {
+ 	                                    $('#data').load('k_a_by_u.php?lang=<?=$lang?>&router=<?=$r?>&x=');
+                                        var refreshId = setInterval(function() {
+                                            $('#data').load('k_a_by_u.php?lang=<?=$lang?>&router=<?=$r?>&x='+ Math.random());
+                                        }, 10000);
+                                    });
+                                </script>
+                                <div id="data"></div>
+                            </div>
+                        </div>
+                    </div>
+				</div>
 				<?php else: ?>		
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-danger">
                             <div class="panel-heading">
-                                <?php echo get_lang($lang, 'Error'); ?>
+                                <?php echo get_lang($lang,'Error'); ?>
                             </div>
                             <div class="panel-body">
 							    <div class="alert alert-warning">
-                                    <?php echo get_lang($lang, 'k30'); ?>
+                                    <?php echo get_lang($lang,'k30'); ?>
 								</div>
                             </div>
                             <div class="panel-footer">
                                 <button type="button" class="btn btn-primary btn-lg" onClick="document.location.href = 'index.php?lang=<?=$lang?>'; return false;">
-								    <i class="fa fa-times"></i>&nbsp;<?php echo get_lang($lang, 'k28'); ?></button>
+								    <i class="fa fa-times"></i>&nbsp;<?php echo get_lang($lang,'k28'); ?></button>
                             </div>
                         </div>
                     </div>

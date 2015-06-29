@@ -9,7 +9,8 @@ include('inc/config.php');
 check_login($lang,$web_dir);
 $u = $_GET['user'];
 $r = $_GET['router'];
-$query = "SELECT `klimas` FROM `users` WHERE `user_name`='$u'";
+
+$query = "SELECT `klimas` FROM `users` WHERE `user_name`='".$u."'";
 $result = mysql_query($query);
 confirm_query($result);
 if (mysql_num_rows($result) != 0) {
@@ -26,7 +27,7 @@ if (!empty($klimas)) {
 		echo "
             <div class=\"col-lg-12\">
                 <div class=\"panel panel-danger\">
-                    <div class=\"panel-heading\">".get_lang($lang, 'Error')."</div>
+                    <div class=\"panel-heading\">".get_lang($lang,'Error')."</div>
                     <div class=\"panel-body\">
 					    <div class=\"alert alert-warning\">
                             ".get_lang($lang,'k124')."

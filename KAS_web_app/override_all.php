@@ -134,9 +134,14 @@ $ad = $_GET['addr'];
 					                    }
 					                }
 					                if (!empty($klimas_all_list)) {										
+					                	$z=0;
+					                	foreach ($klimas_all_list as $klima) {
+					                	    if (in_array($klima,$klimas_u_all)) { $z++; }
+					                	}
 						                echo "
                                              <li>
-                                                 <a href=\"#\"><i class=\"fa fa-th fa-fw fa-3x\"></i> ".$building."<span class=\"fa arrow\"></span></a>
+                                                 <a href=\"#\"><i class=\"fa fa-th fa-fw fa-3x\"></i>&nbsp;".$building."&nbsp;
+                                                     <span class=\"kcount\">".$z."</span><span class=\"fa arrow\"></span></a>
 							                     <ul class=\"nav nav-second-level\">";
 						                foreach ($klimas_all_list as $klima) {
 											if (in_array($klima,$klimas_u_all)) {
@@ -171,6 +176,24 @@ $ad = $_GET['addr'];
 							}
                             echo "
                         </li>";
+                        //all klimas by router by user //status for users
+						} elseif ($user_settings['level'] == 10) {
+                            //get routers by user
+                            if (!empty($buildings)) {
+						echo "
+                        <li>
+                            <a href=\"#\"><i class=\"fa fa-exclamation-circle fa-fw fa-3x\"></i> ".get_lang($lang, 'k90')."
+							    <span class=\"fa arrow\"></span></a>";
+							    echo "<ul class=\"nav nav-second-level\">";
+	                            foreach ($buildings as $building) {
+									echo "
+                                        <li><a href=\"status.php?lang=".$lang."&router=".$building."\">
+										    ".$building."</a></li>";
+	                            }
+	                    echo "
+	                        </ul>
+                        </li>";
+	                        }
 						}
                         //by addr
 						if ($user_settings['level'] > 10) {
@@ -229,7 +252,7 @@ $ad = $_GET['addr'];
 											while ($routerx = mysql_fetch_array($result)) {
 												echo "<li class=\"\">
 											          <a href=\"klimatiki.php?lang=".$lang."&id={$routerx['id']}&router={$routerx['router_name']}\">
-											          ".$routerx['router_name']."</a></li>";
+											          ".$routerx['router_name']."&nbsp;&nbsp;<span class=\"kcount\">".count_klimas($routerx['router_name'])."</span></a></li>";
 											}
 											echo "</ul>";
 										} else {
@@ -278,16 +301,114 @@ $ad = $_GET['addr'];
                     </div>
                 </div>
                 <!-- /.col-lg-12 -->
-				
-				
-				
-				
-				
-				
-				
-				
-				
 				<?php if ($user_settings['level'] > 10): ?>
+				
+                <div class="row">
+                <?php
+			        //get all routers
+                    $query = "SELECT * FROM `routers` ORDER BY `router_name` ASC";
+                    $result = mysql_query($query);
+                    confirm_query($result);
+                    if (mysql_num_rows($result) != 0) {
+                        while($routers = mysql_fetch_array($result)) {
+		                    $routers_list[] = $routers['router_name'];
+	                    }
+                    }
+                    if (!empty($routers_list)) {
+                    	$x=0;
+                        foreach($routers_list as $router) {
+                        	$r_settings = get_rout_settings($router);
+							echo "
+                    <div class=\"col-lg-6\">
+                        <div class=\"panel panel-danger\">
+                            <div class=\"panel-heading\">".$router."</div>
+                            <div class=\"panel-body\">
+                                <ul class=\"nav nav-pills\">
+                                    <li class=\"active\"><a href=\"#home-pills-".$x."\" data-toggle=\"tab\">".get_lang($lang,'k132')."</a></li>
+                                    <li><a href=\"#profile-pills-".$x."\" data-toggle=\"tab\">".get_lang($lang, 'k128')." ".get_lang($lang, 'k10')."</a></li>
+                                </ul>
+                                <!-- Tab panes -->
+                                <div class=\"tab-content\">
+                                    <div class=\"tab-pane fade in active\" id=\"home-pills-".$x."\">
+                                    <br/>
+                              <center>
+                                <div class=\"btn-group btn-group-lg\" id=\"prog\">";
+								if ($r_settings['work_sche'] == "Off") {
+									echo "<button type=\"button\" class=\"btn btn-danger\" id=\"pg-".$x."-2\" disabled=\"disabled\">".get_lang($lang,'off')."</button>";
+								} else {
+									echo "<button type=\"button\" class=\"btn btn-danger\" id=\"pg-".$x."-2\">".get_lang($lang,'off')."</button>";
+								}
+								echo "<button type=\"button\" class=\"btn btn-default active\" disabled=\"disabled\">".get_lang($lang,'k90')."</button>";
+								if ($r_settings['work_sche'] == "On") {
+									echo "<button type=\"button\" class=\"btn btn-success\" id=\"pg-".$x."-1\" disabled=\"disabled\">".get_lang($lang,'on')."</button>";
+								} else {
+									echo "<button type=\"button\" class=\"btn btn-success\" id=\"pg-".$x."-1\">".get_lang($lang,'on')."</button>";
+								}
+							echo "<p>&nbsp;</p></div>
+                              </center>
+                              <script type=\"text/javascript\">
+                                  var pg = 'all';
+	                              var r = '".$router."';
+                                  $(function() {
+                                      $(\"#pg-".$x."-1\").on(\"click\", function (e) {
+			                              s_prog_all_".$x."(r,pg,'On');
+                                      });
+                                      $(\"#pg-".$x."-2\").on(\"click\", function (e) {
+			                              s_prog_all_".$x."(r,pg,'Off');
+                                      });
+                                  });
+                              </script>
+                            <div class=\"panel-footer\"> 
+                    <script type=\"text/javascript\">
+                        $(function() {
+ 	                        $('#wprog-".$x."').load('live_work_sche.php?lang=".$lang."&router=".$router."&x=');
+                            var refreshId = setInterval(function() {
+                                $('#wprog-".$x."').load('live_work_sche.php?lang=".$lang."&router=".$router."&x='+ Math.random()); 
+                            },2000);
+                        });
+                    </script>
+								<div id=\"wprog-".$x."\">Loading...</div>
+                            </div>
+                                    </div>
+                                    <div class=\"tab-pane fade\" id=\"profile-pills-".$x."\">
+<br/>
+<center>
+<div class=\"btn-group btn-group-lg\" id=\"mode\">
+   <button type=\"button\" class=\"btn btn-danger\" id=\"off-".$x."\">".get_lang($lang,'off')."</button>
+   <button type=\"button\" class=\"btn btn-default active\" id=\"med\" disabled=\"disabled\">".get_lang($lang,'k90')."</button>
+   <button type=\"button\" class=\"btn btn-success\" id=\"on-".$x."\">".get_lang($lang,'on')."</button>
+</div>
+<script type=\"text/javascript\">
+    var addr = '".$ad."x';
+    var router = '".$router."';
+    $(function() {
+        $(\"#off-".$x."\").on(\"click\", function (e) {
+			s_addr_".$x."(router,addr,'OFF');
+        });
+        $(\"#on-".$x."\").on(\"click\", function (e) {
+			s_addr_".$x."(router,addr,'ON');
+        });
+    });
+</script>
+</center>
+                                    <br/>    
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+							";
+							$x++;
+						}	
+                    }
+                ?>
+                    
+				</div>
+				<!-- /.row -->
+				
+				
+				
+				
 				<?php
 				    $r_settings = get_rout_settings('Strellson/Joop');
                         echo "
@@ -321,7 +442,8 @@ $ad = $_GET['addr'];
                     <div class=\"col-lg-6\">
                         <div class=\"panel panel-danger\">
                             <div class=\"panel-heading\">".get_lang($lang, 'k132')."</div>
-                            <div class=\"panel-body\"><center>
+                            <div class=\"panel-body\">
+                              <center>
                                 <div class=\"btn-group btn-group-lg\" id=\"prog\">";
 								if ($r_settings['work_sche'] == "Off") {
 									echo "<button type=\"button\" class=\"btn btn-danger\" id=\"pg-2\" disabled=\"disabled\">".get_lang($lang,'off')."</button>";
@@ -390,30 +512,60 @@ $ad = $_GET['addr'];
         <!-- /#wrapper -->
 		<a href="#" id="toTop"><i class="fa fa-arrow-up"></i></a>
 		<script type="text/javascript">
-function s_addr(addr,status) {
-    var postData = { 'action' : 'ADDR', 'addr' : addr, 'status' : status }; 
+function s_addr_0(r,addr,status) {
+    var postData = { 'router' : r, 'action' : 'ADDR', 'addr' : addr, 'status' : status }; 
     $.ajax({
         url: 'k_handle_all.php',
         type: 'post',
         data: postData,
         success: function(result) {
-			$("#off").attr("disabled", true);
-            $("#on").attr("disabled", true);
+			$("#off-0").attr("disabled", true);
+            $("#on-0").attr("disabled", true);
 		},
         error: function(xhr, status, error) {
 		    alert('error with s_addr');
         }
     });
 }
-function s_prog_all(r,pg,status) {
+function s_addr_1(r,addr,status) {
+    var postData = { 'router' : r, 'action' : 'ADDR', 'addr' : addr, 'status' : status }; 
+    $.ajax({
+        url: 'k_handle_all.php',
+        type: 'post',
+        data: postData,
+        success: function(result) {
+			$("#off-1").attr("disabled", true);
+            $("#on-1").attr("disabled", true);
+		},
+        error: function(xhr, status, error) {
+		    alert('error with s_addr');
+        }
+    });
+}
+function s_prog_all_0(r,pg,status) {
     var postData = { 'r': r, 'pg' : pg, 'status' : status }; 
     $.ajax({
         url: 'k_handle_prog_all.php',
         type: 'post',
         data: postData,
         success: function(result) {
-			$("#pg-1").attr("disabled", true);
-			$("#pg-2").attr("disabled", true);
+			$("#pg-0-1").attr("disabled", true);
+			$("#pg-0-2").attr("disabled", true);
+		},
+        error: function(xhr, status, error) {
+		    alert('error with s_prog_all');
+        }
+    });
+}
+function s_prog_all_1(r,pg,status) {
+    var postData = { 'r': r, 'pg' : pg, 'status' : status }; 
+    $.ajax({
+        url: 'k_handle_prog_all.php',
+        type: 'post',
+        data: postData,
+        success: function(result) {
+			$("#pg-1-1").attr("disabled", true);
+			$("#pg-1-2").attr("disabled", true);
 		},
         error: function(xhr, status, error) {
 		    alert('error with s_prog_all');

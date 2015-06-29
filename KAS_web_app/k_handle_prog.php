@@ -23,7 +23,7 @@ if (($r != NULL) && ($kinv != NULL)) {
 	$com = 'cmd';
 	$command = 'prog';
 	if ($prog != NULL) {
-        $query = "UPDATE `klimatiki` SET `prog`='$prog' WHERE `router`='$r' AND `inv`='$kinv'";
+        $query = "UPDATE `klimatiki` SET `prog`='".$prog."' WHERE `router`='".$r."' AND `inv`='".$kinv."'";
         $result = mysql_query($query);
         confirm_query($result);
         if ($result) {
