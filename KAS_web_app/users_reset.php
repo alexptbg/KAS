@@ -142,9 +142,14 @@ $usere = get_usere_settings($user,$uid);
 					                    }
 					                }
 					                if (!empty($klimas_all_list)) {										
+					                	$z=0;
+					                	foreach ($klimas_all_list as $klima) {
+					                	    if (in_array($klima,$klimas_u_all)) { $z++; }
+					                	}
 						                echo "
                                              <li>
-                                                 <a href=\"#\"><i class=\"fa fa-th fa-fw fa-3x\"></i> ".$building."<span class=\"fa arrow\"></span></a>
+                                                 <a href=\"#\"><i class=\"fa fa-th fa-fw fa-3x\"></i>&nbsp;".$building."&nbsp;
+                                                     <span class=\"kcount\">".$z."</span><span class=\"fa arrow\"></span></a>
 							                     <ul class=\"nav nav-second-level\">";
 						                foreach ($klimas_all_list as $klima) {
 											if (in_array($klima,$klimas_u_all)) {
@@ -179,6 +184,24 @@ $usere = get_usere_settings($user,$uid);
 							}
                             echo "
                         </li>";
+                        //all klimas by router by user //status for users
+						} elseif ($user_settings['level'] == 10) {
+                            //get routers by user
+                            if (!empty($buildings)) {
+						echo "
+                        <li>
+                            <a href=\"#\"><i class=\"fa fa-exclamation-circle fa-fw fa-3x\"></i> ".get_lang($lang, 'k90')."
+							    <span class=\"fa arrow\"></span></a>";
+							    echo "<ul class=\"nav nav-second-level\">";
+	                            foreach ($buildings as $building) {
+									echo "
+                                        <li><a href=\"status.php?lang=".$lang."&router=".$building."\">
+										    ".$building."</a></li>";
+	                            }
+	                    echo "
+	                        </ul>
+                        </li>";
+	                        }
 						}
                         //by addr
 						if ($user_settings['level'] > 10) {
@@ -237,7 +260,7 @@ $usere = get_usere_settings($user,$uid);
 											while ($routerx = mysql_fetch_array($result)) {
 												echo "<li class=\"\">
 											          <a href=\"klimatiki.php?lang=".$lang."&id={$routerx['id']}&router={$routerx['router_name']}\">
-											          ".$routerx['router_name']."</a></li>";
+											          ".$routerx['router_name']."&nbsp;&nbsp;<span class=\"kcount\">".count_klimas($routerx['router_name'])."</span></a></li>";
 											}
 											echo "</ul>";
 										} else {

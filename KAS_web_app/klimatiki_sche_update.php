@@ -142,15 +142,21 @@ include('inc/socket.php');
 					                    }
 					                }
 					                if (!empty($klimas_all_list)) {										
+					                	$z=0;
+					                	foreach ($klimas_all_list as $klima) {
+					                	    if (in_array($klima,$klimas_u_all)) { $z++; }
+					                	}					
 										if ($building == $r) {
 						                echo "
                                              <li class=\"active\">
-                                                 <a href=\"#\" class=\"active\"><i class=\"fa fa-th fa-fw fa-3x\"></i> ".$building."<span class=\"fa arrow\"></span></a>
+                                                 <a href=\"#\" class=\"active\"><i class=\"fa fa-th fa-fw fa-3x\"></i>&nbsp;".$building."&nbsp;
+                                                     <span class=\"kcount\">".$z."</span><span class=\"fa arrow\"></span></a>
 							                     <ul class=\"nav nav-second-level\">";
 										} else {
 						                echo "
                                              <li>
-                                                 <a href=\"#\"><i class=\"fa fa-th fa-fw fa-3x\"></i> ".$building."<span class=\"fa arrow\"></span></a>
+                                                 <a href=\"#\"><i class=\"fa fa-th fa-fw fa-3x\"></i>&nbsp;".$building."&nbsp;
+                                                     <span class=\"kcount\">".$z."</span><span class=\"fa arrow\"></span></a>
 							                     <ul class=\"nav nav-second-level\">";
 										}												 
 						                foreach ($klimas_all_list as $klima) {
@@ -193,6 +199,24 @@ include('inc/socket.php');
 							}
                             echo "
                         </li>";
+                        //all klimas by router by user //status for users
+						} elseif ($user_settings['level'] == 10) {
+                            //get routers by user
+                            if (!empty($buildings)) {
+						echo "
+                        <li>
+                            <a href=\"#\"><i class=\"fa fa-exclamation-circle fa-fw fa-3x\"></i> ".get_lang($lang, 'k90')."
+							    <span class=\"fa arrow\"></span></a>";
+							    echo "<ul class=\"nav nav-second-level\">";
+	                            foreach ($buildings as $building) {
+									echo "
+                                        <li><a href=\"status.php?lang=".$lang."&router=".$building."\">
+										    ".$building."</a></li>";
+	                            }
+	                    echo "
+	                        </ul>
+                        </li>";
+	                        }
 						}
                         //by addr
 						if ($user_settings['level'] > 10) {
@@ -251,7 +275,7 @@ include('inc/socket.php');
 											while ($routerx = mysql_fetch_array($result)) {
 												echo "<li class=\"\">
 											          <a href=\"klimatiki.php?lang=".$lang."&id={$routerx['id']}&router={$routerx['router_name']}\">
-											          ".$routerx['router_name']."</a></li>";
+											          ".$routerx['router_name']."&nbsp;&nbsp;<span class=\"kcount\">".count_klimas($routerx['router_name'])."</span></a></li>";
 											}
 											echo "</ul>";
 										} else {
@@ -316,7 +340,7 @@ include('inc/socket.php');
 									if (($uk_id != NULL) && ($uk_inv != NULL)) {
 										//try to update
 	                                    mysql_query("SET NAMES utf8");
-		                                $query = "UPDATE `klimatiki` SET `prog`='$uk_prog', `start_w`='$uk_start_w', `stop_w`='$uk_stop_w', `start_s`='$uk_start_s', `stop_s`='$uk_stop_s' WHERE `id`='$uk_id' AND `inv`='$uk_inv'";
+		                                $query = "UPDATE `klimatiki` SET `prog`='".$uk_prog."', `start_w`='".$uk_start_w."', `stop_w`='".$uk_stop_w."', `start_s`='".$uk_start_s."', `stop_s`='".$uk_stop_s."' WHERE `id`='".$uk_id."' AND `inv`='".$uk_inv."'";
                                         $result = mysql_query($query);
                                         confirm_query($result);
                                         if ($result) {
@@ -402,16 +426,16 @@ include('inc/socket.php');
                     <div class="col-lg-12">
                         <div class="panel panel-danger">
                             <div class="panel-heading">
-                                <?php echo get_lang($lang, 'Error'); ?>
+                                <?php echo get_lang($lang,'Error'); ?>
                             </div>
                             <div class="panel-body">
 							    <div class="alert alert-warning">
-                                    <?php echo get_lang($lang, 'k30'); ?>
+                                    <?php echo get_lang($lang,'k30'); ?>
 								</div>
                             </div>
                             <div class="panel-footer">
                                 <button type="button" class="btn btn-primary btn-lg" onClick="javascript: history.go(-1); return false;">
-								    <i class="fa fa-times"></i>&nbsp;<?php echo get_lang($lang, 'k28'); ?></button>
+								    <i class="fa fa-times"></i>&nbsp;<?php echo get_lang($lang,'k28'); ?></button>
                             </div>
                         </div>
                     </div>

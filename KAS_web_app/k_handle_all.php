@@ -8,11 +8,11 @@ DataBase::getInstance()->connect(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
 include('inc/config.php');
 check_login($lang,$web_dir);
 //turn off klimas by addr
+$router = $_POST['router'];
 $command = $_POST['action'];
 $addr = $_POST['addr'];
 $status = $_POST['status'];
 include('inc/socket.php');
-$router = 'Strellson/Joop';
 $r_options = get_rout_settings($router);
 $socket_ip = $r_options['ip_address'];
 $socket_port = $r_options['port'];

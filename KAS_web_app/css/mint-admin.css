@@ -318,7 +318,9 @@ a {
   overflow-y: scroll; }
 /* Login Page */
 .login-panel {
-  margin-top: 25%; }
+  margin-top:15%; 
+  vertical-align: middle;
+}
 .login-panel h3 span {
 	line-height: 22px;
 	vertical-align: middle;
@@ -739,6 +741,9 @@ a:hover.theme-color {
   background-color: #258cd1; }
 .text-theme-color, .text-theme-color * {
   color: #3498db; }
+.svetlo {
+	background-color:#480445;
+}
 .dropdown-messages-profile {
   margin-top: 3px;
   margin-right: 15px;
@@ -1646,7 +1651,11 @@ table#logs tr td.log-warning {
     margin-top: 20px;
 }
 .login-panel .panel-body .checkbox label {
-    color:#333333;
+    color:#FFFFFF;
+    text-transform: uppercase;
+}
+.login-panel .panel-body button {
+	text-transform: uppercase;
 }
 .clearboth {
 	clear: both;
@@ -1738,16 +1747,46 @@ a#sa:hover {
 .qrcode .qrimg img {
 	width:230px;
 	display: block;
-    /* IE 8 *//*
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-    /* IE 5-7 *//*
-    filter: alpha(opacity=50);
-    /* Netscape *//*
-    -moz-opacity: 0.5;
-    /* Safari 1.x *//*
-    -khtml-opacity: 0.5;
-    /* Good browsers *//*
-    opacity: 0.5;*/
     filter: invert(90%);
+}
+.kcount {
+	background-color: #2791D9;
+	color:#FFFFFF;
+	padding:2px 4px 3px 4px;
+	font-size:9px;
+    /* IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";
+    /* IE 5-7 */
+    filter: alpha(opacity=90);
+    /* Netscape */
+    -moz-opacity: 0.9;
+    /* Safari 1.x */
+    -khtml-opacity: 0.9;
+    /* Good browsers */
+    opacity: 0.9;
+} 
+a.no_underline {
+	color:#333;
+}
+a.no_underline:hover {
+	text-decoration: none;
+	color:#333;
+}
+h4.hindex {
+	text-transform:uppercase;
+	font-weight:400;
+	line-height:20px;
+	margin-top:10px;
+	font-size:16px;
+}
+h5.hindex {
+	text-transform:uppercase;
+	font-weight:400;
+	line-height:20px;
+	margin-top:10px;
+	font-size:14px;
+}
+.bindex:hover {
+	background-color: #333333;
 }
 /* end file */

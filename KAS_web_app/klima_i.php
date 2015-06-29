@@ -23,6 +23,7 @@ $k_settings = get_klima_settings($k);
         <link type="text/css" rel="stylesheet" href="css/bootstrap.css" />
         <link type="text/css" rel="stylesheet" href="css/font-awesome.min.css" />
         <link type="text/css" rel="stylesheet" href="css/mint-admin.css" />
+        <link type="text/css" rel="stylesheet" href="css/ka-ex.css" /><!--icon ka-thermometer-->
         <script type="text/javascript" src="js/jquery-1.10.2.js"></script>
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
@@ -101,6 +102,11 @@ $k_settings = get_klima_settings($k);
                         </a>
                     </li>
                     <li>
+                        <a href="klima_l.php?lang=<?=$lang?>&user=<?php echo $user_settings['user_name']; ?>&router=<?php echo $r; ?>">
+                            <i class="icon ka-modem fa-2x fa-fw"></i>
+                        </a>
+                    </li>
+                    <li>
                         <a href="" id="refresh">
                             <i class="fa fa-refresh fa-2x fa-fw"></i>
                         </a>
@@ -161,16 +167,22 @@ $k_settings = get_klima_settings($k);
 							                $klimas_all_list[] = $klimas_all['inv'];
 					                    }
 					                }
-					                if (!empty($klimas_all_list)) {										
+					                if (!empty($klimas_all_list)) {
+					                	$z=0;
+					                	foreach ($klimas_all_list as $klima) {
+					                	    if (in_array($klima,$klimas_u_all)) { $z++; }
+					                	}					
 										if ($building == $r) {
 						                echo "
                                              <li class=\"active\">
-                                                 <a href=\"#\" class=\"active\"><i class=\"fa fa-th fa-fw fa-3x\"></i> ".$building."<span class=\"fa arrow\"></span></a>
+                                                 <a href=\"#\" class=\"active\"><i class=\"fa fa-th fa-fw fa-3x\"></i>&nbsp;".$building."&nbsp;
+                                                     <span class=\"kcount\">".$z."</span><span class=\"fa arrow\"></span></a>
 							                     <ul class=\"nav nav-second-level\">";
 										} else {
 						                echo "
                                              <li>
-                                                 <a href=\"#\"><i class=\"fa fa-th fa-fw fa-3x\"></i> ".$building."<span class=\"fa arrow\"></span></a>
+                                                 <a href=\"#\"><i class=\"fa fa-th fa-fw fa-3x\"></i>&nbsp;".$building."&nbsp;
+                                                     <span class=\"kcount\">".$z."</span><span class=\"fa arrow\"></span></a>
 							                     <ul class=\"nav nav-second-level\">";
 										}												 
 						                foreach ($klimas_all_list as $klima) {
@@ -213,6 +225,24 @@ $k_settings = get_klima_settings($k);
 							}
                             echo "
                         </li>";
+                        //all klimas by router by user //status for users
+						} elseif ($user_settings['level'] == 10) {
+                            //get routers by user
+                            if (!empty($buildings)) {
+						echo "
+                        <li>
+                            <a href=\"#\"><i class=\"fa fa-exclamation-circle fa-fw fa-3x\"></i> ".get_lang($lang, 'k90')."
+							    <span class=\"fa arrow\"></span></a>";
+							    echo "<ul class=\"nav nav-second-level\">";
+	                            foreach ($buildings as $building) {
+									echo "
+                                        <li><a href=\"status.php?lang=".$lang."&router=".$building."\">
+										    ".$building."</a></li>";
+	                            }
+	                    echo "
+	                        </ul>
+                        </li>";
+	                        }
 						}
                         //by addr
 						if ($user_settings['level'] > 10) {
@@ -271,7 +301,7 @@ $k_settings = get_klima_settings($k);
 											while ($routerx = mysql_fetch_array($result)) {
 												echo "<li class=\"\">
 											          <a href=\"klimatiki.php?lang=".$lang."&id={$routerx['id']}&router={$routerx['router_name']}\">
-											          ".$routerx['router_name']."</a></li>";
+											          ".$routerx['router_name']."&nbsp;&nbsp;<span class=\"kcount\">".count_klimas($routerx['router_name'])."</span></a></li>";
 											}
 											echo "</ul>";
 										} else {

@@ -33,6 +33,9 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.ka-h3 {
+	font-size: 20px;
+}
 .ka-status {
     line-height: 6px;
 	font-weight: 400;
