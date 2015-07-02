@@ -6,7 +6,7 @@ include('inc/functions.php');
 include('inc/init.php');
 DataBase::getInstance()->connect(DB_SERVER,DB_USER,DB_PASS,DB_NAME);
 include('inc/config.php');
-$inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_0004_2015_1.0","AR_0005_2015_1.0");
+$inside = array("AR_0007_2015_1.0","AR_0006_2015_1.0");
 $color = array("#0ca8f3","#fba504","#06f406","#da29f3","#fe1b01","#0eafab");
 $i=0;
 foreach($inside as $ar) {
@@ -19,7 +19,7 @@ foreach($inside as $ar) {
 		    $places[] = $place['place'];
 	    }
     }
-	$sql[$i] = mysql_query("SELECT `timestamp`,`temp2` FROM `arduino_in_temp_60m` WHERE `ar_id`='".$ar."' GROUP BY `timestamp` ORDER BY `timestamp` ASC");
+	$sql[$i] = mysql_query("SELECT `timestamp`,`temp2` FROM `arduino_out_temp_60m` WHERE `ar_id`='".$ar."' GROUP BY `timestamp` ORDER BY `timestamp` ASC");
 	confirm_query($sql[$i]);
 	if (mysql_num_rows($sql[$i]) != 0) {
         while($row[$i] = mysql_fetch_array($sql[$i])) {

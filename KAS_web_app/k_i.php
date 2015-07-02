@@ -12,20 +12,21 @@ $b = $_GET['b'];
 $f = $_GET['f'];
 $i = $_GET['i'];
 $u = $_GET['u'];
+$ar_id = "AR_0007_2015_1.0";
 $r_settings = get_rout_settings($r);
 $datafile = "data/{$r_settings['data_file']}";
 if (file_exists($datafile)) { include("$datafile"); clear_cronk(); } 
 else { 
-		echo "
-            <div class=\"col-lg-12\">
-                <div class=\"panel panel-danger\">
-                    <div class=\"panel-heading\">".get_lang($lang, 'Error')."</div>
-                    <div class=\"panel-body\">
-					    <div class=\"alert alert-warning\">".get_lang($lang, 'k164')."</div>
-                    </div>
+	echo "
+        <div class=\"col-lg-12\">
+            <div class=\"panel panel-danger\">
+                <div class=\"panel-heading\">".get_lang($lang, 'Error')."</div>
+                <div class=\"panel-body\">
+				    <div class=\"alert alert-warning\">".get_lang($lang, 'k164')."</div>
                 </div>
-		    </div>";
-		exit; 
+            </div>
+		</div>";
+    exit; 
 }
 if (filesize($datafile)<500) {
 	echo "
@@ -86,29 +87,20 @@ if($klima['type'] == "1") { $class="primary"; } else { $class="success"; }
 if($klima['prog'] == "On") { $p_class1 = "success"; $p_class2 = "default"; $dis1 = "disabled=\"disabled\""; $dis2 = ""; }
 elseif($klima['prog'] == "Off") { $p_class1 = "default"; $p_class2 = "danger"; $dis1 = ""; $dis2 = "disabled=\"disabled\""; }
 if($in_temp < $set_point) { $f_class = "orange"; } else { $f_class = "emerald"; }
-//teste sa database
-$serverName = "192.168.17.10";
-$uid = "sa";
-$pwd = "icb99";
-$db = "SEMPirinTex";
-$connectionInfo = array("UID" => $uid, "PWD" => $pwd, "Database"=>"$db", "CharacterSet" => "UTF-8");
-$conn = sqlsrv_connect($serverName,$connectionInfo);
-if($conn) {
-     //do nothing
+//get values from database/arduino
+$query = "SELECT * FROM `arduino_out_temp` WHERE `ar_id`='".$ar_id."' ORDER BY `id` DESC LIMIT 1";
+$result = mysql_query($query);
+confirm_query($result);
+if (mysql_num_rows($result) != 0) {
+    while ($row = mysql_fetch_array($result)) {
+        //get values
+        $last_time = $row['datetime'];
+        $out_temp = number_format($row['temp2'],1);
+   	}
 } else {
-     die(print_r(sqlsrv_errors(), true));
+	$last_time = "error";
+	$out_temp = "error";
 }
-$sql = "SELECT TOP 1 * FROM Min5_Delta where param_code='Avg_7_S7' ORDER BY ID DESC";
-$stmt = sqlsrv_query($conn,$sql);
-if($stmt === false) {
-    die(print_r(sqlsrv_errors(),true));
-}
-while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
-    $out_temp = number_format($row['param_value'],2)."º";
-	$last_time = date_format($row['to_time'],"Y-m-d H:i:s");
-}
-sqlsrv_free_stmt($stmt);
-sqlsrv_close($conn);
 if($out_temp > $in_temp+1) { $s_class = "orange"; } else { $s_class = "emerald"; }
 //if ($mode > "0") {
 	echo "
@@ -337,7 +329,7 @@ if($out_temp > $in_temp+1) { $s_class = "orange"; } else { $s_class = "emerald";
                                 <div class=\"col-xs-6 col-md-6\">
                                     <div class=\"panel panel-primary text-center panel-eyecandy\">
                                         <div class=\"panel-body ".$s_class."\" style=\"height:127px;\">
-                                            <h1>".$out_temp."</h1>
+                                            <h1>".$out_temp."º</h1>
                                             <span>".$last_time."</span>
                                         </div>
                                         <div class=\"panel-footer\">

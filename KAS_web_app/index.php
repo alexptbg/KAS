@@ -13,7 +13,7 @@ check_login($lang,$web_dir);
 //index only
 include('inc/moon.php');
 //arduino inside temp controllers
-$inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_0004_2015_1.0","AR_0005_2015_1.0","AR_0006_2015_1.0");
+$inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_0004_2015_1.0","AR_0005_2015_1.0");
 ?>
 <head>
         <title><?=$slogan?></title>
@@ -39,25 +39,29 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
         function get_live_out() {
 	        setInterval(function () {
 			    $.ajax({
-				    //url: 'ar_temp_now.php?ar_id=AR_0001_2014_1.0', 
-				    url: 'sa_temp_now.php',
+				    url: 'ar_out_temp_now.php?ar_id=AR_0007_2015_1.0', 
+				    //url: 'sa_temp_now.php',
 				    success: function(point) {
 				        y = eval(point);
 			            $('h3#temp_now').text(y[1]+' ºC');
-			            $('span#up').text(y[2]);
+			            $('span#up').text(y[3]);
+			            $("div#now2").html('<span><small><?php echo get_lang($lang,'k62'); ?></small></span><p>'+y[1].toFixed(1)+'ºC</p>');
+			            $("div#now3").html('<small>'+y[3]+'</small>');
 			        },
 				    cache: false
 			    });
-	        },15000);
+	        },10000);
 	    }
         $(function() {
 			$.ajax({
-				//url: 'ar_temp_now.php?ar_id=AR_0001_2014_1.0',
-				url: 'sa_temp_now.php',
+				url: 'ar_out_temp_now.php?ar_id=AR_0007_2015_1.0',
+				//url: 'sa_temp_now.php',
 				success: function(point) {
 					y = eval(point);
 			        $('h3#temp_now').text(y[1]+' ºC');
-			        $('span#up').text(y[2]);
+			        $('span#up').text(y[3]);
+			        $("div#now2").html('<span><small><?php echo get_lang($lang,'k62'); ?></small></span><p>'+y[1].toFixed(1)+'ºC</p>');
+			        $("div#now3").html('<small>'+y[3]+'</small>');
 			    },
 				cache: false
 			});
@@ -438,6 +442,8 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
                         <div class="panel panel-primary text-center panel-eyecandy">
                             <div class="panel-body peter-river">
 							    <span class="wi"></span>
+							    <div id="now2"></div>
+							    <div id="now3"></div>
                                 <div id="weather"></div>
                             </div>
                             <div class="panel-footer">
