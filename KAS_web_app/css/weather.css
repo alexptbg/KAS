@@ -108,20 +108,35 @@ span.wl {
 	float:right;
 	width:80px;
 	position: absolute;
-	right:30px;
+	right:34px;
 	margin-top: 80px;
 }
 .nowl small {
-	padding-left:12px;
+	padding-left:20px;
 	font-size: 8px;
 	text-align: right;
 	text-transform: uppercase;
-	line-height:14px;
-	color: #adadad;
+	line-height:16px;
 }
 .nowl p {
-	line-height:14px;
+	line-height:16px;
 	font-size:30px;
+}
+.now2 {
+	margin: 0 auto;
+	padding: 0;
+	display: inline-block;
+	float:right;
+	position: absolute;
+	right:30px;
+	margin-top: 114px;
+}
+.now2 small {
+	padding-left:20px;
+	font-size: 8px;
+	text-align:center;
+	text-transform: uppercase;
+	line-height:14px;
 }
 .icon-0:before { content: ":"; }
 .icon-1:before { content: "p"; }

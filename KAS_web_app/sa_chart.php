@@ -28,6 +28,7 @@ check_login($lang,$web_dir);
 		<script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
 		
         <script type="text/javascript" src="js/plugins/hcharts/highstock.js"></script>
+        <script type="text/javascript" src="js/plugins/hcharts/highcharts-more.js"></script>
         <script type="text/javascript" src="js/plugins/hcharts/unica.js"></script>
         <script type="text/javascript" src="js/plugins/hcharts/highcharts.<?=$lang?>.js"></script>
         <script type="text/javascript" src="js/plugins/hcharts/exporting.js"></script>
@@ -305,97 +306,233 @@ check_login($lang,$web_dir);
                     <div class="col-lg-12">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
-							    <?php echo get_lang($lang,'k167'); ?>
+							    <?php echo get_lang($lang,'k263')." - ".get_lang($lang,'k196')." 5 ".get_lang($lang,'k197'); ?>
 							</div>
                             <div class="panel-body" style="margin:4px 5px 10px 5px;padding:0;">
                                 <script type="text/javascript">
-	                                Highcharts.setOptions({
-		                                global : {
-			                                useUTC : false
-		                                }
-	                                });
-                                    $(function() {
-	                                    $.getJSON('ar_data_history.php?lang=<?=$lang?>&ar_id=AR_0001_2014_1.0', function(data) {
-                                            $('#hchart').highcharts('StockChart', {
-                                                chart: {
-                                                    plotBackgroundColor: null,
-                                                    plotBorderWidth: null,
-                                                    plotShadow: false,
+	                            Highcharts.setOptions({
+		                            global : { useUTC: false }
+	                            });
+                                $(function () {
+	                                $.getJSON('ar_out_data_history_5m.php?lang=<?=$lang?>', function(data) {
+		                                $('#ichart').highcharts('StockChart', {
+		                                    chart: {
+				                                spacingTop: 10,
+				                                spacingBottom: 10,
+				                                marginBottom: 50,
+                                                animation: {
+                                                    duration: 2000,
+                                                    easing: 'easeOutBounce'
+                                                }
+		                                    },
+                                            rangeSelector: {
+                                                buttons: [{
+                                                    type: 'hour',
+                                                    count: 4,
+                                                    text: '4H'
+			                                    }, {
+                                                    type: 'hour',
+                                                    count: 8,
+                                                    text: '8H'
+			                                    }, {
+                                                    type: 'day',
+                                                    count: 1,
+                                                    text: '1D'
+                                                }, {
+                                                    type: 'day',
+                                                    count: 2,
+                                                    text: '2D'
+                                                }, {
+                                                    type: 'day',
+                                                    count: 3,
+                                                    text: '3D'
+                                                }, {
+                                                    type: 'day',
+                                                    count: 7,
+                                                    text: '7D'
+                                                }, {
+                                                    type: 'day',
+                                                    count: 15,
+                                                    text: '15D'
+                                                }, {
+                                                    type: 'month',
+                                                    count: 1,
+                                                    text: '1M'
+                                                }, {
+                                                    type: 'all',
+                                                    text: 'All'
+                                                }],
+                                                selected: 0,
+			                                    inputEnabled : false
+                                            },
+		                                    title: {
+		                                        text: '<?php echo get_lang($lang,'k263'); ?>'
+		                                    },
+                                            subtitle: {
+                                                text: '<?php echo get_lang($lang,'k196')." 5 ".get_lang($lang,'k197'); ?>'
+                                            },
+                                            xAxis: {
+                                                title: {
+                                                    text: null
+                                                }
+                                            },
+                                            yAxis: {
+		                                        showLastLabel: false,
+                                                title: {
+                                                    text: '<?php echo get_lang($lang,'k168'); ?> (ºC)'
+                                                },
+		                                        offset: 20,
+		                                        max: 40,
+		                                        min: 0
+                                            },
+                                            plotOptions: {
+                                                series: {
                                                     animation: {
-                                                        duration: 1000,
+                                                        duration: 2000,
                                                         easing: 'easeOutBounce'
                                                     }
-                                                },
-                                                title: {
-                                                    text: '<?php echo get_lang($lang,"k167"); ?>'
-                                                },
-                                                rangeSelector: {
-                                                    buttons: [{
-                                                        type: 'hour',
-                                                        count: 12,
-                                                        text: '12Часа'
-                                                    }, {
-                                                        type: 'day',
-                                                        count: 1,
-                                                        text: '1Ден'
-                                                    }, {
-                                                        type: 'day',
-                                                        count: 2,
-                                                        text: '2Дни'
-                                                    }, {
-                                                        type: 'day',
-                                                        count: 3,
-                                                        text: '3Дни'
-                                                    }, {
-                                                        type: 'day',
-                                                        count: 5,
-                                                        text: '5Дни'
-                                                    }, {
-                                                        type: 'day',
-                                                        count: 7,
-                                                        text: '7Дни'
-                                                    }, {
-                                                        type: 'all',
-                                                        text: 'Всичко'
-                                                    }],
-                                                    selected: 1,
-			                                        inputEnabled : false
-                                                },
-                                                plotOptions: {
-                                                    areaspline: {
-                                                        fillColor: {
-                                                            linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
-                                                            stops: [
-                                                                [0, 'rgba(52,152,219,0.4)'],
-                                                                [1, 'rgba(39,145,217,0.9)']
-                                                            ]
-                                                        },
-                                                        lineWidth: 1
-                                                    },
-                                                    series: {
-                                                        animation: {
-                                                            duration: 2000,
-                                                            easing: 'easeOutBounce'
-                                                        }
-                                                    }
-                                                },
-    
-                                                series: [{
-            	                                    lineColor: '#2791D9',
-                                                    name: '<?php echo get_lang($lang,"k168"); ?>',
-                                                    data: data,
-                                                    type: 'areaspline',
-                                                    tooltip: {
-                                                        valueDecimals: 1,
-                                                        valueSuffix: ' °C'
-                                                    }
-                                                }],
-                                                credits: {
-                                                    enabled: false
                                                 }
-		                                    });
-	                                    });
-                                    });		  
+                                            },
+                                            credits: {
+                                                enabled: false
+                                            },
+                                            tooltip: {
+                                                shared: true,
+                                                formatter: function() {
+                                                    var p = '';
+                                                    p += '<b>' + Highcharts.dateFormat('%b %e, %Y, %H:%M',this.x) +'</b><br/>';
+                                                    $.each(this.points, function(i, series){
+                                                        p +='<span style="color:' + this.series.color + '">' + this.series.name + '</span>: ' + Highcharts.numberFormat(this.y,1) + ' ºC<br/>'
+                                                    });
+                                                    return p;
+                                                }
+                                            },
+                                            legend: {
+			                                    enabled: true,
+                                                floating: false,
+			                                    borderWidth: 0
+                                            },
+		                                    series: data
+		                                });
+	                                });
+                                });
+                                </script>
+								<div id="ichart" style="height:534px;width:100%;margin:0;padding:0;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+							    <?php echo get_lang($lang,'k263')." - ".get_lang($lang,'k196')." 60 ".get_lang($lang,'k197'); ?>
+							</div>
+                            <div class="panel-body" style="margin:4px 5px 10px 5px;padding:0;">
+                                <script type="text/javascript">
+	                            Highcharts.setOptions({
+		                            global : { useUTC: false }
+	                            });
+                                $(function () {
+	                                $.getJSON('ar_out_data_history_60m.php?lang=<?=$lang?>', function(data) {
+		                                $('#hchart').highcharts('StockChart', {
+		                                    chart: {
+				                                spacingTop: 10,
+				                                spacingBottom: 10,
+				                                marginBottom: 50,
+                                                animation: {
+                                                    duration: 2000,
+                                                    easing: 'easeOutBounce'
+                                                }
+		                                    },
+                                            rangeSelector: {
+                                                buttons: [{
+                                                    type: 'hour',
+                                                    count: 8,
+                                                    text: '8H'
+			                                    }, {
+                                                    type: 'day',
+                                                    count: 1,
+                                                    text: '1D'
+                                                }, {
+                                                    type: 'day',
+                                                    count: 2,
+                                                    text: '2D'
+                                                }, {
+                                                    type: 'day',
+                                                    count: 3,
+                                                    text: '3D'
+                                                }, {
+                                                    type: 'day',
+                                                    count: 7,
+                                                    text: '7D'
+                                                }, {
+                                                    type: 'day',
+                                                    count: 15,
+                                                    text: '15D'
+                                                }, {
+                                                    type: 'month',
+                                                    count: 1,
+                                                    text: '1M'
+                                                }, {
+                                                    type: 'all',
+                                                    text: 'All'
+                                                }],
+                                                selected: 0,
+			                                    inputEnabled : false
+                                            },
+		                                    title: {
+		                                        text: '<?php echo get_lang($lang,'k263'); ?>'
+		                                    },
+                                            subtitle: {
+                                                text: '<?php echo get_lang($lang,'k196')." 60 ".get_lang($lang,'k197'); ?>'
+                                            },	
+                                            xAxis: {
+                                                title: {
+                                                    text: null
+                                                }
+                                            },
+                                            yAxis: {
+		                                        showLastLabel: false,
+                                                title: {
+                                                    text: '<?php echo get_lang($lang,'k168'); ?> (ºC)'
+                                                },
+		                                        offset: 20,
+		                                        max: 40,
+		                                        min: 0
+                                            },
+                                            plotOptions: {
+                                                series: {
+                                                    animation: {
+                                                        duration: 2000,
+                                                        easing: 'easeOutBounce'
+                                                    }
+                                                }
+                                            },
+                                            credits: {
+                                                enabled: false
+                                            },
+                                            tooltip: {
+                                                shared: true,
+                                                formatter: function() {
+                                                    var p = '';
+                                                    p += '<b>' + Highcharts.dateFormat('%b %e, %Y, %H:%M',this.x) +'</b><br/>';
+                                                    $.each(this.points, function(i, series){
+                                                        p +='<span style="color:' + this.series.color + '">' + this.series.name + '</span>: ' + Highcharts.numberFormat(this.y,1) + ' ºC<br/>'
+                                                    });
+                                                    return p;
+                                                }
+                                            },
+                                            legend: {
+			                                    enabled: true,
+                                                floating: false,
+			                                    borderWidth: 0
+                                            },
+		                                    series: data
+		                                });
+	                                });
+                                });
                                 </script>
 								<div id="hchart" style="height:534px;width:100%;margin:0;padding:0;"></div>
                             </div>
@@ -403,118 +540,122 @@ check_login($lang,$web_dir);
                     </div>
                 </div>
                 
-                
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
-							    <?php echo get_lang($lang,'k167'); ?>
+							    <?php echo get_lang($lang,'k264')." - ".get_lang($lang,'k196')." 60 ".get_lang($lang,'k197'); ?>
 							</div>
                             <div class="panel-body" style="margin:4px 5px 10px 5px;padding:0;">
                                 <script type="text/javascript">
-$(function () {
-	$.getJSON('ar_termo_data.php?lang=<?=$lang?>&ar_id=AR_0001_2014_1.0', function(data) {
-		$('#container').highcharts('StockChart', {
-		    chart: {
-				spacingTop: 10,
-				spacingBottom: 10,
-				marginBottom: 60,
-            animation: {
-                duration: 2000,
-                easing: 'easeOutBounce'
-            }
-		    },
-rangeSelector: {
-            buttons: [{
-                type: 'hour',
-                count: 4,
-                text: '4H'
-            }, {
-                type: 'hour',
-                count: 8,
-                text: '8H'
-			}, {
-                type: 'hour',
-                count: 12,
-                text: '12H'
-            }, {
-                type: 'day',
-                count: 1,
-                text: '1D'
-            }, {
-                type: 'day',
-                count: 2,
-                text: '2D'
-            }, {
-                type: 'day',
-                count: 3,
-                text: '3D'
-            }, {
-                type: 'day',
-                count: 7,
-                text: '7D'
-            }, {
-                type: 'day',
-                count: 15,
-                text: '15D'
-            }, {
-                type: 'month',
-                count: 1,
-                text: '1M'
-            }, {
-                type: 'month',
-                count: 3,
-                text: '3M'
-            }, {
-                type: 'all',
-                text: 'All'
-            }],
-            selected: 2,
-			inputEnabled : false
-        },
-		    title: {
-		        text: 'Температурите отвътре и отвън'
-		    },		
-      xAxis: {
-         title: {
-            text: null
-         }
-      },
-      yAxis: {
-		 showLastLabel: false,
-         title: {
-            text: 'Температура (ºC)'
-         },
-		 offset: 20
-      },
-        plotOptions: {
-            series: {
-                animation: {
-                    duration: 2000,
-                    easing: 'easeOutBounce'
-                }
-            }
-        },
-      credits: {
-         enabled: false
-      },
-        legend: {
-			enabled: true,
-            floating: true,
-			borderWidth: 0
-        },
-		    series: data
-		});
-	});
-});	  
+	                            Highcharts.setOptions({
+		                            global : { useUTC: false }
+	                            });
+                                $(function () {
+	                                $.getJSON('ar_out_data_history_hum_60m.php?lang=<?=$lang?>', function(data) {
+		                                $('#humchart').highcharts('StockChart', {
+		                                    chart: {
+				                                spacingTop: 10,
+				                                spacingBottom: 10,
+				                                marginBottom: 50,
+                                                animation: {
+                                                    duration: 2000,
+                                                    easing: 'easeOutBounce'
+                                                }
+		                                    },
+                                            rangeSelector: {
+                                                buttons: [{
+                                                    type: 'hour',
+                                                    count: 8,
+                                                    text: '8H'
+			                                    }, {
+                                                    type: 'day',
+                                                    count: 1,
+                                                    text: '1D'
+                                                }, {
+                                                    type: 'day',
+                                                    count: 2,
+                                                    text: '2D'
+                                                }, {
+                                                    type: 'day',
+                                                    count: 3,
+                                                    text: '3D'
+                                                }, {
+                                                    type: 'day',
+                                                    count: 7,
+                                                    text: '7D'
+                                                }, {
+                                                    type: 'day',
+                                                    count: 15,
+                                                    text: '15D'
+                                                }, {
+                                                    type: 'month',
+                                                    count: 1,
+                                                    text: '1M'
+                                                }, {
+                                                    type: 'all',
+                                                    text: 'All'
+                                                }],
+                                                selected: 0,
+			                                    inputEnabled : false
+                                            },
+		                                    title: {
+		                                        text: '<?php echo get_lang($lang,'k264'); ?>'
+		                                    },
+                                            subtitle: {
+                                                text: '<?php echo get_lang($lang,'k196')." 60 ".get_lang($lang,'k197'); ?>'
+                                            },	
+                                            xAxis: {
+                                                title: {
+                                                    text: null
+                                                }
+                                            },
+                                            yAxis: {
+		                                        showLastLabel: false,
+                                                title: {
+                                                    text: '<?php echo get_lang($lang,'k199'); ?> %'
+                                                },
+		                                        offset: 20,
+		                                        max: 100,
+		                                        min: 20
+                                            },
+                                            plotOptions: {
+                                                series: {
+                                                    animation: {
+                                                        duration: 2000,
+                                                        easing: 'easeOutBounce'
+                                                    }
+                                                }
+                                            },
+                                            credits: {
+                                                enabled: false
+                                            },
+                                            tooltip: {
+                                                shared: true,
+                                                formatter: function() {
+                                                    var p = '';
+                                                    p += '<b>' + Highcharts.dateFormat('%b %e, %Y, %H:%M',this.x) +'</b><br/>';
+                                                    $.each(this.points, function(i, series){
+                                                        p +='<span style="color:' + this.series.color + '">' + this.series.name + '</span>: ' + Highcharts.numberFormat(this.y,0) + ' %<br/>'
+                                                    });
+                                                    return p;
+                                                }
+                                            },
+                                            legend: {
+			                                    enabled: true,
+                                                floating: false,
+			                                    borderWidth: 0
+                                            },
+		                                    series: data
+		                                });
+	                                });
+                                });
                                 </script>
-								<div id="container" style="height:534px;width:100%;margin:0;padding:0;"></div>
+								<div id="humchart" style="height:534px;width:100%;margin:0;padding:0;"></div>
                             </div>
                         </div>
                     </div>
                 </div>
-                
-                
                 
             </div>
         </div>

@@ -35,7 +35,30 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 		<script type="text/javascript" src="js/skycons.js"></script>
         <script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
 		<script type="text/javascript">
+        function get_live_out() {
+	        setInterval(function () {
+			    $.ajax({
+				    url: 'ar_out_temp_now.php?ar_id=AR_0007_2015_1.0', 
+				    success: function(point) {
+				        y = eval(point);
+			            $("div.nowl").html('<span><small><?php echo get_lang($lang,'k62'); ?></small></span><p>'+y[1].toFixed(1)+'ºC</p>');
+			            $("div.now2").html('<small>'+y[3]+'</small>');
+			        },
+				    cache: false
+			    });
+	        },10000);
+	    }
         $(function() {
+			$.ajax({
+				url: 'ar_out_temp_now.php?ar_id=AR_0007_2015_1.0',
+				success: function(point) {
+					y = eval(point);
+			        $("div.nowl").html('<span><small><?php echo get_lang($lang,'k62'); ?></small></span><p>'+y[1].toFixed(1)+'ºC</p>');
+			        $("div.now2").html('<small>'+y[3]+'</small>');
+			    },
+				cache: false
+			});
+	        get_live_out();
             //get weather
 	        $.simpleWeather({
 		        //zipcode: 'BUXX0015',
@@ -44,7 +67,7 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 		        success: function(weather) {
 			        low = weather.low-3;
 			        high = weather.high-1;
-			        if (weather.code == 26) { var condition = Skycons.CLOUDY; var prog = "<?php echo get_lang($lang,'k254'); ?>"; }
+			             if (weather.code == 26) { var condition = Skycons.CLOUDY; var prog = "<?php echo get_lang($lang,'k254'); ?>"; }
 			        else if (weather.code == 27) { var condition = Skycons.PARTLY_CLOUDY_NIGHT; var prog = "<?php echo get_lang($lang,'k254'); ?>"; }
 			        else if (weather.code == 28) { var condition = Skycons.PARTLY_CLOUDY_DAY; var prog = "<?php echo get_lang($lang,'k254'); ?>"; }
 			        else if (weather.code == 29) { var condition = Skycons.PARTLY_CLOUDY_NIGHT; var prog = "<?php echo get_lang($lang,'k255'); ?>"; }
@@ -61,7 +84,7 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 			        else if (weather.code == 14) { var condition = Skycons.SNOW; var prog = "<?php echo get_lang($lang,'k262'); ?>" }
 			        now = weather.temp+' &deg;'+weather.units.temp;
 			        $("span.wil").html('<span class="wl icon-'+weather.code+'"></span>');
-			        $("div.nowl").html('<span><small><?php echo get_lang($lang,'k62'); ?></small></span><p>'+now+'</p>');
+			        //$("div.nowl").html('<span><small><?php echo get_lang($lang,'k62'); ?></small></span><p>'+now1+'</p>');
 			        html = '<p><strong><?php echo get_lang($lang,'k249'); ?>: </strong><span>'+high+' &deg;'+weather.units.temp+'</span><br/>';
 			        html += '<strong><?php echo get_lang($lang,'k250'); ?>: </strong><span>'+low+' &deg;'+weather.units.temp+'</span><br/>';
 			        html += '<strong><?php echo get_lang($lang,'k251'); ?>: </strong><span>'+weather.humidity+' %</span><br/>';
@@ -92,6 +115,7 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 							        <?php echo get_lang($lang,'k63');?>&nbsp;-&nbsp;<?php echo get_lang($lang,'k64');?></span>
 							    <span class="wil"></span>
 							    <div class="nowl"></div>
+							    <div class="now2"></div>
                                 <div id="weatherl" style="height:100px !important;"></div>
                             </div>
                             <div class="panel-body nephritis">
