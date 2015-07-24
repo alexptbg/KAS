@@ -42,6 +42,7 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 				    success: function(point) {
 				        y = eval(point);
 			            $("div.nowl").html('<span><small><?php echo get_lang($lang,'k62'); ?></small></span><p>'+y[1].toFixed(1)+'ºC</p>');
+			            $("div.now7").html('<span>'+y[2]+'%</span>');
 			            $("div.now2").html('<small>'+y[3]+'</small>');
 			        },
 				    cache: false
@@ -54,6 +55,7 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 				success: function(point) {
 					y = eval(point);
 			        $("div.nowl").html('<span><small><?php echo get_lang($lang,'k62'); ?></small></span><p>'+y[1].toFixed(1)+'ºC</p>');
+			        $("div.now7").html('<span>'+y[2]+'%</span>');
 			        $("div.now2").html('<small>'+y[3]+'</small>');
 			    },
 				cache: false
@@ -115,6 +117,7 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 							        <?php echo get_lang($lang,'k63');?>&nbsp;-&nbsp;<?php echo get_lang($lang,'k64');?></span>
 							    <span class="wil"></span>
 							    <div class="nowl"></div>
+							    <div class="now7"></div>
 							    <div class="now2"></div>
                                 <div id="weatherl" style="height:100px !important;"></div>
                             </div>

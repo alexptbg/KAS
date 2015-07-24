@@ -182,6 +182,18 @@ function get_klimatik_settings($kid,$kinv) {
     $klimatik_settings = mysql_fetch_array($result);
     return $klimatik_settings;
 }
+function get_router_by_addr($addr) {
+    $query = "SELECT `router` FROM `klimatiki` WHERE `addr`='".$addr."'";
+    $result = mysql_query($query);
+    confirm_query($result);
+    $num_rows = mysql_num_rows($result);
+    if ($num_rows != 0) {
+        while($addr = mysql_fetch_array($result)) {
+    	    $router = $addr['router']; 
+        }
+    }
+    return $router;
+}
 function get_klima_settings($kinv) {
     $query = "SELECT * FROM `klimatiki` WHERE `inv`='".$kinv."'";
     $result = mysql_query($query);

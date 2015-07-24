@@ -6,14 +6,16 @@ include('inc/functions.php');
 include('inc/init.php');
 DataBase::getInstance()->connect(DB_SERVER,DB_USER,DB_PASS,DB_NAME);
 include('inc/config.php');
-$cr=0;
+$cr=2;
+$fi=2;
+$hu=12;
 if(isset($_GET['out'])) {
 	if((isset($_GET['hum'])) && (isset($_GET['temp1'])) && (isset($_GET['temp2'])) && (isset($_GET['id'])) && (isset($_GET['ip'])) && (isset($_GET['mac']))) {
         $now = date("Y-m-d H:i:s");
         $stamp = time();
-        $uhum = $_GET['hum'];
-        $utemp1 = $_GET['temp1'];
-		$utemp2 = $_GET['temp2']-$cr;
+        $uhum = $_GET['hum']+$hu;
+        $utemp1 = $_GET['temp1']+$cr;
+		$utemp2 = $_GET['temp2']-$cr-$fi;
 		$uid = $_GET['id'];
 		$uip = $_GET['ip'];
 		$umac = $_GET['mac'];

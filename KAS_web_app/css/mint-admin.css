@@ -318,7 +318,7 @@ a {
   overflow-y: scroll; }
 /* Login Page */
 .login-panel {
-  margin-top:15%; 
+  margin-top:10%; 
   vertical-align: middle;
 }
 .login-panel h3 span {
@@ -1585,7 +1585,7 @@ ul.inbox-pagination li {
 }
 h3#temp_now {
     font-size: 32px;
-	line-height: 14px;
+	line-height: 18px;
 }
 h3#temp_pro {
 	position: absolute;
@@ -1690,7 +1690,7 @@ a#sa {
 	transition: all 0.3s ease-in-out;	
 }
 a#sa:hover {
-	background-color: #2791D9;
+	background-color: #333333;
 }
 @media screen and (max-width: 768px) {
 	.form-group .checkbox-icheck {
@@ -1797,19 +1797,19 @@ h5.hindex {
 	float:left;
 	width:80px;
 	position: absolute;
-	left:24px;
-	margin-top: 80px;
+	left:32px;
+	margin-top:75px;
 }
 #now2 small {
-	padding-left:20px;
+	padding-left:10px;
 	font-size: 8px;
 	text-align: right;
 	text-transform: uppercase;
 	line-height:14px;
 }
 #now2 p {
-	line-height:14px;
-	font-size:36px;
+	line-height:16px;
+	font-size:30px;
 }
 #now3 {
 	margin: 0 auto;
@@ -1818,7 +1818,7 @@ h5.hindex {
 	float:left;
 	position: absolute;
 	left:20px;
-	margin-top: 112px;
+	margin-top: 121px;
 }
 #now3 small {
 	padding-left:20px;
@@ -1826,5 +1826,67 @@ h5.hindex {
 	text-align:center;
 	text-transform: uppercase;
 	line-height:14px;
+}
+#now4 {
+	margin: 0 auto;
+	padding: 0;
+	display: inline-block;
+	float:left;
+	position: absolute;
+	left:40px;
+	margin-top: 112px;
+}
+#now4 span {
+	padding-left:20px;
+	font-size: 12px;
+	text-align:center;
+	text-transform: uppercase;
+	line-height:14px;
+}
+#now5 {
+	margin: 0 auto;
+	padding: 0;
+	display: inline-block;
+    width: 100%;
+    line-height: 12px;
+}
+#now5 span {
+	font-size: 14px;
+	text-align:center;
+	text-transform: uppercase;
+}
+#up {
+	margin: 0 auto;
+	padding: 0;
+	display: block;
+    width: 90px;
+    line-height: 12px;
+}
+#up span {
+	font-size: 8px;
+	text-align:center;
+	text-transform: uppercase;
+}
+.divb {
+	padding-bottom: 20px;
+	border:1px solid #E1E1E1;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+}
+.divb h5 {
+	margin-top: 0;
+	color:#FFF;
+	font-weight: 500;
+	background-color: #F39C12;
+	padding: 10px 18px;
+	border-bottom: 1px solid #E1E1E1;
+}
+.divb .wo {
+	padding-top: 20px;
+	margin-left: 18px;
+	height:30px;
+	margin-bottom: 0;
+	padding-bottom: 0;
 }
 /* end file */

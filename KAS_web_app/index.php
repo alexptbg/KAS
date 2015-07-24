@@ -43,9 +43,11 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 				    //url: 'sa_temp_now.php',
 				    success: function(point) {
 				        y = eval(point);
-			            $('h3#temp_now').text(y[1]+' ºC');
-			            $('span#up').text(y[3]);
+			            $('h3#temp_now').html(y[1].toFixed(1)+'ºC');
+			            $('div#now5').html('<span>'+y[2]+'%</span>');
+			            $('div#up').html('<span>'+y[3]+'</span>');
 			            $("div#now2").html('<span><small><?php echo get_lang($lang,'k62'); ?></small></span><p>'+y[1].toFixed(1)+'ºC</p>');
+			            $("div#now4").html('<span>'+y[2]+' %</span>');
 			            $("div#now3").html('<small>'+y[3]+'</small>');
 			        },
 				    cache: false
@@ -58,9 +60,11 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 				//url: 'sa_temp_now.php',
 				success: function(point) {
 					y = eval(point);
-			        $('h3#temp_now').text(y[1]+' ºC');
-			        $('span#up').text(y[3]);
+			        $('h3#temp_now').html(y[1].toFixed(1)+'ºC');
+			        $('div#now5').html('<span>'+y[2]+'%</span>');
+			        $('div#up').html('<span>'+y[3]+'</span>');
 			        $("div#now2").html('<span><small><?php echo get_lang($lang,'k62'); ?></small></span><p>'+y[1].toFixed(1)+'ºC</p>');
+			        $("div#now4").html('<span>'+y[2]+' %</span>');
 			        $("div#now3").html('<small>'+y[3]+'</small>');
 			    },
 				cache: false
@@ -317,27 +321,33 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 						}
                         //by addr
 						if ($user_settings['level'] > 10) {
-                            $query = "SELECT `addr` FROM `klimatiki` GROUP BY `addr` ORDER BY `addr` ASC";
-                            $result = mysql_query($query);
-                            confirm_query($result);
-                            if (mysql_num_rows($result) != 0) {
+							if (!empty($buildings)) {
 								echo "
 								<li>
                             <a href=\"override.php?lang=".$lang."\">
-							    <i class=\"fa fa-legal fa-fw fa-3x\"></i> ".get_lang($lang, 'k126')."<span class=\"fa arrow\"></span></a>
+							    <i class=\"fa fa-legal fa-fw fa-3x\"></i>&nbsp;".get_lang($lang,'k126')."<span class=\"fa arrow\"></span></a>
 								<ul class=\"nav nav-second-level\">";
-								if ($user_settings['level'] > 10) {
-									echo "
+								echo "
 								        <li><a href=\"override_all.php?lang=".$lang."&addr=all\"><span style=\"color:red;\">
-										    ".get_lang($lang, 'k128')." ".get_lang($lang, 'k10')."</span></a></li>";
-								}
-						        while($addrs = mysql_fetch_array($result)) {
-									echo "
+										    ".get_lang($lang,'k128')."&nbsp;".get_lang($lang,'k10')."</span></a></li>";
+	                            foreach ($buildings as $building) {
+                                    echo "<li><a href=\"#\">".$building."&nbsp;<span class=\"fa arrow\"></span></a>";
+                                    $query = "SELECT `addr` FROM `klimatiki` WHERE `router`='".$building."' GROUP BY `addr` ORDER BY `addr` ASC";
+                                    $result = mysql_query($query);
+                                    confirm_query($result);
+                                    if (mysql_num_rows($result) != 0) {
+                            	        echo "<ul class=\"nav nav-third-level\">";
+						                while($addrs = mysql_fetch_array($result)) {
+									        echo "
                                         <li><a href=\"override.php?lang=".$lang."&addr=".$addrs['addr']."\">
-										    ".get_lang($lang, 'k10')." ".$addrs['addr']."</a></li>";
-					            }
+										    ".get_lang($lang,'k10')."&nbsp;".$addrs['addr']."</a></li>";
+					                    }
+					                    echo "</ul>";
+					                }
+                                    echo "</li>";
+	                            }
 								echo "</ul></li>";
-					        }
+							}
 						}
 						?>
                         <li>
@@ -424,25 +434,27 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
                 
                 ?>
                 <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-md-3">
+                    <div class="col-xs-12 col-sm-12 col-md-6">
                         <div class="panel panel-primary text-center panel-eyecandy">
-                            <div class="panel-body emerald tooltipx">
+                            <div class="panel-body peter-river tooltipx">
                                 <a href="sa_chart.php?lang=<?=$lang?>" id="sa" class="fr" data-toggle="tooltip" data-placement="top" title="<?php echo get_lang($lang,'k205');?>">
                                     <i class="fa fa-area-chart fa-2x"></i></a>
                                 <canvas id="icon" width="95" height="95" class="item-icon"></canvas>
                                 <h3 id="temp_now"></h3>
-								<span id="up"></span>
+                                <div id="now5"></div>
+								<div id="up"></div>
                             </div>
                             <div class="panel-footer">
                                 <h5 class="hindex"><?php echo get_lang($lang,'k62');?>&nbsp;-&nbsp;<?php echo get_lang($lang,'k64');?></h5>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3">
+                    <div class="col-xs-12 col-sm-12 col-md-6">
                         <div class="panel panel-primary text-center panel-eyecandy">
                             <div class="panel-body peter-river">
 							    <span class="wi"></span>
 							    <div id="now2"></div>
+							    <div id="now4"></div>
 							    <div id="now3"></div>
                                 <div id="weather"></div>
                             </div>
@@ -451,9 +463,9 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3">
+                    <div class="col-xs-12 col-sm-12 col-md-6">
                         <div class="panel panel-primary text-center panel-eyecandy">
-                            <div class="panel-body emerald tooltipx">
+                            <div class="panel-body peter-river tooltipx">
                                 <i class="iconm-temperature-2 sz40"></i>
                                 <a href="sa_in_chart.php?lang=<?=$lang?>" id="sa" class="fr" data-toggle="tooltip" data-placement="top" title="<?php echo get_lang($lang,'k206');?>">
                                     <i class="fa fa-area-chart fa-2x"></i></a>
@@ -472,7 +484,7 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
                             </div>
                         </div>
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-md-3">
+                    <div class="col-xs-12 col-sm-12 col-md-6">
                         <div class="panel panel-primary text-center panel-eyecandy">
                             <div class="panel-body peter-river">
                                 <i class="iconm-calendar sz40"></i>
@@ -628,18 +640,31 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
                 -->
                 
                 <?php
-                            if (!empty($buildings)) {
-                            	$y=count($buildings);
-	                            if ($y == 1) {
-									$div = "col-lg-12";
-								} elseif ($y == 2) {
-									$div = "col-xs-12 col-sm-6 col-md-6";
-								}
-				echo "
-				<div class=\"row\">
-				";
-	                            foreach ($buildings as $building) {
-                                    echo "
+                //access warning
+                if ($user_settings["access"] == 0) {
+                    echo "
+                <div class=\"row\">
+                    <div class=\"col-lg-12\">
+                        <div class=\"panel panel-danger\">
+                            <div class=\"panel-heading\">".get_lang($lang,'k152')."</div>
+                            <div class=\"panel-body\">
+                                <div class=\"alert alert-danger\">В момента е забранено Вие, да настройвате климатиците...</div>
+                            </div>
+                        </div>
+                    </div>
+				</div>";
+				}
+				//generate router links
+                if (!empty($buildings)) {
+                    $y=count($buildings);
+	                if ($y == 1) {
+					    $div = "col-lg-12";
+					} elseif ($y == 2) {
+						$div = "col-xs-12 col-sm-6 col-md-6";
+					}
+				    echo "<div class=\"row\">";
+	                foreach ($buildings as $building) {
+                        echo "
                     <div class=\"".$div."\">
                       <a href=\"klima_l.php?lang=".$lang."&user=".$user_settings["user_name"]."&router=".$building."\" class=\"no_underline\">
                         <div class=\"panel panel-primary text-center panel-eyecandy\">
@@ -651,13 +676,10 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
                             </div>
                         </div>
                       </a>
-                    </div>
-                                    ";
-	                            }
-	                        }
-                echo "
-                </div>
-                ";
+                    </div>";
+	                }
+	                echo "</div>";
+	            }
                 ?>
             </div>
         </div>

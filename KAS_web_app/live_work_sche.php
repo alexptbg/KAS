@@ -17,7 +17,7 @@ if (mysql_num_rows($result) != 0) {
 	if ($work_sche == "Off") { $class = 'danger'; } 
 	elseif ($work_sche == "On") { $class = 'success'; }
 	else { $class = 'warning'; }
-	echo "<span>".get_lang($lang,'k132').": <span class=\"label label-".$class."\">".$work_sche."</span></span>";
+	echo "<span>".get_lang($lang,'k273').":&nbsp;<span class=\"label label-".$class."\">".$work_sche."</span></span>";
 }
 DataBase::getInstance()->disconnect();
 ?>

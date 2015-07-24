@@ -144,7 +144,7 @@ if($out_temp > $in_temp+1) { $s_class = "orange"; } else { $s_class = "emerald";
                                             </tr>
                                             <tr class=\"gradus\">
 											    <td>";
-												if /*(($mode > "0") && */($user_settings['level'] > 2)/*)*/ {
+												if (($user_settings['access'] == 1) && ($user_settings['level'] > 2)) {
 													echo "
 													<button type=\"button\" id=\"minus\" class=\"btn btn-warning btn-circle btn-lg\">
 													    <i class=\"fa fa-minus\"></i></button>";
@@ -157,7 +157,7 @@ if($out_temp > $in_temp+1) { $s_class = "orange"; } else { $s_class = "emerald";
 												</td>
 												<td><h1 id=\"output\">".number_format($set_point,1)."</h1></td>
                                                 <td>";
-												if /*(($mode > "0") && */($user_settings['level'] > 2)/*)*/ {
+												if (($user_settings['access'] == 1) && ($user_settings['level'] > 2)) {
 													echo "
 													<button type=\"button\" id=\"plus\" class=\"btn btn-warning btn-circle btn-lg\">
 													    <i class=\"fa fa-plus\"></i></button>";
@@ -173,7 +173,7 @@ if($out_temp > $in_temp+1) { $s_class = "orange"; } else { $s_class = "emerald";
                                     </table>
                             </div>
                             <div class=\"panel-footer control l\">";
-	                            if /*(($mode > "0") && */($user_settings['level'] > 2)/*)*/ {
+	                            if (($user_settings['access'] == 1) && ($user_settings['level'] > 2)) {
 										echo "
                                                     <div class=\"switch fr\">
                                                         <input type=\"checkbox\" ".$checked." id=\"c\" data-on-color=\"success\" data-off-color=\"".$data_off."\" data-on-text=\"".get_lang($lang,'on')."\" data-off-text=\"".get_lang($lang,'off')."\" />
@@ -199,7 +199,7 @@ if($out_temp > $in_temp+1) { $s_class = "orange"; } else { $s_class = "emerald";
 											</tr>
 											<tr class=\"controls\">
 												<td colspan=\"2\">";
-											if /*(($mode > "0") && */($user_settings['level'] > 4)/*)*/ {
+											if (($user_settings['access'] == 1) && ($user_settings['level'] > 4)) {
 												echo "
 <div class=\"btn-group btn-group-lg\" id=\"vent\">
    <button type=\"button\" class=\"btn ".$v_class1."\" id=\"vent-1\">".get_lang($lang,'k75')."</button>
@@ -221,7 +221,7 @@ if($out_temp > $in_temp+1) { $s_class = "orange"; } else { $s_class = "emerald";
 											</tr>
 											<tr class=\"controls\">
 												<td colspan=\"2\">";
-												if /*(($mode > "0") && */($user_settings['level'] > 5)/*)*/ {
+												if (($user_settings['access'] == 1) && ($user_settings['level'] > 5)) {
 													echo "
 <div class=\"btn-group btn-group-lg\" id=\"mode\">
    <button type=\"button\" class=\"btn ".$m_class1."\" id=\"md-1\">".get_lang($lang,'k69')."</button>
@@ -292,7 +292,7 @@ if($out_temp > $in_temp+1) { $s_class = "orange"; } else { $s_class = "emerald";
                             <div class=\"panel-footer\">
                                 ".get_lang($lang,'k90').":&nbsp;&nbsp;
                                 <div class=\"btn-group btn-group-lg\" id=\"prog\">";
-                            if /*(($mode > "0") && */($user_settings['level'] > 5)/*)*/ {
+                            if (($user_settings['access'] == 1) && ($user_settings['level'] > 5)) {
 								echo "
                                     <button type=\"button\" class=\"btn btn-".$p_class1."\" id=\"pg-1\" $dis1 >".get_lang($lang,'on')."</button>
                                     <button type=\"button\" class=\"btn btn-".$p_class2."\" id=\"pg-2\" $dis2 >".get_lang($lang,'off')."</button>

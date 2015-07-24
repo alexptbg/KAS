@@ -204,27 +204,33 @@ check_login($lang,$web_dir);
 						}
                         //by addr
 						if ($user_settings['level'] > 10) {
-                            $query = "SELECT `addr` FROM `klimatiki` GROUP BY `addr` ORDER BY `addr` ASC";
-                            $result = mysql_query($query);
-                            confirm_query($result);
-                            if (mysql_num_rows($result) != 0) {
+							if (!empty($buildings)) {
 								echo "
 								<li>
                             <a href=\"override.php?lang=".$lang."\">
-							    <i class=\"fa fa-legal fa-fw fa-3x\"></i> ".get_lang($lang, 'k126')."<span class=\"fa arrow\"></span></a>
+							    <i class=\"fa fa-legal fa-fw fa-3x\"></i>&nbsp;".get_lang($lang,'k126')."<span class=\"fa arrow\"></span></a>
 								<ul class=\"nav nav-second-level\">";
-								if ($user_settings['level'] > 10) {
-									echo "
+								echo "
 								        <li><a href=\"override_all.php?lang=".$lang."&addr=all\"><span style=\"color:red;\">
-										    ".get_lang($lang, 'k128')." ".get_lang($lang, 'k10')."</span></a></li>";
-								}
-						        while($addrs = mysql_fetch_array($result)) {
-									echo "
+										    ".get_lang($lang,'k128')."&nbsp;".get_lang($lang,'k10')."</span></a></li>";
+	                            foreach ($buildings as $building) {
+                                    echo "<li><a href=\"#\">".$building."&nbsp;<span class=\"fa arrow\"></span></a>";
+                                    $query = "SELECT `addr` FROM `klimatiki` WHERE `router`='".$building."' GROUP BY `addr` ORDER BY `addr` ASC";
+                                    $result = mysql_query($query);
+                                    confirm_query($result);
+                                    if (mysql_num_rows($result) != 0) {
+                            	        echo "<ul class=\"nav nav-third-level\">";
+						                while($addrs = mysql_fetch_array($result)) {
+									        echo "
                                         <li><a href=\"override.php?lang=".$lang."&addr=".$addrs['addr']."\">
-										    ".get_lang($lang, 'k10')." ".$addrs['addr']."</a></li>";
-					            }
+										    ".get_lang($lang,'k10')."&nbsp;".$addrs['addr']."</a></li>";
+					                    }
+					                    echo "</ul>";
+					                }
+                                    echo "</li>";
+	                            }
 								echo "</ul></li>";
-					        }
+							}
 						}
 						?>
                         <li>
@@ -324,13 +330,14 @@ check_login($lang,$web_dir);
                                     <table class=\"table table-striped table-bordered table-hover\">
                                         <thead>
                                             <tr>
-                                                <th>".get_lang($lang, 'k05')."</th>
-                                                <th>".get_lang($lang, 'k88')."</th>
-												<th>".get_lang($lang, 'k43')."</th>
-												<th style=\"max-width:100px;\">".get_lang($lang, 'k10')."</th>
-                                                <th>".get_lang($lang, 'k89')."</th>
-                                                <th>".get_lang($lang, 'k90')."</th>
-												<th style=\"min-width:170px;\">".get_lang($lang, 'k48')."</th>
+                                                <th>".get_lang($lang,'k05')."</th>
+                                                <th>".get_lang($lang,'k88')."</th>
+												<th>".get_lang($lang,'k43')."</th>
+												<th style=\"max-width:100px;\">".get_lang($lang,'k10')."</th>
+                                                <th>".get_lang($lang,'k265')."</th>
+                                                <th>".get_lang($lang,'k89')."</th>
+                                                <th>".get_lang($lang,'k90')."</th>
+												<th style=\"min-width:170px;\">".get_lang($lang,'k48')."</th>
                                             </tr>
                                         </thead>
                                         <tbody>";
@@ -343,6 +350,18 @@ check_login($lang,$web_dir);
 									<td>".$users['first_name']." ".$users['last_name']."</td>
 									<td>".$users['buildings']."</td>
 									<td>".$users['klimas']."</td>";
+									if ($users['access'] == 0) {
+										echo "<td class=\"tooltipx\">
+									              <span class=\"label label-danger\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"".get_lang($lang,'k266')."\">"
+									              .$users['access']."</span>
+									          </td>";
+									}
+									if ($users['access'] == 1) {
+										echo "<td class=\"tooltipx\">
+									              <span class=\"label label-success\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"".get_lang($lang,'k267')."\">"
+									              .$users['access']."</span>
+									          </td>";
+									}
 									//level
 									if ($users['level'] < 3) {
 										echo "<td><span class=\"label label-danger\">".$users['level']."</span></td>";

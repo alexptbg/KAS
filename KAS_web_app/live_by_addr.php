@@ -7,6 +7,7 @@ include('inc/init.php');
 DataBase::getInstance()->connect(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
 include('inc/config.php');
 $ad = $_GET['addr'];
+$r = get_router_by_addr($ad);
 $query = "SELECT `inv` FROM `klimatiki` WHERE `addr`=".$ad." ORDER BY `inv` ASC";
 $result = mysql_query($query);
 confirm_query($result);
@@ -14,7 +15,6 @@ if (mysql_num_rows($result) != 0) {
     while($klimas = mysql_fetch_array($result)) {
 		$invs[] = $klimas['inv'];
 	}
-	$r = 'Strellson/Joop';
     $r_settings = get_rout_settings($r);
     $datafile = "data/{$r_settings['data_file']}";
 	if (file_exists($datafile)) { include_once("$datafile"); } else { echo "file error"; exit; }

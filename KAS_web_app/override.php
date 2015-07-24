@@ -10,6 +10,7 @@ DataBase::getInstance()->connect(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
 include('inc/config.php');
 check_login($lang,$web_dir);
 $ad = $_GET['addr'];
+$ru = get_router_by_addr($ad);
 ?>
 <head>
         <title><?=$slogan?></title>
@@ -24,7 +25,6 @@ $ad = $_GET['addr'];
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
         <script type="text/javascript" src="js/mint-admin.js"></script>
-		
 		<script type="text/javascript" src="js/ka-ex.js"></script>
     </head>
     <body>
@@ -197,33 +197,43 @@ $ad = $_GET['addr'];
 						}
                         //by addr
 						if ($user_settings['level'] > 10) {
-                            $query = "SELECT `addr` FROM `klimatiki` GROUP BY `addr` ORDER BY `addr` ASC";
-                            $result = mysql_query($query);
-                            confirm_query($result);
-                            if (mysql_num_rows($result) != 0) {
+							if (!empty($buildings)) {
 								echo "
 								<li class=\"active\">
                             <a href=\"override.php?lang=".$lang."\" class=\"active\">
-							    <i class=\"fa fa-legal fa-fw fa-3x\"></i> ".get_lang($lang, 'k126')."<span class=\"fa arrow\"></span></a>
+							    <i class=\"fa fa-legal fa-fw fa-3x\"></i>&nbsp;".get_lang($lang,'k126')."<span class=\"fa arrow\"></span></a>
 								<ul class=\"nav nav-second-level\">";
-								if ($user_settings['level'] > 10) {
-									echo "
+								echo "
 								        <li><a href=\"override_all.php?lang=".$lang."&addr=all\"><span style=\"color:red;\">
-										    ".get_lang($lang, 'k128')." ".get_lang($lang, 'k10')."</span></a></li>";
-								}
-						        while($addrs = mysql_fetch_array($result)) {
-									if ($addrs['addr'] == $ad) {
-									    echo "
+										    ".get_lang($lang,'k128')."&nbsp;".get_lang($lang,'k10')."</span></a></li>";
+	                            foreach ($buildings as $building) {
+	                            	if ($ru == $building) {
+										echo "<li class=\"active\"><a href=\"#\">".$building."&nbsp;<span class=\"fa arrow\"></span></a>";
+									} else {
+										echo "<li><a href=\"#\">".$building."&nbsp;<span class=\"fa arrow\"></span></a>";
+									}
+                                    $query = "SELECT `addr` FROM `klimatiki` WHERE `router`='".$building."' GROUP BY `addr` ORDER BY `addr` ASC";
+                                    $result = mysql_query($query);
+                                    confirm_query($result);
+                                    if (mysql_num_rows($result) != 0) {
+                            	        echo "<ul class=\"nav nav-third-level\">";
+						                while($addrs = mysql_fetch_array($result)) {
+									        if ($addrs['addr'] == $ad) {
+									            echo "
                                             <li><a href=\"override.php?lang=".$lang."&addr=".$addrs['addr']."\" class=\"active\">
 								                ".get_lang($lang, 'k10')." ".$addrs['addr']."</a></li>";
-								    } else {
-										 echo "
+								            } else {
+										        echo "
 								             <li><a href=\"override.php?lang=".$lang."&addr=".$addrs['addr']."\">
 											     ".get_lang($lang, 'k10')." ".$addrs['addr']."</a></li>";
-									}
-								}
+									        }
+					                    }
+					                    echo "</ul>";
+					                }
+                                    echo "</li>";
+	                            }
 								echo "</ul></li>";
-					        }
+							}
 						}
 						?>
                         <li>
@@ -303,7 +313,7 @@ $ad = $_GET['addr'];
             <div id="page-wrapper">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h3 class="page-header text-asbestos"><i class="fa fa-legal"></i> <?php echo get_lang($lang, 'k126'); ?></h3>
+                        <h3 class="page-header text-asbestos"><i class="fa fa-legal"></i>&nbsp;<?php echo get_lang($lang,'k126')." \ ".mb_substr(get_lang($lang,'k10'),0,5,'UTF-8')." ".$ad; ?></h3>
                     </div>
                 </div>
                 <!-- /.col-lg-12 -->
@@ -313,32 +323,18 @@ $ad = $_GET['addr'];
                     echo "
 				<div class=\"row\">
                     <div class=\"col-lg-6\">
-                        <div class=\"panel panel-warning\">
-                            <div class=\"panel-heading\">".get_lang($lang, 'k10')." ".$ad."</div>
-                            <div class=\"panel-body\"><center>
-                                <div class=\"btn-group btn-group-lg\" id=\"mode\">
-                                    <button type=\"button\" class=\"btn btn-danger\" id=\"off\">".get_lang($lang,'off')."</button>
-                                    <button type=\"button\" class=\"btn btn-default active\" id=\"med\" disabled=\"disabled\">".get_lang($lang,'k90')."</button>
-                                    <button type=\"button\" class=\"btn btn-success\" id=\"on\">".get_lang($lang,'on')."</button>
-                                </div>
-                                <script type=\"text/javascript\">
-                                    var addr = '".$ad."';
-                                    $(function() {
-                                        $(\"#off\").on(\"click\",function(e) {
-			                                s_addr(addr,'OFF');
-                                        });
-                                        $(\"#on\").on(\"click\",function(e) {
-			                                s_addr(addr,'ON');
-                                        });
-                                    });
-                                </script>
-						    </center></div>
+                        <div class=\"panel panel-primary\">
+                            <div class=\"panel-heading\">".get_lang($lang,'k268')."</div>
+                            <div class=\"panel-body\">
+                                ".get_lang($lang,'k14')."&nbsp;/&nbsp;".get_lang($lang,'k46').":&nbsp;".$ru."<br/>
+                                ".get_lang($lang,'k272').":&nbsp;".$ad."
+						    </div>
 						</div>
                     </div>
 					
 					<div class=\"col-lg-6\">
                         <div class=\"panel panel-danger\">
-                            <div class=\"panel-heading\">".get_lang($lang, 'k132')."</div>
+                            <div class=\"panel-heading\">".get_lang($lang,'k132')."</div>
                             <div class=\"panel-body\"><center>
                                 <div class=\"btn-group btn-group-lg\" id=\"prog\">
                                     <button type=\"button\" class=\"btn btn-danger\" id=\"pg-2\">".get_lang($lang,'off')."</button>
@@ -348,13 +344,13 @@ $ad = $_GET['addr'];
                                 <script type=\"text/javascript\">
                                     var ad = '".$ad."';
                                     var pg = 'prog';
-	                                var r = 'Strellson/Joop';
+	                                var r = '".$ru."';
                                     $(function() {
                                         $(\"#pg-1\").on(\"click\",function(e) {
-			                                s_prog_addr(pg,ad,'On');
+			                                s_prog_addr(pg,ad,r,'On');
                                         });
                                         $(\"#pg-2\").on(\"click\",function(e) {
-			                                s_prog_addr(pg,ad,'Off');
+			                                s_prog_addr(pg,ad,r,'Off');
                                         });
                                     });
                                 </script>
@@ -363,10 +359,32 @@ $ad = $_GET['addr'];
 					</div>
 				</div>
 				
-				<div class=\"row\">	
+				<div class=\"row\">
                     <div class=\"col-lg-6\">
+                        <div class=\"panel panel-warning\">
+                            <div class=\"panel-heading\">".get_lang($lang,'k270')."</div>
+                            <div class=\"panel-body\"><center>
+                                <div class=\"btn-group btn-group-lg\" id=\"mode\">
+                                    <button type=\"button\" class=\"btn btn-danger\" id=\"off\">".get_lang($lang,'off')."</button>
+                                    <button type=\"button\" class=\"btn btn-default active\" id=\"med\" disabled=\"disabled\">".get_lang($lang,'k90')."</button>
+                                    <button type=\"button\" class=\"btn btn-success\" id=\"on\">".get_lang($lang,'on')."</button>
+                                </div>
+                                <script type=\"text/javascript\">
+                                    var addr = '".$ad."';
+                                    var ru = '".$ru."';
+                                    $(function() {
+                                        $(\"#off\").on(\"click\",function(e) {
+			                                s_addr(addr,ru,'OFF');
+                                        });
+                                        $(\"#on\").on(\"click\",function(e) {
+			                                s_addr(addr,ru,'ON');
+                                        });
+                                    });
+                                </script>
+						    </center></div>
+						</div>
                         <div class=\"panel panel-primary\">
-                            <div class=\"panel-heading\">".get_lang($lang, 'k90')."</div>
+                            <div class=\"panel-heading\">".get_lang($lang,'k269')."</div>
                             <div class=\"panel-body data top\">
                                 <script type=\"text/javascript\">
                                     $(function() {
@@ -383,7 +401,7 @@ $ad = $_GET['addr'];
 					
                     <div class=\"col-lg-6\">
                         <div class=\"panel panel-primary\">
-                            <div class=\"panel-heading\">".get_lang($lang, 'k132')."</div>
+                            <div class=\"panel-heading\">".get_lang($lang,'k271')."</div>
                             <div class=\"panel-body data top\">
                                 <script type=\"text/javascript\">
                                     $(function() {
@@ -426,8 +444,8 @@ $ad = $_GET['addr'];
         <!-- /#wrapper -->
 		<a href="#" id="toTop"><i class="fa fa-arrow-up"></i></a>
 		<script type="text/javascript">
-            function s_addr(addr,status) {
-                var postData = { 'action' : 'ADDR', 'addr' : addr, 'status' : status }; 
+            function s_addr(addr,router,status) {
+                var postData = { 'action' : 'ADDR', 'addr' : addr, 'router' : router , 'status' : status }; 
                 $.ajax({
                     url: 'k_handle_addr.php',
                     type: 'post',
@@ -441,8 +459,8 @@ $ad = $_GET['addr'];
                     }
                 });
             }
-            function s_prog_addr(pg,ad,status) {
-                var postData = { 'action' : pg, 'addr' : ad, 'status' : status }; 
+            function s_prog_addr(pg,ad,r,status) {
+                var postData = { 'action' : pg, 'addr' : ad, 'router' : r, 'status' : status }; 
                 $.ajax({
                     url: 'k_handle_addr_prog.php',
                     type: 'post',
