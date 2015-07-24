@@ -14,7 +14,6 @@ if (mysql_num_rows($result) != 0) {
     while($klimas = mysql_fetch_array($result)) {
 		$invs[] = $klimas['inv'];
 	}
-	$r = 'Strellson/Joop';
 	foreach($invs as $klima) {
         $k_settings = get_klima_settings($klima);
 		if ($k_settings['prog'] == 'On') { $p_class = "emerald"; } elseif ( $k_settings['prog'] == "Off") { $p_class = "alizarin"; }

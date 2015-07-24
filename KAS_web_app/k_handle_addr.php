@@ -10,9 +10,9 @@ check_login($lang,$web_dir);
 //turn off klimas by addr
 $command = $_POST['action'];
 $addr = $_POST['addr'];
+$router = $_POST['router'];
 $status = $_POST['status'];
 include('inc/socket.php');
-$router = 'Strellson/Joop';
 $r_options = get_rout_settings($router);
 $socket_ip = $r_options['ip_address'];
 $socket_port = $r_options['port'];
@@ -36,6 +36,10 @@ elseif ($addr == '12') { $timer = '8'; }
 elseif ($addr == '13') { $timer = '10'; }
 elseif ($addr == '14') { $timer = '9'; }
 elseif ($addr == '15') { $timer = '6'; }
+elseif ($addr == '16') { $timer = '16'; }
+elseif ($addr == '17') { $timer = '16'; }
+elseif ($addr == '18') { $timer = '16'; }
+elseif ($addr == '19') { $timer = '16'; }
 else { $timer = '12'; }
 try {
     if(!($command == NULL)) {

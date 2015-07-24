@@ -197,27 +197,33 @@ $ad = $_GET['addr'];
 						}
                         //by addr
 						if ($user_settings['level'] > 10) {
-                            $query = "SELECT `addr` FROM `klimatiki` GROUP BY `addr` ORDER BY `addr` ASC";
-                            $result = mysql_query($query);
-                            confirm_query($result);
-                            if (mysql_num_rows($result) != 0) {
+							if (!empty($buildings)) {
 								echo "
 								<li class=\"active\">
                             <a href=\"override.php?lang=".$lang."\" class=\"active\">
-							    <i class=\"fa fa-legal fa-fw fa-3x\"></i> ".get_lang($lang, 'k126')."<span class=\"fa arrow\"></span></a>
+							    <i class=\"fa fa-legal fa-fw fa-3x\"></i>&nbsp;".get_lang($lang,'k126')."<span class=\"fa arrow\"></span></a>
 								<ul class=\"nav nav-second-level\">";
-								if ($user_settings['level'] > 10) {
-									echo "
+								echo "
 								        <li><a href=\"override_all.php?lang=".$lang."&addr=all\" class=\"active\"><span style=\"color:red;\">
-										    ".get_lang($lang, 'k128')." ".get_lang($lang, 'k10')."</span></a></li>";
-								}
-						        while($addrs = mysql_fetch_array($result)) {
-									echo "
+										    ".get_lang($lang,'k128')."&nbsp;".get_lang($lang,'k10')."</span></a></li>";
+	                            foreach ($buildings as $building) {
+                                    echo "<li><a href=\"#\">".$building."&nbsp;<span class=\"fa arrow\"></span></a>";
+                                    $query = "SELECT `addr` FROM `klimatiki` WHERE `router`='".$building."' GROUP BY `addr` ORDER BY `addr` ASC";
+                                    $result = mysql_query($query);
+                                    confirm_query($result);
+                                    if (mysql_num_rows($result) != 0) {
+                            	        echo "<ul class=\"nav nav-third-level\">";
+						                while($addrs = mysql_fetch_array($result)) {
+									        echo "
                                         <li><a href=\"override.php?lang=".$lang."&addr=".$addrs['addr']."\">
-								            ".get_lang($lang, 'k10')." ".$addrs['addr']."</a></li>";
-								}
+										    ".get_lang($lang,'k10')."&nbsp;".$addrs['addr']."</a></li>";
+					                    }
+					                    echo "</ul>";
+					                }
+                                    echo "</li>";
+	                            }
 								echo "</ul></li>";
-					        }
+							}
 						}
 						?>
                         <li>
@@ -297,11 +303,22 @@ $ad = $_GET['addr'];
             <div id="page-wrapper">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h3 class="page-header text-asbestos"><i class="fa fa-legal"></i> <?php echo get_lang($lang, 'k126'); ?></h3>
+                        <h3 class="page-header text-asbestos"><i class="fa fa-legal"></i>&nbsp;<?php echo get_lang($lang,'k126'); ?></h3>
                     </div>
                 </div>
                 <!-- /.col-lg-12 -->
 				<?php if ($user_settings['level'] > 10): ?>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-danger">
+                            <div class="panel-heading"><?php echo get_lang($lang,'k152'); ?></div>
+                            <div class="panel-body">
+                                <div class="alert alert-danger">Security alert. This area is sensible...</div>
+                            </div>
+                        </div>
+                    </div>
+				</div>
 				
                 <div class="row">
                 <?php
@@ -323,183 +340,98 @@ $ad = $_GET['addr'];
                         <div class=\"panel panel-danger\">
                             <div class=\"panel-heading\">".$router."</div>
                             <div class=\"panel-body\">
-                                <ul class=\"nav nav-pills\">
-                                    <li class=\"active\"><a href=\"#home-pills-".$x."\" data-toggle=\"tab\">".get_lang($lang,'k132')."</a></li>
-                                    <li><a href=\"#profile-pills-".$x."\" data-toggle=\"tab\">".get_lang($lang, 'k128')." ".get_lang($lang, 'k10')."</a></li>
-                                </ul>
-                                <!-- Tab panes -->
-                                <div class=\"tab-content\">
-                                    <div class=\"tab-pane fade in active\" id=\"home-pills-".$x."\">
-                                    <br/>
-                              <center>
-                                <div class=\"btn-group btn-group-lg\" id=\"prog\">";
-								if ($r_settings['work_sche'] == "Off") {
-									echo "<button type=\"button\" class=\"btn btn-danger\" id=\"pg-".$x."-2\" disabled=\"disabled\">".get_lang($lang,'off')."</button>";
-								} else {
-									echo "<button type=\"button\" class=\"btn btn-danger\" id=\"pg-".$x."-2\">".get_lang($lang,'off')."</button>";
-								}
-								echo "<button type=\"button\" class=\"btn btn-default active\" disabled=\"disabled\">".get_lang($lang,'k90')."</button>";
-								if ($r_settings['work_sche'] == "On") {
-									echo "<button type=\"button\" class=\"btn btn-success\" id=\"pg-".$x."-1\" disabled=\"disabled\">".get_lang($lang,'on')."</button>";
-								} else {
-									echo "<button type=\"button\" class=\"btn btn-success\" id=\"pg-".$x."-1\">".get_lang($lang,'on')."</button>";
-								}
-							echo "<p>&nbsp;</p></div>
-                              </center>
-                              <script type=\"text/javascript\">
-                                  var pg = 'all';
-	                              var r = '".$router."';
-                                  $(function() {
-                                      $(\"#pg-".$x."-1\").on(\"click\", function (e) {
-			                              s_prog_all_".$x."(r,pg,'On');
-                                      });
-                                      $(\"#pg-".$x."-2\").on(\"click\", function (e) {
-			                              s_prog_all_".$x."(r,pg,'Off');
-                                      });
-                                  });
-                              </script>
-                            <div class=\"panel-footer\"> 
-                    <script type=\"text/javascript\">
-                        $(function() {
- 	                        $('#wprog-".$x."').load('live_work_sche.php?lang=".$lang."&router=".$router."&x=');
-                            var refreshId = setInterval(function() {
-                                $('#wprog-".$x."').load('live_work_sche.php?lang=".$lang."&router=".$router."&x='+ Math.random()); 
-                            },2000);
-                        });
-                    </script>
-								<div id=\"wprog-".$x."\">Loading...</div>
-                            </div>
+                                <div class=\"divb\">
+                                    <h5>".get_lang($lang,'k128')."&nbsp;".get_lang($lang,'k10')."</h5>
+                                	<center>
+                                    <div class=\"btn-group btn-group-lg\" id=\"mode\">
+                                        <button type=\"button\" class=\"btn btn-danger\" id=\"off-".$x."\">".get_lang($lang,'off')."</button>
+                                        <button type=\"button\" class=\"btn btn-default active\" id=\"med\" disabled=\"disabled\">".get_lang($lang,'k90')."</button>
+                                        <button type=\"button\" class=\"btn btn-success\" id=\"on-".$x."\">".get_lang($lang,'on')."</button>
                                     </div>
-                                    <div class=\"tab-pane fade\" id=\"profile-pills-".$x."\">
-<br/>
-<center>
-<div class=\"btn-group btn-group-lg\" id=\"mode\">
-   <button type=\"button\" class=\"btn btn-danger\" id=\"off-".$x."\">".get_lang($lang,'off')."</button>
-   <button type=\"button\" class=\"btn btn-default active\" id=\"med\" disabled=\"disabled\">".get_lang($lang,'k90')."</button>
-   <button type=\"button\" class=\"btn btn-success\" id=\"on-".$x."\">".get_lang($lang,'on')."</button>
-</div>
-<script type=\"text/javascript\">
-    var addr = '".$ad."x';
-    var router = '".$router."';
-    $(function() {
-        $(\"#off-".$x."\").on(\"click\", function (e) {
-			s_addr_".$x."(router,addr,'OFF');
-        });
-        $(\"#on-".$x."\").on(\"click\", function (e) {
-			s_addr_".$x."(router,addr,'ON');
-        });
-    });
-</script>
-</center>
-                                    <br/>    
+                                    <script type=\"text/javascript\">
+                                        var addr = '".$ad."';
+                                        var ru_".$x." = '".$router."';
+                                        $(function() {
+                                            $(\"#off-".$x."\").on(\"click\", function (e) {
+			                                    s_addr_".$x."(ru_".$x.",addr,'OFF');
+                                            });
+                                            $(\"#on-".$x."\").on(\"click\", function (e) {
+			                                    s_addr_".$x."(ru_".$x.",addr,'ON');
+                                            });
+                                        });
+                                    </script>
+						            </center>
+                                </div>
+                            </div>
+                            <div class=\"panel-body\">
+                                <div class=\"divb\">
+                                    <h5>".get_lang($lang,'k132')."</h5>
+                                    <center>
+                                    
+                                    <div class=\"btn-group btn-group-lg\" id=\"prog\">";
+                                    //echo $r_settings['router_name'];
+								    if ($r_settings['work_sche'] == "Off") {
+									    echo "<button type=\"button\" class=\"btn btn-danger\" id=\"pg-off-".$x."\" disabled=\"disabled\">".get_lang($lang,'off')."</button>";
+								    } else {
+									    echo "<button type=\"button\" class=\"btn btn-danger\" id=\"pg-off-".$x."\">".get_lang($lang,'off')."</button>";
+								    }
+								    echo "<button type=\"button\" class=\"btn btn-default active\" disabled=\"disabled\">".get_lang($lang,'k90')."</button>";
+								    if ($r_settings['work_sche'] == "On") {
+									    echo "<button type=\"button\" class=\"btn btn-success\" id=\"pg-on-".$x."\" disabled=\"disabled\">".get_lang($lang,'on')."</button>";
+								    } else {
+									    echo "<button type=\"button\" class=\"btn btn-success\" id=\"pg-on-".$x."\">".get_lang($lang,'on')."</button>";
+								    }
+							        echo "</div>
+                                    <script type=\"text/javascript\">
+                                        var pg = 'all';
+	                                    var r_".$x." = '".$router."';
+                                        $(function() {
+                                            $(\"#pg-on-".$x."\").on(\"click\", function (e) {
+			                                    s_prog_all_".$x."(r_".$x.",pg,'On');
+                                            });
+                                            $(\"#pg-off-".$x."\").on(\"click\", function (e) {
+			                                    s_prog_all_".$x."(r_".$x.",pg,'Off');
+                                            });
+                                        });
+                                    </script>
+						            </center>
+                                    <div class=\"wo\">
+                                        <script type=\"text/javascript\">
+                                            $(function() {
+ 	                                            $('#wprog-".$x."').load('live_work_sche.php?lang=".$lang."&router=".$router."&x=');
+                                                var refreshId = setInterval(function() {
+                                                    $('#wprog').load('live_work_sche.php?lang=".$lang."&router=".$router."&x='+ Math.random()); 
+                                                },2000);
+                                            });
+                                        </script>
+								        <div id=\"wprog-".$x."\"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-							";
+                    </div>";
 							$x++;
 						}	
                     }
                 ?>
-                    
 				</div>
 				<!-- /.row -->
-				
-				
-				
-				
-				<?php
-				    $r_settings = get_rout_settings('Strellson/Joop');
-                        echo "
-				<div class=\"row\">
-				
-				
-                    <div class=\"col-lg-6\">
-                        <div class=\"panel panel-danger\">
-                            <div class=\"panel-heading\">".get_lang($lang, 'k128')." ".get_lang($lang, 'k10')."</div>
-                            <div class=\"panel-body\"><center>
-<div class=\"btn-group btn-group-lg\" id=\"mode\">
-   <button type=\"button\" class=\"btn btn-danger\" id=\"off\">".get_lang($lang,'off')."</button>
-   <button type=\"button\" class=\"btn btn-default active\" id=\"med\" disabled=\"disabled\">".get_lang($lang,'k90')."</button>
-   <button type=\"button\" class=\"btn btn-success\" id=\"on\">".get_lang($lang,'on')."</button>
-</div>
-<script type=\"text/javascript\">
-    var addr = '".$ad."';
-    $(function() {
-        $(\"#off\").on(\"click\", function (e) {
-			s_addr(addr,'OFF');
-        });
-        $(\"#on\").on(\"click\", function (e) {
-			s_addr(addr,'ON');
-        });
-    });
-</script>
-						    </center></div>
-						</div>
-					</div>
 
-                    <div class=\"col-lg-6\">
-                        <div class=\"panel panel-danger\">
-                            <div class=\"panel-heading\">".get_lang($lang, 'k132')."</div>
-                            <div class=\"panel-body\">
-                              <center>
-                                <div class=\"btn-group btn-group-lg\" id=\"prog\">";
-								if ($r_settings['work_sche'] == "Off") {
-									echo "<button type=\"button\" class=\"btn btn-danger\" id=\"pg-2\" disabled=\"disabled\">".get_lang($lang,'off')."</button>";
-								} else {
-									echo "<button type=\"button\" class=\"btn btn-danger\" id=\"pg-2\">".get_lang($lang,'off')."</button>";
-								}
-								echo "<button type=\"button\" class=\"btn btn-default active\" disabled=\"disabled\">".get_lang($lang,'k90')."</button>";
-								if ($r_settings['work_sche'] == "On") {
-									echo "<button type=\"button\" class=\"btn btn-success\" id=\"pg-1\" disabled=\"disabled\">".get_lang($lang,'on')."</button>";
-								} else {
-									echo "<button type=\"button\" class=\"btn btn-success\" id=\"pg-1\">".get_lang($lang,'on')."</button>";
-								}
-							echo "</div>
-<script type=\"text/javascript\">
-    var pg = 'all';
-	var r = 'Strellson/Joop';
-    $(function() {
-        $(\"#pg-1\").on(\"click\", function (e) {
-			s_prog_all(r,pg,'On');
-        });
-        $(\"#pg-2\").on(\"click\", function (e) {
-			s_prog_all(r,pg,'Off');
-        });
-    });
-</script>
-						    </center></div>
-                            <div class=\"panel-footer\"> 
-                    <script type=\"text/javascript\">
-                        $(function() {
- 	                        $('#wprog').load('live_work_sche.php?lang=".$lang."&router=Strellson/Joop&x=');
-                            var refreshId = setInterval(function() {
-                                $('#wprog').load('live_work_sche.php?lang=".$lang."&router=Strellson/Joop&x='+ Math.random()); 
-                            }, 3000);
-                        });
-                    </script>
-								<div id=\"wprog\"></div>
-                            </div>
-						</div>
-					</div>
-				</div>";
-				?>
 				<?php else: ?>		
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-danger">
                             <div class="panel-heading">
-                                <?php echo get_lang($lang, 'Error'); ?>
+                                <?php echo get_lang($lang,'Error'); ?>
                             </div>
                             <div class="panel-body">
 							    <div class="alert alert-warning">
-                                    <?php echo get_lang($lang, 'k30'); ?>
+                                    <?php echo get_lang($lang,'k30'); ?>
 								</div>
                             </div>
                             <div class="panel-footer">
                                 <button type="button" class="btn btn-primary btn-lg" onClick="document.location.href = 'index.php?lang=<?=$lang?>'; return false;">
-								    <i class="fa fa-times"></i>&nbsp;<?php echo get_lang($lang, 'k28'); ?></button>
+								    <i class="fa fa-times"></i>&nbsp;<?php echo get_lang($lang,'k28'); ?></button>
                             </div>
                         </div>
                     </div>
@@ -549,8 +481,8 @@ function s_prog_all_0(r,pg,status) {
         type: 'post',
         data: postData,
         success: function(result) {
-			$("#pg-0-1").attr("disabled", true);
-			$("#pg-0-2").attr("disabled", true);
+			$("#pg-on-0").attr("disabled", true);
+			$("#pg-off-0").attr("disabled", true);
 		},
         error: function(xhr, status, error) {
 		    alert('error with s_prog_all');
@@ -564,8 +496,8 @@ function s_prog_all_1(r,pg,status) {
         type: 'post',
         data: postData,
         success: function(result) {
-			$("#pg-1-1").attr("disabled", true);
-			$("#pg-1-2").attr("disabled", true);
+			$("#pg-on-1").attr("disabled", true);
+			$("#pg-off-1").attr("disabled", true);
 		},
         error: function(xhr, status, error) {
 		    alert('error with s_prog_all');

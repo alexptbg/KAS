@@ -66,15 +66,15 @@ function p($d,$r,$lang,$u,$ex) {
 	$set_point = ($d2*256+$d3)/10;
 	$in_temp = ($d8*256+$d9)/10;
     //mode
-if ($mode == "1") {      $mode_name = substr(get_lang($lang,'k69'),0,6).'.'; } 
-elseif ($mode == "9") {  $mode_name = substr(get_lang($lang,'k69'),0,6).'.'; }
-elseif ($mode == "2") {  $mode_name = substr(get_lang($lang,'k70'),0,6).'.'; }
-elseif ($mode == "10") { $mode_name = substr(get_lang($lang,'k70'),0,6).'.'; }
-elseif ($mode == "3") {  $mode_name = substr(get_lang($lang,'k71'),0,6).'.'; }
-elseif ($mode == "11") { $mode_name = substr(get_lang($lang,'k71'),0,6).'.'; }
-elseif ($mode == "4") {  $mode_name = substr(get_lang($lang,'k72'),0,6).'.'; }
-elseif ($mode == "12") { $mode_name = substr(get_lang($lang,'k72'),0,6).'.'; }
-elseif ($mode == "0") {  $mode_name = substr(get_lang($lang,'k73'),0,6).'.'; }
+if ($mode == "1") {      $mode_name = mb_substr(get_lang($lang,'k69'),0,6,'UTF-8').'.'; } 
+elseif ($mode == "9") {  $mode_name = mb_substr(get_lang($lang,'k69'),0,6,'UTF-8').'.'; }
+elseif ($mode == "2") {  $mode_name = mb_substr(get_lang($lang,'k70'),0,6,'UTF-8').'.'; }
+elseif ($mode == "10") { $mode_name = mb_substr(get_lang($lang,'k70'),0,6,'UTF-8').'.'; }
+elseif ($mode == "3") {  $mode_name = mb_substr(get_lang($lang,'k71'),0,6,'UTF-8').'.'; }
+elseif ($mode == "11") { $mode_name = mb_substr(get_lang($lang,'k71'),0,6,'UTF-8').'.'; }
+elseif ($mode == "4") {  $mode_name = mb_substr(get_lang($lang,'k72'),0,6,'UTF-8').'.'; }
+elseif ($mode == "12") { $mode_name = mb_substr(get_lang($lang,'k72'),0,6,'UTF-8').'.'; }
+elseif ($mode == "0") {  $mode_name = mb_substr(get_lang($lang,'k73'),0,6,'UTF-8').'.'; }
 else { $mode_name = $mode; }
 	//step
 	//led

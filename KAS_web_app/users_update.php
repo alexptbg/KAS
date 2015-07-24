@@ -197,27 +197,33 @@ check_login($lang,$web_dir);
 						}
                         //by addr
 						if ($user_settings['level'] > 10) {
-                            $query = "SELECT `addr` FROM `klimatiki` GROUP BY `addr` ORDER BY `addr` ASC";
-                            $result = mysql_query($query);
-                            confirm_query($result);
-                            if (mysql_num_rows($result) != 0) {
+							if (!empty($buildings)) {
 								echo "
 								<li>
                             <a href=\"override.php?lang=".$lang."\">
-							    <i class=\"fa fa-legal fa-fw fa-3x\"></i> ".get_lang($lang, 'k126')."<span class=\"fa arrow\"></span></a>
+							    <i class=\"fa fa-legal fa-fw fa-3x\"></i>&nbsp;".get_lang($lang,'k126')."<span class=\"fa arrow\"></span></a>
 								<ul class=\"nav nav-second-level\">";
-								if ($user_settings['level'] > 10) {
-									echo "
+								echo "
 								        <li><a href=\"override_all.php?lang=".$lang."&addr=all\"><span style=\"color:red;\">
-										    ".get_lang($lang, 'k128')." ".get_lang($lang, 'k10')."</span></a></li>";
-								}
-						        while($addrs = mysql_fetch_array($result)) {
-									echo "
+										    ".get_lang($lang,'k128')."&nbsp;".get_lang($lang,'k10')."</span></a></li>";
+	                            foreach ($buildings as $building) {
+                                    echo "<li><a href=\"#\">".$building."&nbsp;<span class=\"fa arrow\"></span></a>";
+                                    $query = "SELECT `addr` FROM `klimatiki` WHERE `router`='".$building."' GROUP BY `addr` ORDER BY `addr` ASC";
+                                    $result = mysql_query($query);
+                                    confirm_query($result);
+                                    if (mysql_num_rows($result) != 0) {
+                            	        echo "<ul class=\"nav nav-third-level\">";
+						                while($addrs = mysql_fetch_array($result)) {
+									        echo "
                                         <li><a href=\"override.php?lang=".$lang."&addr=".$addrs['addr']."\">
-										    ".get_lang($lang, 'k10')." ".$addrs['addr']."</a></li>";
-					            }
+										    ".get_lang($lang,'k10')."&nbsp;".$addrs['addr']."</a></li>";
+					                    }
+					                    echo "</ul>";
+					                }
+                                    echo "</li>";
+	                            }
 								echo "</ul></li>";
-					        }
+							}
 						}
 						?>
                         <li>
@@ -313,6 +319,7 @@ check_login($lang,$web_dir);
 									$last_name = mysql_prep($_POST['last_name']);
 									$email = mysql_prep($_POST['email']);
 									$phone = mysql_prep($_POST['phone']);
+									$access = mysql_prep($_POST['access']);
 									$level = mysql_prep($_POST['level']);
 									$status = mysql_prep($_POST['status']);
 									$ilang = mysql_prep($_POST['init_lang']);
@@ -324,7 +331,7 @@ check_login($lang,$web_dir);
 									if (($user_name != NULL) && ($check == FALSE)) {
 										//try to update
 	                                    mysql_query("SET NAMES utf8");
-		                                $query = "UPDATE `users` SET `user_name`='".$user_name."', `first_name`='".$first_name."', `last_name`='".$last_name."', `email`='".$email."', `phone`='".$phone."', `level`='".$level."', `status`='".$status."', `init_lang`='".$ilang."', `info`='".$info."', `device`='".$device."', `buildings`='".$buildings."', `klimas`='".$klimas."' WHERE `id`='".$uid."'";
+		                                $query = "UPDATE `users` SET `user_name`='".$user_name."', `first_name`='".$first_name."', `last_name`='".$last_name."', `email`='".$email."', `phone`='".$phone."', `access`='".$access."', `level`='".$level."', `status`='".$status."', `init_lang`='".$ilang."', `info`='".$info."', `device`='".$device."', `buildings`='".$buildings."', `klimas`='".$klimas."' WHERE `id`='".$uid."'";
                                         $result = mysql_query($query);
                                         confirm_query($result);
                                         if ($result) {
