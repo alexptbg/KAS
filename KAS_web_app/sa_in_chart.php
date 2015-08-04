@@ -32,6 +32,8 @@ check_login($lang,$web_dir);
         <script type="text/javascript" src="js/plugins/hcharts/unica.js"></script>
         <script type="text/javascript" src="js/plugins/hcharts/highcharts.<?=$lang?>.js"></script>
         <script type="text/javascript" src="js/plugins/hcharts/exporting.js"></script>
+        
+        <script type="text/javascript" src="js/plugins/hcharts/export-csv.js"></script>
     </head>
     <body>
         <div id="wrapper">
@@ -331,6 +333,11 @@ check_login($lang,$web_dir);
                                                     easing: 'easeOutBounce'
                                                 }
 		                                    },
+                                            navigator: {
+                                                series: {
+                                                    includeInCSVExport: false
+                                                }
+                                            },
                                             rangeSelector: {
                                                 buttons: [{
                                                     type: 'hour',
@@ -423,7 +430,7 @@ check_login($lang,$web_dir);
 	                                });
                                 });
                                 </script>
-								<div id="ichart" style="height:534px;width:100%;margin:0;padding:0;"></div>
+								<div id="ichart" style="height:534px;width:100%;margin:0;padding:0;margin-bottom:10px;"></div>
                             </div>
                         </div>
                     </div>
@@ -452,6 +459,11 @@ check_login($lang,$web_dir);
                                                     easing: 'easeOutBounce'
                                                 }
 		                                    },
+                                            navigator: {
+                                                series: {
+                                                    includeInCSVExport: false
+                                                }
+                                            },
                                             rangeSelector: {
                                                 buttons: [{
                                                     type: 'hour',
@@ -540,7 +552,9 @@ check_login($lang,$web_dir);
 	                                });
                                 });
                                 </script>
-								<div id="hchart" style="height:534px;width:100%;margin:0;padding:0;"></div>
+								<div id="hchart" style="height:534px;width:100%;margin:0;padding:0;margin-bottom:10px;"></div>
+								<button type="button" class="btn btn-info btn-lg fr" onClick="document.location.href='sa_in_chart_table.php?lang=<?=$lang?>&args=t60m'">
+								    <i class="fa fa-file-text-o"></i>&nbsp;<?php echo get_lang($lang,'k275'); ?></button>
                             </div>
                         </div>
                     </div>
@@ -569,6 +583,11 @@ check_login($lang,$web_dir);
                                                     easing: 'easeOutBounce'
                                                 }
 		                                    },
+                                            navigator: {
+                                                series: {
+                                                    includeInCSVExport: false
+                                                }
+                                            },
                                             rangeSelector: {
                                                 buttons: [{
                                                     type: 'hour',

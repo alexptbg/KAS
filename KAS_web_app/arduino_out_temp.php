@@ -12,6 +12,8 @@ $hu=12;
 if(isset($_GET['out'])) {
 	if((isset($_GET['hum'])) && (isset($_GET['temp1'])) && (isset($_GET['temp2'])) && (isset($_GET['id'])) && (isset($_GET['ip'])) && (isset($_GET['mac']))) {
         $now = date("Y-m-d H:i:s");
+        $fix = date("H");
+        if (($fix > 12) && ($fix < 23)) { $fi = 3; }
         $stamp = time();
         $uhum = $_GET['hum']+$hu;
         $utemp1 = $_GET['temp1']+$cr;

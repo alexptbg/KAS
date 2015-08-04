@@ -9,7 +9,6 @@ include('inc/init.php');
 DataBase::getInstance()->connect(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
 include('inc/config.php');
 check_login($lang,$web_dir);
-$ad = $_GET['addr'];
 ?>
 <head>
         <title><?=$slogan?></title>
@@ -25,7 +24,16 @@ $ad = $_GET['addr'];
         <script type="text/javascript" src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
         <script type="text/javascript" src="js/mint-admin.js"></script>
 		
+		<link type="text/css" rel="stylesheet" href="js/plugins/dataTables/dataTables.bootstrap.css" />
+        <script type="text/javascript" src="js/plugins/dataTables/jquery.dataTables.js"></script>
+        <script type="text/javascript" src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
+		<script type="text/javascript" src="js/plugins/dataTables/jquery.dataTables.columnFilter.js"></script>
+		
+		<link type="text/css" rel="stylesheet" href="js/plugins/dataTables/plugins/TableTools/css/dataTables.tableTools.min.css" />
+		<script type="text/javascript" src="js/plugins/dataTables/plugins/TableTools/js/dataTables.tableTools.min.js"></script>
+		
 		<script type="text/javascript" src="js/ka-ex.js"></script>
+		<script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
     </head>
     <body>
         <div id="wrapper">
@@ -40,11 +48,15 @@ $ad = $_GET['addr'];
                     <a class="navbar-brand" href="index.php?lang=<?=$lang?>">
 					    <i class="fa fa-sun-o fa-fw fa-spin"></i>&nbsp;<?=$slogan?></a>
                 </div>
-                <!-- /.navbar-header -->
                 <ul class="nav navbar-top-links navbar-right">
                     <li>
                         <a href="index.php?lang=<?=$lang?>">
                             <i class="fa fa-dashboard fa-2x fa-fw"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="" id="goback" onClick="javascript: history.go(-1); return false;">
+                            <i class="fa fa-arrow-left fa-2x fa-fw"></i>
                         </a>
                     </li>
                     <li>
@@ -66,11 +78,8 @@ $ad = $_GET['addr'];
 							    <i class="fa fa-sign-out fa-fw"></i> <?php echo get_lang($lang, 'Logout'); ?></a>
                             </li>
                         </ul>
-                        <!-- /.dropdown-user -->
                     </li>
-                    <!-- /.dropdown -->
                 </ul>
-                <!-- /.navbar-top-links -->
             </nav>
             <!-- /.navbar-static-top -->
             <?php @include($core); ?>
@@ -93,9 +102,8 @@ $ad = $_GET['addr'];
                                 </div>
                             </div>
                         </li>
-
                         <li>
-                            <a href="index.php?lang=<?=$lang?>">
+                            <a href="index.php?lang=<?=$lang?>" class="active">
 							    <i class="fa fa-dashboard fa-fw fa-3x"></i> <?php echo get_lang($lang, 'Home'); ?></a>
                         </li>
 						<?php
@@ -120,7 +128,6 @@ $ad = $_GET['addr'];
 	                            }
 	                            $klimas_u_all = explode(", ",$klimas_list);
                             }
-							
                             if (!empty($buildings)) {
 	                            foreach ($buildings as $building) {
 									$klimas_all_list="";
@@ -199,12 +206,12 @@ $ad = $_GET['addr'];
 						if ($user_settings['level'] > 10) {
 							if (!empty($buildings)) {
 								echo "
-								<li class=\"active\">
-                            <a href=\"override.php?lang=".$lang."\" class=\"active\">
+								<li>
+                            <a href=\"override.php?lang=".$lang."\">
 							    <i class=\"fa fa-legal fa-fw fa-3x\"></i>&nbsp;".get_lang($lang,'k126')."<span class=\"fa arrow\"></span></a>
 								<ul class=\"nav nav-second-level\">";
 								echo "
-								        <li><a href=\"override_all.php?lang=".$lang."&addr=all\" class=\"active\"><span style=\"color:red;\">
+								        <li><a href=\"override_all.php?lang=".$lang."&addr=all\"><span style=\"color:red;\">
 										    ".get_lang($lang,'k128')."&nbsp;".get_lang($lang,'k10')."</span></a></li>";
 	                            foreach ($buildings as $building) {
                                     echo "<li><a href=\"#\">".$building."&nbsp;<span class=\"fa arrow\"></span></a>";
@@ -282,7 +289,6 @@ $ad = $_GET['addr'];
                                 </li>
 								<?php endif; ?>
                             </ul>
-                            <!-- /.nav-second-level -->
                         </li>
 						<?php endif; ?>
                     </ul>
@@ -294,183 +300,139 @@ $ad = $_GET['addr'];
 					    </h5>
 					    <h6><?php echo get_lang($lang,'k243')."&nbsp;".date("Y-m-d H:i:s",filemtime("index.php")); ?></h6>
 					</div>
-                    <!-- /#side-menu -->
                 </div>
-                <!-- /.sidebar-collapse -->
             </nav>
-            <!-- /.navbar-static-side -->
 
             <div id="page-wrapper">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h3 class="page-header text-asbestos"><i class="fa fa-legal"></i>&nbsp;<?php echo get_lang($lang,'k126'); ?></h3>
+                        <h3 class="page-header text-asbestos"><i class="fa fa-history"></i>&nbsp;<?php echo get_lang($lang,'k166'); ?></h3>
                     </div>
                 </div>
-                <!-- /.col-lg-12 -->
-				<?php if ($user_settings['level'] > 10): ?>
-
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="panel panel-danger">
-                            <div class="panel-heading"><?php echo get_lang($lang,'k152'); ?></div>
-                            <div class="panel-body">
-                                <div class="alert alert-danger">Security alert. This area is sensible...</div>
-                            </div>
-                        </div>
-                    </div>
-				</div>
 				
                 <div class="row">
-                <?php
-			        //get all routers
-                    $query = "SELECT * FROM `routers` ORDER BY `router_name` ASC";
-                    $result = mysql_query($query);
-                    confirm_query($result);
-                    if (mysql_num_rows($result) != 0) {
-                        while($routers = mysql_fetch_array($result)) {
-		                    $routers_list[] = $routers['router_name'];
-	                    }
-                    }
-                    if (!empty($routers_list)) {
-                    	$x=0;
-                        foreach($routers_list as $router) {
-                        	$r_settings = get_rout_settings($router);
-							echo "
-                    <div class=\"col-lg-6\">
-                        <div class=\"panel panel-danger\">
-                            <div class=\"panel-heading\">".$router."</div>
-                            <div class=\"panel-body\">
-                                <div class=\"divb\">
-                                    <h5>".get_lang($lang,'k128')."&nbsp;".get_lang($lang,'k10')."</h5>
-                                	<center>
-                                    <div class=\"btn-group btn-group-lg\" id=\"mode\">
-                                        <button type=\"button\" class=\"btn btn-danger\" id=\"off-".$x."\">".get_lang($lang,'off')."</button>
-                                        <button type=\"button\" class=\"btn btn-default active\" id=\"med\" disabled=\"disabled\">".get_lang($lang,'k90')."</button>
-                                        <button type=\"button\" class=\"btn btn-success\" id=\"on-".$x."\">".get_lang($lang,'on')."</button>
-                                    </div>
-                                    <script type=\"text/javascript\">
-                                        var addr = '".$ad."';
-                                        var ru_".$x." = '".$router."';
-                                        $(function() {
-                                            $(\"#off-".$x."\").on(\"click\", function (e) {
-			                                    s_addr_".$x."(ru_".$x.",addr,'OFF');
-                                            });
-                                            $(\"#on-".$x."\").on(\"click\", function (e) {
-			                                    s_addr_".$x."(ru_".$x.",addr,'ON');
-                                            });
-                                        });
-                                        function s_addr_".$x."(r,addr,status) {
-                                            var postData = { 'router' : r, 'action' : 'ADDR', 'addr' : addr, 'status' : status }; 
-                                            $.ajax({
-                                                url: 'k_handle_all.php',
-                                                type: 'post',
-                                                data: postData,
-                                                success: function(result) {
-			                                        $(\"#off-".$x."\").attr(\"disabled\", true);
-                                                    $(\"#on-".$x."\").attr(\"disabled\", true);
-		                                        },
-                                                error: function(xhr, status, error) {
-		                                            alert('error with s_addr');
-                                                }
-                                            });
-                                        }
-                                    </script>
-						            </center>
-                                </div>
-                            </div>
-                            <div class=\"panel-body\">
-                                <div class=\"divb\">
-                                    <h5>".get_lang($lang,'k132')."</h5>
-                                    <center>
-                                    <div class=\"btn-group btn-group-lg\" id=\"prog\">";
-                                    //echo $r_settings['router_name'];
-								    if ($r_settings['work_sche'] == "Off") {
-									    echo "<button type=\"button\" class=\"btn btn-danger\" id=\"pg-off-".$x."\" disabled=\"disabled\">".get_lang($lang,'off')."</button>";
-								    } else {
-									    echo "<button type=\"button\" class=\"btn btn-danger\" id=\"pg-off-".$x."\">".get_lang($lang,'off')."</button>";
-								    }
-								    echo "<button type=\"button\" class=\"btn btn-default active\" disabled=\"disabled\">".get_lang($lang,'k90')."</button>";
-								    if ($r_settings['work_sche'] == "On") {
-									    echo "<button type=\"button\" class=\"btn btn-success\" id=\"pg-on-".$x."\" disabled=\"disabled\">".get_lang($lang,'on')."</button>";
-								    } else {
-									    echo "<button type=\"button\" class=\"btn btn-success\" id=\"pg-on-".$x."\">".get_lang($lang,'on')."</button>";
-								    }
-							        echo "</div>
-                                    <script type=\"text/javascript\">
-                                        var pg = 'all';
-	                                    var r_".$x." = '".$router."';
-                                        $(function() {
-                                            $(\"#pg-on-".$x."\").on(\"click\", function (e) {
-			                                    s_prog_all_".$x."(r_".$x.",pg,'On');
-                                            });
-                                            $(\"#pg-off-".$x."\").on(\"click\", function (e) {
-			                                    s_prog_all_".$x."(r_".$x.",pg,'Off');
-                                            });
-                                        });
-                                        function s_prog_all_".$x."(r,pg,status) {
-                                            var postData = { 'r': r, 'pg' : pg, 'status' : status }; 
-                                            $.ajax({
-                                                url: 'k_handle_prog_all.php',
-                                                type: 'post',
-                                                data: postData,
-                                                success: function(result) {
-			                                        $(\"#pg-on-".$x."\").attr(\"disabled\", true);
-			                                        $(\"#pg-off-".$x."\").attr(\"disabled\", true);
-		                                        },
-                                                error: function(xhr, status, error) {
-		                                            alert('error with s_prog_all');
-                                                }
-                                            });
-                                        }
-                                    </script>
-						            </center>
-                                    <div class=\"wo\">
-                                        <script type=\"text/javascript\">
-                                            $(function() {
- 	                                            $('#wprog-".$x."').load('live_work_sche.php?lang=".$lang."&router=".$router."&x=');
-                                                var refreshId = setInterval(function() {
-                                                    $('#wprog').load('live_work_sche.php?lang=".$lang."&router=".$router."&x='+ Math.random()); 
-                                                },2000);
-                                            });
-                                        </script>
-								        <div id=\"wprog-".$x."\"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>";
-							$x++;
-						}	
-                    }
-                ?>
-				</div>
-				<!-- /.row -->
-
-				<?php else: ?>		
-                <div class="row">
                     <div class="col-lg-12">
-                        <div class="panel panel-danger">
+                        <div class="panel panel-primary">
                             <div class="panel-heading">
-                                <?php echo get_lang($lang,'Error'); ?>
-                            </div>
+							    <?php 
+                                    $args = $_GET['args'];
+                                    /*if ($args == "t5m") {
+								        $dbtable = "arduino_in_temp_5m";
+								        $title = get_lang($lang,'k195')." - ".get_lang($lang,'k196')." 5 ".get_lang($lang,'k197'); 
+							        } else*/ if ($args == "t60m") {
+								        $dbtable = "arduino_in_temp_60m";
+								        $title = get_lang($lang,'k195')." - ".get_lang($lang,'k196')." 60 ".get_lang($lang,'k197'); 
+							        }
+							        echo $title;  
+							    ?>
+							</div>
                             <div class="panel-body">
-							    <div class="alert alert-warning">
-                                    <?php echo get_lang($lang,'k30'); ?>
-								</div>
-                            </div>
-                            <div class="panel-footer">
-                                <button type="button" class="btn btn-primary btn-lg" onClick="document.location.href = 'index.php?lang=<?=$lang?>'; return false;">
-								    <i class="fa fa-times"></i>&nbsp;<?php echo get_lang($lang,'k28'); ?></button>
+                            <?php 
+                            $devices = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_0004_2015_1.0","AR_0005_2015_1.0");
+                            $colors = array("#0ca8f3","#fba504","#06f406","#da29f3","#fe1b01","#0eafab");
+                            $i=0;
+                            
+                            echo "
+								<div class=\"table-responsive\">
+                                    <table class=\"table table-striped table-bordered table-hover\" id=\"sa_chart\">
+                                        <thead>
+                                            <tr>
+                                                <th>".get_lang($lang,'k207')."</th>
+                                                <th>".get_lang($lang,'k117')."</th>
+                                                <th>".get_lang($lang,'k177')."</th>
+                                                <th>".get_lang($lang,'k199')."</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>";
+                                        
+foreach($devices as $ar) {
+    $query = "SELECT `place` FROM `arduino_devices` WHERE `ar_id`='".$ar."'ORDER BY `id` ASC";
+    $result = mysql_query($query);
+    confirm_query($result);
+    $num_rows = mysql_num_rows($result);
+    if ($num_rows != 0) {
+        while($place = mysql_fetch_array($result)) {
+		    $places[] = $place['place'];
+	    }
+    }
+	$sql[$i] = mysql_query("SELECT `timestamp`,`temp2`,`humidity` FROM `".$dbtable."` WHERE `ar_id`='".$ar."' GROUP BY `timestamp` ORDER BY `timestamp` ASC");
+	confirm_query($sql[$i]);
+	if (mysql_num_rows($sql[$i]) != 0) {
+        while($row[$i] = mysql_fetch_array($sql[$i])) {
+	        $date[$i] = $row[$i]['timestamp'];
+	        $datec[$i] = date("Y-m-d H:i",$date[$i]);
+            $values[$i] = floatval($row[$i]['temp2']);
+            $hvalues[$i] = floatval($row[$i]['humidity']);
+            echo "<tr>";
+            echo "<td>".$places[$i]."</td><td>".$datec[$i]."</td><td>".number_format($values[$i],2)."ºC</td><td>".$hvalues[$i]."%</td>";
+            echo "</tr>";
+		}
+    }
+	$i++;
+}
+                                  echo "</tbody>
+                                    </table>
+                                </div>
+                        ";
+                            ?>
                             </div>
                         </div>
                     </div>
-				</div>
-				<?php endif; ?>
-				<!--end row-->
+                </div>
+                
             </div>
-            <!-- /#page-wrapper -->
         </div>
-        <!-- /#wrapper -->
 		<a href="#" id="toTop"><i class="fa fa-arrow-up"></i></a>
+        <script type="text/javascript">
+        $(function () {
+            if(jQuery().dataTable) {
+         if($("#sa_chart").length > 0) { 
+             $('#sa_chart').dataTable({
+			     "aaSorting": [[ 0, "desc" ]],
+				 "iDisplayLength": 100,
+				 "aLengthMenu": [[100, 150, 200, -1], [100, 150, 200, "Всички"]],
+                 "aoColumns": [
+				     { "bSortable": false, "bSearchable": true },
+					 { "bSortable": false, "bSearchable": true },
+					 { "bSortable": false, "bSearchable": false },
+					 { "bSortable": false, "bSearchable": false } 
+                 ],
+                 dom: 'T<"clear">lfrtip',
+                 tableTools: {
+                     "sSwfPath": "js/plugins/dataTables/plugins/TableTools/swf/copy_csv_xls_pdf.swf",
+                     "aButtons": [ "copy",
+                                 {
+                                   "sExtends": "csv",
+                                   "sTitle": "<?php echo $title; ?>"
+                                 },  
+                                 {
+                                   "sExtends": "xls",
+                                   "sTitle": "<?php echo $title; ?>"
+                                 },                 
+                                 {
+                                   "sExtends": "pdf",
+                                   "sTitle": "<?php echo $title; ?>"
+                                 } 
+                                 ]
+                 },
+		         "oLanguage": {
+			         "sLengthMenu": "Показване _MENU_ на записи на страница.",
+			         "sSearch": "Търсене: ",
+			         "sZeroRecords": "Нищо не е намерено - Съжалявам",
+			         "sInfo": "Показващ _START_ от _TOTAL_ общо записи",
+			         "sInfoEmpty": "Показващ 0 от 0 общо записи",
+			         "sInfoFiltered": "(филтрира от _MAX_ общо записи)",
+                     "oPaginate": {
+                         "sFirst":    "Първи",
+                         "sPrevious": "Предишен",
+                         "sNext":     "Напред",
+                         "sLast":     "Последно"
+                     }
+                 }
+			 });
+        }
+			}
+		});
+        </script>
     </body>
 </html>
