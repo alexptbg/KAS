@@ -316,7 +316,7 @@ $r = $_GET['router'];
             <div id="page-wrapper">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h3 class="page-header text-asbestos"><i class="fa fa-exclamation-circle"></i> <?php echo $r." \ ".get_lang($lang, 'k90'); ?></h3>
+                        <h3 class="page-header text-asbestos"><i class="fa fa-exclamation-circle"></i>&nbsp;<?php echo $r." \ ".get_lang($lang,'k90'); ?></h3>
                     </div>
                 </div>
                 <!-- /.col-lg-12 -->
@@ -334,7 +334,7 @@ $r = $_GET['router'];
  	                                    $('#data').load('k_a.php?lang=<?=$lang?>&router=<?=$r?>&x=');
                                         var refreshId = setInterval(function() {
                                             $('#data').load('k_a.php?lang=<?=$lang?>&router=<?=$r?>&x='+ Math.random());
-                                        }, 10000);
+                                        },5000);
                                     });
                                 </script>
                                 <div id="data"></div>

@@ -429,8 +429,8 @@ $ad = $_GET['addr'];
                                             $(function() {
  	                                            $('#wprog-".$x."').load('live_work_sche.php?lang=".$lang."&router=".$router."&x=');
                                                 var refreshId = setInterval(function() {
-                                                    $('#wprog').load('live_work_sche.php?lang=".$lang."&router=".$router."&x='+ Math.random()); 
-                                                },2000);
+                                                    $('#wprog-".$x."').load('live_work_sche.php?lang=".$lang."&router=".$router."&x='+ Math.random()); 
+                                                },1000);
                                             });
                                         </script>
 								        <div id=\"wprog-".$x."\"></div>

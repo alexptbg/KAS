@@ -93,6 +93,7 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 			        else if (weather.code == 20) { var condition = Skycons.FOG; var prog = "<?php echo get_lang($lang,'k261'); ?>" }
 			        else if (weather.code == 42) { var condition = Skycons.SNOW; var prog = "<?php echo get_lang($lang,'k262'); ?>" }
 			        else if (weather.code == 14) { var condition = Skycons.SNOW; var prog = "<?php echo get_lang($lang,'k262'); ?>" }
+			        else if (weather.code == 4) { var condition = Skycons.SNOW; var prog = "<?php echo get_lang($lang,'k276'); ?>" }
 			        now = weather.temp+' &deg;'+weather.units.temp;
 			        $("span.wi").html('<span class="wl icon-'+weather.code+'"></span>');
 			        html = '<p><strong><?php echo get_lang($lang,'k249'); ?>: </strong><span>'+high+' &deg;'+weather.units.temp+'</span><br/>';
