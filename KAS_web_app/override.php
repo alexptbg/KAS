@@ -388,9 +388,9 @@ $ru = get_router_by_addr($ad);
                             <div class=\"panel-body data top\">
                                 <script type=\"text/javascript\">
                                     $(function() {
- 	                                    $('#data').load('live_by_addr.php?lang=".$lang."&addr=".$ad."&x=');
+ 	                                    $('#data').load('live_by_addr.php?lang=".$lang."&addr=".$ad."&user=".$user_settings['user_name']."&x=');
                                         var refreshId = setInterval(function() {
-                                            $('#data').load('live_by_addr.php?lang=".$lang."&addr=".$ad."&x='+ Math.random()); 
+                                            $('#data').load('live_by_addr.php?lang=".$lang."&addr=".$ad."&user=".$user_settings['user_name']."&x='+ Math.random()); 
                                         },2000);
                                     });
                                 </script>

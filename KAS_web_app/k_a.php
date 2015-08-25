@@ -12,26 +12,47 @@ $u = $user_settings['user_name'];
 $r_settings = get_rout_settings($r);
 $datafile = "data/{$r_settings['data_file']}";
 if (file_exists($datafile)) { include("$datafile"); } 
-else { echo "<div class=\"alert alert-warning\">".get_lang($lang, 'k164')."</div>"; exit; }
+else { echo "<div class=\"alert alert-warning\">".get_lang($lang,'k164')."</div>"; exit; }
 $exclude = $r_settings['ex_table'];
 $ex = explode(',', $exclude);
-echo "<div class=\"list-group\">";
-$query = "SELECT `inv` FROM `klimatiki` WHERE `router`='".$r."' ORDER BY `inv` ASC";
+//echo "<div class=\"list-group\">";
+
+$query = "SELECT `addr` FROM `klimatiki` WHERE `router`='".$r."' GROUP BY `addr` ORDER BY `addr` ASC";
 $result = mysql_query($query);
 confirm_query($result);
 if (mysql_num_rows($result) != 0) {
-    while($klimas_u = mysql_fetch_array($result)) {
-		$klimas[] = $klimas_u['inv'];
+    while($addr_u = mysql_fetch_array($result)) {
+		$addrs[] = $addr_u['addr'];
 	}
 }
-if (!empty($klimas)) {
-	foreach ($klimas as $klima) {
-		if(!(${'dev'.$klima} == NULL)) {
-		    ${'d'.$klima} = explode(" ", ${'dev'.$klima}); 
-			p(${'d'.$klima},$r,$lang,$u,$ex);
-		}
+if (!empty($addrs)) {
+	foreach ($addrs as $addr) {
+        $klimas = array();
+        $query = "SELECT `inv` FROM `klimatiki` WHERE `router`='".$r."' AND `addr`=".$addr." ORDER BY `inv` ASC";
+        $result = mysql_query($query);
+        confirm_query($result);
+        if (mysql_num_rows($result) != 0) {
+            while($klimas_u = mysql_fetch_array($result)) {
+		        $klimas[] = $klimas_u['inv'];
+	        }
+        }
+        if (!empty($klimas)) {
+            echo "<div class=\"divc\">
+               <h5>ADDR&nbsp;".$addr."</h5>";
+	        echo "<div class=\"list-group\">";
+	        foreach ($klimas as $klima) {
+		        if(!(${'dev'.$klima} == NULL)) {
+		            ${'d'.$klima} = explode(" ", ${'dev'.$klima}); 
+			        p(${'d'.$klima},$r,$lang,$u,$ex);
+		        }	
+	        }
+	        echo "</div>";
+	        echo "<div class=\"clearboth\"></div>";
+	        echo "</div>";
+        }
 	}
 }
+//echo "</div>";
 function p($d,$r,$lang,$u,$ex) {
 	$d0 = $d[0];//inv
 	$d1 = $d[1];//time
@@ -70,9 +91,9 @@ else { $mode_name = $mode; }
         <div class=\"col-xs-6 col-sm-3\">
             <a href=\"klima_i.php?lang=".$lang."&user=".$u."&klima=".$d0."&r=".$r."\" class=\"list-group-item\">
                 <i class=\"fa fa-square fa-fw\"></i>&nbsp;".$d0."
-                <span>&nbsp;&nbsp;&nbsp;&nbsp;".$set_point."<i class=\"icon ka-celcius ka-status-lg\"></i></span>
-                <span>&nbsp;&nbsp;&nbsp;&nbsp;".$mode_name."</span>
-                <span>&nbsp;&nbsp;&nbsp;&nbsp;<i class=\"icon ka-cooler ka-status\"></i>&nbsp;".$vent."</span>
+                <span>&nbsp;&nbsp;&nbsp;".$set_point."<i class=\"icon ka-celcius ka-status-lg\"></i></span>
+                <span>&nbsp;&nbsp;&nbsp;".$mode_name."</span>
+                <span>&nbsp;&nbsp;&nbsp;<i class=\"icon ka-cooler ka-status\"></i>&nbsp;".$vent."</span>
                 <span class=\"pull-right\" style=\"margin-top:4px;vertical-align:middle;\">
 				    <span class=\"lamp fr\"><span class=\"".$led."\"></span></span>
 				</span>
@@ -80,6 +101,5 @@ else { $mode_name = $mode; }
 	    </div>";
 	}
 }
-echo "</div>";
 DataBase::getInstance()->disconnect();
 ?>

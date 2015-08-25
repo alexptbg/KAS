@@ -7,6 +7,7 @@ include('inc/init.php');
 DataBase::getInstance()->connect(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
 include('inc/config.php');
 $ad = $_GET['addr'];
+$u = $_GET['user'];
 $r = get_router_by_addr($ad);
 $query = "SELECT `inv` FROM `klimatiki` WHERE `addr`=".$ad." ORDER BY `inv` ASC";
 $result = mysql_query($query);
@@ -43,7 +44,8 @@ if (mysql_num_rows($result) != 0) {
 	        if (($mode < 8) && ($mode > 0)) { $class = 'danger'; $md = get_lang($lang, 'off'); } 
 	        elseif (($mode < 13) && ($mode > 8)) { $class = 'success'; $md = get_lang($lang, 'on'); }
 	        else { $class = 'warning'; $md = 'err'; }
-			echo "<h3><span class=\"label label-default\">".$klima."</span>&nbsp;
+			echo "<h3><span class=\"label label-default\">
+			              <a class=\"link_label\" href=\"klima_i.php?lang=".$lang."&user=".$u."&klima=".$klima."&r=".$r_settings['router_name']."\">".$klima."</a></span>&nbsp;
 			          <span class=\"label label-info\">".$mode_n."</span>&nbsp;
 					  <span class=\"label label-".$class."\">".$md."</span>&nbsp;
 					  <span class=\"label label-info\">".$vent."</span>&nbsp;
