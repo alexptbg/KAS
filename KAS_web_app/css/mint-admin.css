@@ -318,11 +318,11 @@ a {
   overflow-y: scroll; }
 /* Login Page */
 .login-panel {
-  margin-top:10%; 
+  margin-top:-1px; 
   vertical-align: middle;
 }
 .login-panel h3 span {
-	line-height: 22px;
+	line-height: 20px;
 	vertical-align: middle;
 }
 /* Flot Chart Containers */
@@ -1573,10 +1573,10 @@ ul.inbox-pagination li {
 
 .nav-second-level .label {
   margin-right: 21px; }
-
 .system,.time {
 	margin-top: 15px;
 }
+
 .system p,.time p {
 	line-height:10px;
 	font-size: 14px;
@@ -1817,12 +1817,12 @@ h5.hindex {
 	display: inline-block;
 	float:left;
 	position: absolute;
-	left:20px;
-	margin-top: 121px;
+	left:14px;
+	margin-top: 110px;
 }
 #now3 small {
 	padding-left:20px;
-	font-size: 8px;
+	font-size:9px;
 	text-align:center;
 	text-transform: uppercase;
 	line-height:14px;
@@ -1863,7 +1863,7 @@ h5.hindex {
     line-height: 12px;
 }
 #up span {
-	font-size: 8px;
+	font-size: 9px;
 	text-align:center;
 	text-transform: uppercase;
 }
@@ -1911,5 +1911,20 @@ a.link_label:hover {
 	background-color: #3498DB;
 	padding: 10px 18px;
 	border-bottom: 1px solid #E1E1E1;
+}
+.status_Off .list-group-item {
+	background-color: #ffaaaa;
+}
+.status_On .list-group-item {
+	background-color: #befdac;
+}
+.status_Off .list-group-item:hover {
+	background-color: #ff8c8c;
+}
+.status_On .list-group-item:hover {
+	background-color: #97fd79;
+}
+.panel-eyecandy-2 .panel-body {
+	height: 200px !important;
 }
 /* end file */

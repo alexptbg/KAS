@@ -16,19 +16,18 @@ if(isset($_GET['ar_id'])) {
             //get values
         	$time = $row['datetime'];
         	$dbdate = $row['timestamp'];
-    	    $hum = number_format($row['humidity'],0); 
     	    $temp = number_format($row['temp2'],2);
     	}
         $x = time() * 1000;
         header("Content-type: text/json");
         //if not old than 60 seconds
         if ((time() - $dbdate) < 60) {
-            $ret = array($x,$temp,$hum,$time);
+            $ret = array($x,$temp,$time);
         } else {
-            $ret = array($x,"Error","Data","","");
+            $ret = array($x,"Error","Data","");
 		}
 	} else {
-		$ret = array($x,"Error","ID","","");
+		$ret = array($x,"Error","ID","");
 	}
     $json = json_encode($ret);
     $json = preg_replace('/"(-?\d+\.?\d*)"/','$1',$json);

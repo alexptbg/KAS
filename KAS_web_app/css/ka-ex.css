@@ -1,14 +1,17 @@
 @charset "UTF-8";
+
 @font-face {
   font-family: "ka-ex";
   src:url("../fonts/ka-ex.eot");
   src:url("../fonts/ka-ex.eot?#iefix") format("embedded-opentype"),
-      url("../fonts/ka-ex.woff") format("woff"),
-      url("../fonts/ka-ex.ttf") format("truetype"),
-      url("../fonts/ka-ex.svg#ka-ex") format("svg");
+    url("../fonts/ka-ex.woff") format("woff"),
+    url("../fonts/ka-ex.ttf") format("truetype"),
+    url("../fonts/ka-ex.svg#ka-ex") format("svg");
   font-weight: normal;
   font-style: normal;
+
 }
+
 [data-icon]:before {
   font-family: "ka-ex" !important;
   content: attr(data-icon);
@@ -21,6 +24,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 [class^="ka-"]:before,
 [class*=" ka-"]:before {
   font-family: "ka-ex" !important;
@@ -33,301 +37,279 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.ka-h3 {
-	font-size: 20px;
-}
-.ka-status {
-    line-height: 6px;
-	font-weight: 400;
-	vertical-align: middle;
-	font-size: 10px;
-}
-.ka-status-lg {
-	font-size: 18px;
-	line-height: 6px;
-	vertical-align: middle;
-}
-.ka-fire:before {
-  content: "a";
-}
-.ka-fire-extinguisher:before {
-  content: "b";
-}
+
 .ka-fire-1:before {
-  content: "c";
+  content: "\63";
 }
 .ka-campfire:before {
-  content: "d";
+  content: "\64";
 }
 .ka-burning-fire:before {
-  content: "e";
+  content: "\65";
 }
 .ka-fire-2:before {
-  content: "f";
+  content: "\66";
 }
 .ka-fire-station:before {
-  content: "g";
+  content: "\67";
 }
 .ka-air:before {
-  content: "h";
+  content: "\68";
 }
 .ka-water:before {
-  content: "i";
+  content: "\69";
 }
 .ka-water-1:before {
-  content: "j";
+  content: "\6a";
 }
 .ka-tint:before {
-  content: "k";
+  content: "\6b";
 }
 .ka-droplet:before {
-  content: "l";
+  content: "\6c";
 }
 .ka-drops:before {
-  content: "m";
+  content: "\6d";
 }
 .ka-drop:before {
-  content: "n";
+  content: "\6e";
 }
 .ka-fuel:before {
-  content: "o";
+  content: "\6f";
 }
 .ka-oil-well:before {
-  content: "p";
+  content: "\70";
 }
 .ka-flash:before {
-  content: "q";
+  content: "\71";
 }
 .ka-lightbulb:before {
-  content: "r";
+  content: "\72";
 }
 .ka-lamp:before {
-  content: "s";
+  content: "\73";
 }
 .ka-bulb:before {
-  content: "t";
+  content: "\74";
 }
 .ka-lightbulb-shine:before {
-  content: "u";
+  content: "\75";
 }
 .ka-lightbulb-1:before {
-  content: "v";
+  content: "\76";
 }
 .ka-light-bulb:before {
-  content: "w";
+  content: "\77";
 }
 .ka-thermometer:before {
-  content: "x";
+  content: "\78";
 }
 .ka-thermometer-1:before {
-  content: "y";
+  content: "\79";
 }
 .ka-thermometer-2:before {
-  content: "z";
+  content: "\7a";
 }
 .ka-celcius:before {
-  content: "A";
+  content: "\41";
 }
 .ka-farenheit:before {
-  content: "B";
+  content: "\42";
 }
 .ka-no-smoking:before {
-  content: "C";
+  content: "\43";
 }
 .ka-streamline-umbrella-weather:before {
-  content: "D";
+  content: "\44";
 }
 .ka-rain-weather:before {
-  content: "E";
+  content: "\45";
 }
 .ka-hail-weather:before {
-  content: "F";
-}
-.ka-rain:before {
-  content: "G";
+  content: "\46";
 }
 .ka-rain-black-1:before {
-  content: "H";
+  content: "\48";
 }
 .ka-rain-1:before {
-  content: "I";
+  content: "\49";
 }
 .ka-rain-2:before {
-  content: "J";
+  content: "\4a";
 }
 .ka-rain-black-2:before {
-  content: "K";
+  content: "\4b";
 }
 .ka-wind-rain-black:before {
-  content: "L";
+  content: "\4c";
 }
 .ka-wind-rain:before {
-  content: "M";
+  content: "\4d";
 }
 .ka-rain-3:before {
-  content: "N";
+  content: "\4e";
 }
 .ka-wind:before {
-  content: "O";
+  content: "\4f";
 }
 .ka-wind-cloud:before {
-  content: "P";
+  content: "\50";
 }
 .ka-wind-1:before {
-  content: "Q";
+  content: "\51";
 }
 .ka-wind-black:before {
-  content: "R";
+  content: "\52";
 }
 .ka-moon-sleep:before {
-  content: "S";
+  content: "\53";
 }
 .ka-moon:before {
-  content: "T";
+  content: "\54";
 }
 .ka-params:before {
-  content: "U";
+  content: "\55";
 }
 .ka-moon-fill:before {
-  content: "V";
+  content: "\56";
 }
 .ka-moon-1:before {
-  content: "W";
+  content: "\57";
 }
 .ka-moon-2:before {
-  content: "X";
+  content: "\58";
 }
 .ka-graph-bar:before {
-  content: "Y";
+  content: "\59";
 }
 .ka-graph-trend:before {
-  content: "Z";
+  content: "\5a";
 }
 .ka-bar-chart:before {
-  content: "0";
+  content: "\30";
 }
 .ka-chart-area:before {
-  content: "1";
+  content: "\31";
 }
 .ka-chart-bar:before {
-  content: "2";
+  content: "\32";
 }
 .ka-chart-line:before {
-  content: "3";
+  content: "\33";
 }
 .ka-chart-pie:before {
-  content: "4";
+  content: "\34";
 }
 .ka-bars:before {
-  content: "5";
+  content: "\35";
 }
 .ka-graph:before {
-  content: "6";
+  content: "\36";
 }
 .ka-analytics-chart-graph:before {
-  content: "7";
+  content: "\37";
 }
 .ka-chart-graph-file-1:before {
-  content: "8";
+  content: "\38";
 }
 .ka-chart-down:before {
-  content: "9";
+  content: "\39";
 }
 .ka-chart-alt:before {
-  content: "!";
+  content: "\21";
 }
 .ka-chart:before {
-  content: "\"";
+  content: "\22";
 }
 .ka-bars-1:before {
-  content: "#";
+  content: "\23";
 }
 .ka-bars-alt:before {
-  content: "$";
+  content: "\24";
 }
 .ka-signal:before {
-  content: "%";
+  content: "\25";
 }
 .ka-signal-1:before {
-  content: "&";
+  content: "\26";
 }
 .ka-statistics:before {
-  content: "'";
+  content: "\27";
 }
 .ka-beer:before {
-  content: "(";
+  content: "\28";
 }
 .ka-beer-1:before {
-  content: ")";
+  content: "\29";
 }
 .ka-beer-2:before {
-  content: "*";
+  content: "\2a";
 }
 .ka-cup:before {
-  content: "+";
+  content: "\2b";
 }
 .ka-cup-1:before {
-  content: ",";
+  content: "\2c";
 }
 .ka-coffee:before {
-  content: "-";
+  content: "\2d";
 }
 .ka-cup-2:before {
-  content: ".";
+  content: "\2e";
 }
 .ka-cup-2-1:before {
-  content: "/";
+  content: "\2f";
 }
 .ka-cafe:before {
-  content: ":";
+  content: "\3a";
 }
 .ka-lightbulb-2:before {
-  content: ";";
+  content: "\3b";
 }
 .ka-wrench:before {
-  content: "<";
+  content: "\3c";
 }
 .ka-bones:before {
-  content: "=";
+  content: "\3d";
 }
 .ka-wrench-1:before {
-  content: ">";
+  content: "\3e";
 }
 .ka-phone-home:before {
-  content: "?";
+  content: "\3f";
 }
 .ka-phone-off:before {
-  content: "@";
+  content: "\40";
 }
 .ka-phone-on:before {
-  content: "[";
+  content: "\5b";
 }
 .ka-sun-stroke:before {
-  content: "]";
+  content: "\5d";
 }
 .ka-target:before {
-  content: "^";
+  content: "\5e";
 }
 .ka-share:before {
-  content: "_";
+  content: "\5f";
 }
 .ka-wrench-2:before {
-  content: "`";
+  content: "\60";
 }
 .ka-key-fill:before {
-  content: "{";
+  content: "\7b";
 }
 .ka-key-stroke:before {
-  content: "|";
+  content: "\7c";
 }
 .ka-hail:before {
-  content: "}";
+  content: "\7d";
 }
 .ka-cloud-1:before {
-  content: "~";
+  content: "\7e";
 }
 .ka-cloud-2:before {
-  content: "\\";
+  content: "\5c";
 }
 .ka-snow-2:before {
   content: "\e000";
@@ -661,4 +643,277 @@
 }
 .ka-modem:before {
   content: "\e06e";
+}
+.ka-danger:before {
+  content: "\e06f";
+}
+.ka-settings-1:before {
+  content: "\e070";
+}
+.ka-battery:before {
+  content: "\e071";
+}
+.ka-graph-horizontal:before {
+  content: "\e072";
+}
+.ka-graph-pie:before {
+  content: "\e073";
+}
+.ka-umbrella-1:before {
+  content: "\e074";
+}
+.ka-location:before {
+  content: "\e075";
+}
+.ka-power-off:before {
+  content: "\e076";
+}
+.ka-database:before {
+  content: "\e077";
+}
+.ka-zap:before {
+  content: "\e078";
+}
+.ka-android-bulb:before {
+  content: "\e079";
+}
+.ka-ios-flame:before {
+  content: "\e07a";
+}
+.ka-ios-flame-outline:before {
+  content: "\e07b";
+}
+.ka-ios-flower:before {
+  content: "\e07c";
+}
+.ka-ios-flower-outline:before {
+  content: "\e07d";
+}
+.ka-ios-medical:before {
+  content: "\e07e";
+}
+.ka-ios-medical-outline:before {
+  content: "\e07f";
+}
+.ka-ios-ionic-outline:before {
+  content: "\e080";
+}
+.ka-vcard:before {
+  content: "\e081";
+}
+.ka-id-card:before {
+  content: "\e082";
+}
+.ka-clock-o:before {
+  content: "\e083";
+}
+.ka-sign-in:before {
+  content: "\e084";
+}
+.ka-signin:before {
+  content: "\e085";
+}
+.ka-sign-out:before {
+  content: "\e086";
+}
+.ka-radio-waves:before {
+  content: "\e087";
+}
+.ka-lightning-weather:before {
+  content: "\e088";
+}
+.ka-clouds-cloudy:before {
+  content: "\e089";
+}
+.ka-cloud-sun-1:before {
+  content: "\e08a";
+}
+.ka-cloud:before {
+  content: "\e08b";
+}
+.ka-sun-o:before {
+  content: "\e08c";
+}
+.ka-bolt-1:before {
+  content: "\e08d";
+}
+.ka-umbrella-2:before {
+  content: "\47";
+}
+.ka-flash-1:before {
+  content: "\e08e";
+}
+.ka-ios-cloud:before {
+  content: "\e08f";
+}
+.ka-ios-cloud-outline:before {
+  content: "\e090";
+}
+.ka-ios-cloudy:before {
+  content: "\e091";
+}
+.ka-ios-cloudy-night:before {
+  content: "\e092";
+}
+.ka-ios-cloudy-night-outline:before {
+  content: "\e093";
+}
+.ka-ios-cloudy-outline:before {
+  content: "\e094";
+}
+.ka-ios-partlysunny:before {
+  content: "\e095";
+}
+.ka-ios-partlysunny-outline:before {
+  content: "\e096";
+}
+.ka-ios-rainy:before {
+  content: "\e097";
+}
+.ka-ios-rainy-outline:before {
+  content: "\e098";
+}
+.ka-ios-snowy:before {
+  content: "\e099";
+}
+.ka-ios-sunny:before {
+  content: "\e09a";
+}
+.ka-ios-sunny-outline:before {
+  content: "\e09b";
+}
+.ka-ios-thunderstorm:before {
+  content: "\e09c";
+}
+.ka-ios-thunderstorm-outline:before {
+  content: "\e09d";
+}
+.ka-flame:before {
+  content: "\e09e";
+}
+.ka-fireball:before {
+  content: "\e09f";
+}
+.ka-outlet:before {
+  content: "\e0a0";
+}
+.ka-grid-lines-streamline:before {
+  content: "\e0a1";
+}
+.ka-barcode:before {
+  content: "\e0a2";
+}
+.ka-gauge:before {
+  content: "\e0a3";
+}
+.ka-thermometer-4:before {
+  content: "\e0a4";
+}
+.ka-bonfire:before {
+  content: "\e0a5";
+}
+.ka-earth:before {
+  content: "\e0a6";
+}
+.ka-home:before {
+  content: "\e0a7";
+}
+.ka-home-1:before {
+  content: "\e0a8";
+}
+.ka-home-2:before {
+  content: "\e0a9";
+}
+.ka-home-1-1:before {
+  content: "\e0aa";
+}
+.ka-dashboard:before {
+  content: "\e0ab";
+}
+.ka-dashboard-speed-streamline:before {
+  content: "\e0ac";
+}
+.ka-cube:before {
+  content: "\e0ad";
+}
+.ka-ios-albums:before {
+  content: "\e0ae";
+}
+.ka-ios-albums-outline:before {
+  content: "\e0af";
+}
+.ka-ios-browsers:before {
+  content: "\e0b0";
+}
+.ka-ios-browsers-outline:before {
+  content: "\e0b1";
+}
+.ka-ios-photos:before {
+  content: "\e0b2";
+}
+.ka-ios-photos-outline:before {
+  content: "\e0b3";
+}
+.ka-stop:before {
+  content: "\e0b4";
+}
+.ka-th-large:before {
+  content: "\e0b5";
+}
+.ka-th:before {
+  content: "\e0b6";
+}
+.ka-stop-1:before {
+  content: "\e0b7";
+}
+.ka-square-o:before {
+  content: "\e0b8";
+}
+.ka-square:before {
+  content: "\e0b9";
+}
+.ka-triangle:before {
+  content: "\e0ba";
+}
+.ka-triangle-stroked:before {
+  content: "\e0bb";
+}
+.ka-fire-extinguisher:before {
+  content: "\62";
+}
+.ka-fire:before {
+  content: "\61";
+}
+.ka-ios-analytics:before {
+  content: "\e0bc";
+}
+.ka-cloudy:before {
+  content: "\e0bd";
+}
+.ka-cloud-3:before {
+  content: "\e0be";
+}
+.ka-light-bulb-1:before {
+  content: "\e0bf";
+}
+.ka-flame-1:before {
+  content: "\e0c0";
+}
+.ka-dashboard-1:before {
+  content: "\e0c1";
+}
+.ka-remove:before {
+  content: "\e0c2";
+}
+.ka-remove-circled:before {
+  content: "\e0c3";
+}
+.ka-remove-circled-two:before {
+  content: "\e0c4";
+}
+.ka-hash:before {
+  content: "\e0c5";
+}
+.ka-placepin:before {
+  content: "\e0c6";
 }

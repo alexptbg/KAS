@@ -23,12 +23,10 @@ check_login($lang,$web_dir);
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
         <script type="text/javascript" src="js/mint-admin.js"></script>
-		
 		<link type="text/css" rel="stylesheet" href="js/plugins/dataTables/dataTables.bootstrap.css" />
         <script type="text/javascript" src="js/plugins/dataTables/jquery.dataTables.js"></script>
         <script type="text/javascript" src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
 		<script type="text/javascript" src="js/plugins/dataTables/jquery.dataTables.columnFilter.js"></script>
-		
 	    <script type="text/javascript" src="js/ka-ex.js"></script>
     </head>
     <body>
@@ -226,8 +224,14 @@ check_login($lang,$web_dir);
 						?>
                         <li>
                             <a href="vrf_plan.php?lang=<?=$lang?>">
-							    <i class="fa fa-location-arrow fa-fw fa-3x"></i> <?php echo get_lang($lang, 'k130'); ?></a>
+							    <i class="fa fa-location-arrow fa-fw fa-3x"></i> <?php echo get_lang($lang,'k130'); ?></a>
                         </li>
+                        <?php if ($user_settings['level'] > 10): ?>
+                        <li>
+                            <a href="repairs.php?lang=<?=$lang?>">
+							    <i class="fa fa-wrench fa-fw fa-3x"></i> <?php echo get_lang($lang,'k284'); ?></a>
+                        </li>
+                        <?php endif; ?>
                         <li>
                             <a href="vrf_activity.php?lang=<?=$lang?>">
 							    <i class="fa fa-pie-chart fa-fw fa-3x"></i> <?php echo get_lang($lang, 'k181'); ?></a>
@@ -266,12 +270,12 @@ check_login($lang,$web_dir);
                                 </li>
 								<?php endif; ?>
                                 <li>
-                                    <a href="users.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k12'); ?></a>
+                                    <a href="users.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k12'); ?></a>
+                                </li>
+                                <li class="active">
+                                    <a class="active" href="logs.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k13'); ?></a>
                                 </li>
 								<?php if ($user_settings['level'] > 20): ?>
-                                <li class="active">
-                                    <a class="active" href="logs.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k13'); ?></a>
-                                </li>
                                 <li>
                                     <a href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k11'); ?></a>
                                 </li>
@@ -302,7 +306,7 @@ check_login($lang,$web_dir);
                 </div>
                 <?php
                 $m_ago = date("Y-m-d",strtotime("first day of previous month"));
-				if ($user_settings['level'] > 20) {
+				if ($user_settings['level'] > 10) {
                     $query = "SELECT * FROM `logs` WHERE `date` > '".$m_ago."' ORDER BY `id` DESC";
                     $result = mysql_query($query);
                     confirm_query($result);
@@ -380,9 +384,17 @@ check_login($lang,$web_dir);
                                     </table>
                                 </div>
                             </div>
-                            <div class=\"panel-footer\">
+                            <div class=\"panel-footer\">";
+                            if ($user_settings['level'] > 20) {
+                            	echo "
                               <button type=\"button\" class=\"btn btn-danger btn-lg\" onClick=\"document.location.href = 'logs_del.php?lang=".$lang."'\">
-							    <i class=\"fa fa-trash-o\"></i>&nbsp;".get_lang($lang, 'k122')." <small>(".decodeSize(get_table_size('logs')).")</small></button>
+							    <i class=\"fa fa-trash-o\"></i>&nbsp;".get_lang($lang, 'k122')." <small>(".decodeSize(get_table_size('logs')).")</small></button>";
+							} else {
+                            	echo "
+                              <button type=\"button\" class=\"btn btn-danger btn-lg\" onClick=\"document.location.href = 'logs_del.php?lang=".$lang."'\" disabled=\"disabled\">
+							    <i class=\"fa fa-trash-o\"></i>&nbsp;".get_lang($lang, 'k122')." <small>(".decodeSize(get_table_size('logs')).")</small></button>";
+							}
+							echo "
                             </div>
                         </div>
                     </div>

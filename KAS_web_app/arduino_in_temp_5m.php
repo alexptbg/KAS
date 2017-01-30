@@ -26,11 +26,10 @@ foreach ($ar_devices as $single) {
     	    $dbdate = $dev['timestamp'];
             if ((time() - $dbdate) < (10 * 60)) {
             	//insert in database
-                $sql = "INSERT INTO `arduino_in_temp_5m` (`datetime`,`timestamp`,`humidity`,`temp1`,`temp2`,`ar_id`,`ip_addr`,`mac`)
+                $sql = "INSERT INTO `arduino_in_temp_5m` (`datetime`,`timestamp`,`temp1`,`temp2`,`ar_id`,`ip_addr`,`mac`)
                                  VALUES (
                                      '".$dev['datetime']."',
                                      '".$dev['timestamp']."',
-                                     '".$dev['humidity']."',
                                      '".$dev['temp1']."',
                                      '".$dev['temp2']."',
                                      '".$dev['ar_id']."',

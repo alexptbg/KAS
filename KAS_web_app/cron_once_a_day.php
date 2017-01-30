@@ -10,18 +10,19 @@ include('inc/config.php');
 $del_old1 = mysql_query("DELETE FROM `logs` WHERE `date` < DATE_SUB(NOW(), INTERVAL $track DAY);");
 confirm_query($del_old1);
 //temps inside
-$del_old2 = mysql_query("DELETE FROM `arduino_in_temp` WHERE `datetime` < DATE_SUB(NOW(), INTERVAL $temp_track DAY);");
+$del_old2 = mysql_query("DELETE FROM `arduino_in_temp` WHERE `datetime` < DATE_SUB(NOW(), INTERVAL 1 DAY);");
 confirm_query($del_old2);
 $del_old3 = mysql_query("DELETE FROM `arduino_in_temp_5m` WHERE `datetime` < DATE_SUB(NOW(), INTERVAL $track DAY);");
 confirm_query($del_old3);
 $del_old4 = mysql_query("DELETE FROM `arduino_in_temp_60m` WHERE `datetime` < DATE_SUB(NOW(), INTERVAL $track DAY);");
 confirm_query($del_old4);
 //temps outside
-$del_old5 = mysql_query("DELETE FROM `arduino_out_temp` WHERE `datetime` < DATE_SUB(NOW(), INTERVAL $temp_track DAY);");
+$del_old5 = mysql_query("DELETE FROM `arduino_out_temp` WHERE `datetime` < DATE_SUB(NOW(), INTERVAL 1 DAY);");
 confirm_query($del_old5);
 $del_old6 = mysql_query("DELETE FROM `arduino_out_temp_5m` WHERE `datetime` < DATE_SUB(NOW(), INTERVAL $track DAY);");
 confirm_query($del_old6);
 $del_old7 = mysql_query("DELETE FROM `arduino_out_temp_60m` WHERE `datetime` < DATE_SUB(NOW(), INTERVAL $track DAY);");
 confirm_query($del_old7);
 //end
+DataBase::getInstance()->disconnect();
 ?>

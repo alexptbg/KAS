@@ -233,8 +233,14 @@ $r = $_GET['router'];
 						?>
                         <li>
                             <a href="vrf_plan.php?lang=<?=$lang?>">
-							    <i class="fa fa-location-arrow fa-fw fa-3x"></i> <?php echo get_lang($lang, 'k130'); ?></a>
+							    <i class="fa fa-location-arrow fa-fw fa-3x"></i> <?php echo get_lang($lang,'k130'); ?></a>
                         </li>
+                        <?php if ($user_settings['level'] > 10): ?>
+                        <li>
+                            <a href="repairs.php?lang=<?=$lang?>">
+							    <i class="fa fa-wrench fa-fw fa-3x"></i> <?php echo get_lang($lang,'k284'); ?></a>
+                        </li>
+                        <?php endif; ?>
                         <li>
                             <a href="vrf_activity.php?lang=<?=$lang?>">
 							    <i class="fa fa-pie-chart fa-fw fa-3x"></i> <?php echo get_lang($lang, 'k181'); ?></a>
@@ -275,10 +281,10 @@ $r = $_GET['router'];
                                 <li>
                                     <a href="users.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k12'); ?></a>
                                 </li>
-								<?php if ($user_settings['level'] > 20): ?>
                                 <li>
                                     <a href="logs.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k13'); ?></a>
                                 </li>
+								<?php if ($user_settings['level'] > 20): ?>
                                 <li>
                                     <a href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k11'); ?></a>
                                 </li>

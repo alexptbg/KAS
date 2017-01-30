@@ -13,9 +13,9 @@ check_login($lang,$web_dir);
 //index only
 include('inc/moon.php');
 //arduino inside temp controllers
-$inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_0004_2015_1.0","AR_0005_2015_1.0");
+$inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_0004_2015_1.0","AR_0005_2015_1.0","AR_0006_2015_1.0");
 ?>
-<head>
+    <head>
         <title><?=$slogan?></title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no" />
@@ -24,91 +24,140 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
         <link type="text/css" rel="stylesheet" href="css/bootstrap.css" />
         <link type="text/css" rel="stylesheet" href="css/font-awesome.min.css" />
         <link type="text/css" rel="stylesheet" href="css/mint-admin.css" />
-        <link type="text/css" rel="stylesheet" href="css/weather.css" />
         <link type="text/css" rel="stylesheet" href="css/iconmoon.min.css" />
         <link type="text/css" rel="stylesheet" href="css/ka-ex.css" /><!--icon ka-thermometer-->
+        <link type="text/css" rel="stylesheet" href="css/weather.css" />
+        <link type="text/css" rel="stylesheet" href="css/weather-icons.min.css" />
         <script type="text/javascript" src="js/jquery-1.10.2.js"></script>
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/moment-with-locales.min.js"></script>
         <script type="text/javascript" src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
         <script type="text/javascript" src="js/mint-admin.js"></script>
-		<script type="text/javascript" src="js/weather.js"></script>
-		<script type="text/javascript" src="js/skycons.js"></script>
 		<script type="text/javascript" src="js/index.js"></script>
 		<script type="text/javascript" src="js/ka-ex.js"></script>
 		<script type="text/javascript">
+        var wicon = {
+          //day
+          "01d": "wi-day-sunny",
+          "02d": "wi-day-cloudy",
+          "03d": "wi-cloud",
+          "04d": "wi-cloudy",
+          "09d": "wi-showers",
+          "10d": "wi-rain",
+          "11d": "wi-thunderstorm",
+          "13d": "wi-snow",
+          "50d": "wi-day-fog",
+          //night
+          "01n": "wi-night-clear",
+          "02n": "wi-night-alt-cloudy",
+          "03n": "wi-cloud",
+          "04n": "wi-cloudy",
+          "09n": "wi-showers",
+          "10n": "wi-rain",
+          "11n": "wi-thunderstorm",
+          "13n": "wi-snow",
+          "50n": "wi-night-fog"
+        };
         function get_live_out() {
 	        setInterval(function () {
 			    $.ajax({
 				    url: 'ar_out_temp_now.php?ar_id=AR_0007_2015_1.0', 
-				    //url: 'sa_temp_now.php',
 				    success: function(point) {
 				        y = eval(point);
 			            $('h3#temp_now').html(y[1].toFixed(1)+'ºC');
-			            $('div#now5').html('<span>'+y[2]+'%</span>');
-			            $('div#up').html('<span>'+y[3]+'</span>');
-			            $("div#now2").html('<span><small><?php echo get_lang($lang,'k62'); ?></small></span><p>'+y[1].toFixed(1)+'ºC</p>');
-			            $("div#now4").html('<span>'+y[2]+' %</span>');
+			            $('td#temp').html(y[1].toFixed(1));
+			            $('div#up').html('<span>'+y[2]+'</span>');
 			            $("div#now3").html('<small>'+y[3]+'</small>');
 			        },
 				    cache: false
 			    });
 	        },10000);
 	    }
+	    function get_weather() {
+			setInterval(function () {
+              $.ajax({
+                url: '../weather/api.php',
+                dataType: 'json',
+                type: 'get',
+                contentType: 'application/json',
+                success: function(data,textStatus,jQxhr){
+                  //console.log(data);
+                  //alert(data[0].wdesc);
+                  var sunrise = moment(data[0].wsunrise,"HH:mm:ss").format("HH:mm");
+                  var sunset = moment(data[0].wsunset,"HH:mm:ss").format("HH:mm");
+                  //$('.td-weather-city').text('Гоце Делчев');//data.name
+                  $('td#condi').text(data[0].wdesc);
+                  //$('p#temp').text(data.main.temp);
+                  $('td#icond i.wi').addClass(wicon[data[0].wicon]);
+                  $('h3#icond i.wi').addClass(wicon[data[0].wicon]);
+                  //console.log(data[0].wicon);
+                  //console.log(data.weather[0].icon);
+                  $('td#min').text(data[0].wmin+'ºC');
+                  $('td#max').text(data[0].wmax+'ºC');
+                  $('td#hum').text(data[0].whum+'%');
+                  $('td#wind').text(data[0].wwind+'км/ч');
+                  $('td#nuv').text(data[0].wclouds+'%');
+                  $('td#mb').text(data[0].wpress+'mb');
+                  $('td#sunrise').text(sunrise);
+                  $('td#sunset').text(sunset);
+                },
+                error: function(jqXhr,textStatus,errorThrown){
+                  console.log(errorThrown);
+                },
+                type: 'GET',
+                timeout: 5000,
+                cache: false
+              });
+			},60000);
+		}
         $(function() {
 			$.ajax({
 				url: 'ar_out_temp_now.php?ar_id=AR_0007_2015_1.0',
-				//url: 'sa_temp_now.php',
 				success: function(point) {
-					y = eval(point);
+				    y = eval(point);
 			        $('h3#temp_now').html(y[1].toFixed(1)+'ºC');
-			        $('div#now5').html('<span>'+y[2]+'%</span>');
-			        $('div#up').html('<span>'+y[3]+'</span>');
-			        $("div#now2").html('<span><small><?php echo get_lang($lang,'k62'); ?></small></span><p>'+y[1].toFixed(1)+'ºC</p>');
-			        $("div#now4").html('<span>'+y[2]+' %</span>');
+			        $('td#temp').html(y[1].toFixed(1));
+			        $('div#up').html('<span>'+y[2]+'</span>');
 			        $("div#now3").html('<small>'+y[3]+'</small>');
 			    },
 				cache: false
 			});
 	        get_live_out();
+	        get_weather();
             //get weather
-	        $.simpleWeather({
-		        //zipcode: 'BUXX0015',
-		        woeid: '836607',//gotse delchev
-		        unit: 'c',
-		        success: function(weather) {
-			        low = weather.low-3;
-			        high = weather.high-1;
-			        if (weather.code == 26) { var condition = Skycons.CLOUDY; var prog = "<?php echo get_lang($lang,'k254'); ?>"; }
-			        else if (weather.code == 27) { var condition = Skycons.PARTLY_CLOUDY_NIGHT; var prog = "<?php echo get_lang($lang,'k254'); ?>"; }
-			        else if (weather.code == 28) { var condition = Skycons.PARTLY_CLOUDY_DAY; var prog = "<?php echo get_lang($lang,'k254'); ?>"; }
-			        else if (weather.code == 29) { var condition = Skycons.PARTLY_CLOUDY_NIGHT; var prog = "<?php echo get_lang($lang,'k255'); ?>"; }
-			        else if (weather.code == 30) { var condition = Skycons.PARTLY_CLOUDY_DAY; var prog = "<?php echo get_lang($lang,'k255'); ?>"; }
-			        else if (weather.code == 31) { var condition = Skycons.CLEAR_NIGHT; var prog = "<?php echo get_lang($lang,'k256'); ?>"; }
-			        else if (weather.code == 32) { var condition = Skycons.CLEAR_DAY; var prog = "<?php echo get_lang($lang,'k256'); ?>"; }
-			        else if (weather.code == 11) { var condition = Skycons.RAIN; var prog = "<?php echo get_lang($lang,'k257'); ?>"; }//test
-			        else if (weather.code == 12) { var condition = Skycons.RAIN; var prog = "<?php echo get_lang($lang,'k257'); ?>"; }//test
-			        else if (weather.code == 18) { var condition = Skycons.SLEET; var prog = "<?php echo get_lang($lang,'k258'); ?>"; }
-			        else if (weather.code == 16) { var condition = Skycons.SNOW; var prog = "<?php echo get_lang($lang,'k259'); ?>"; }
-			        else if (weather.code == 24) { var condition = Skycons.WIND; var prog = "<?php echo get_lang($lang,'k260'); ?>"; }
-			        else if (weather.code == 20) { var condition = Skycons.FOG; var prog = "<?php echo get_lang($lang,'k261'); ?>" }
-			        else if (weather.code == 42) { var condition = Skycons.SNOW; var prog = "<?php echo get_lang($lang,'k262'); ?>" }
-			        else if (weather.code == 14) { var condition = Skycons.SNOW; var prog = "<?php echo get_lang($lang,'k262'); ?>" }
-			        else if (weather.code == 4) { var condition = Skycons.SNOW; var prog = "<?php echo get_lang($lang,'k276'); ?>" }
-			        now = weather.temp+' &deg;'+weather.units.temp;
-			        $("span.wi").html('<span class="wl icon-'+weather.code+'"></span>');
-			        html = '<p><strong><?php echo get_lang($lang,'k249'); ?>: </strong><span>'+high+' &deg;'+weather.units.temp+'</span><br/>';
-			        html += '<strong><?php echo get_lang($lang,'k250'); ?>: </strong><span>'+low+' &deg;'+weather.units.temp+'</span><br/>';
-			        html += '<strong><?php echo get_lang($lang,'k251'); ?>: </strong><span>'+weather.humidity+' %</span><br/>';
-			        html += '<strong><?php echo get_lang($lang,'k252'); ?>: </strong><span>'+weather.pressure+' mb</span><br/>';
-			        html += '<strong><?php echo get_lang($lang,'k253'); ?>: </strong><span>'+weather.wind.direction+' '+weather.wind.speed+' '+weather.units.speed+'</span><br/>';
-			        //html += '<span>'+weather.code+'</span><br/>';
-			        html += '<span><strong>'+prog+'</strong></span></p>';
-			        $("#weather").html(html);
-			        var v=new Skycons({"color": "#FFFFFF","resizeClear": true});v.add("icon",condition);v.play();
-		        },
-		        cache: false,
-		        error: function(error) { $("#weather").html('<p>'+error+'</p>'); }
-	        });
+            $.ajax({
+              url: '../weather/api.php',
+              dataType: 'json',
+              type: 'get',
+              contentType: 'application/json',
+              success: function(data,textStatus,jQxhr){
+                //console.log(data);
+                //alert(data[0].wdesc);
+                var sunrise = moment(data[0].wsunrise,"HH:mm:ss").format("HH:mm");
+                var sunset = moment(data[0].wsunset,"HH:mm:ss").format("HH:mm");
+                //$('.td-weather-city').text('Гоце Делчев');//data.name
+                $('td#condi').text(data[0].wdesc);
+                //$('p#temp').text(data.main.temp);
+                $('td#icond i.wi').addClass(wicon[data[0].wicon]);
+                $('h3#icond i.wi').addClass(wicon[data[0].wicon]);
+                //console.log(data[0].wicon);
+                //console.log(data.weather[0].icon);
+                $('td#min').text(data[0].wmin+'ºC');
+                $('td#max').text(data[0].wmax+'ºC');
+                $('td#hum').text(data[0].whum+'%');
+                $('td#wind').text(data[0].wwind+'км/ч');
+                $('td#nuv').text(data[0].wclouds+'%');
+                $('td#mb').text(data[0].wpress+'mb');
+                $('td#sunrise').text(sunrise);
+                $('td#sunset').text(sunset);
+              },
+              error: function(jqXhr,textStatus,errorThrown){
+                console.log(errorThrown);
+              },
+              type: 'GET',
+              timeout: 5000,
+              cache: false
+            });
             var isMobile = {
                 Android: function() {
                     return navigator.userAgent.match(/Android/i);
@@ -149,12 +198,20 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
             var f = function(){
                 showNotification("Title,\r\nThis is a notification message!");
             }
-            setInterval(f,30000);
+            setInterval(f,10000);
+            
             //NOTIFY
             setTimeout(function(){ showNotification("Title,\r\nThis is a notification message!"); },3000);
             */
         } else {
         	//do nothing for now
+        	/*
+            var c = function() {
+            	var soundFx = $("#soundFx");
+                soundFx[0].play();
+			}
+			setInterval(c,10000);
+			*/
 		}
         </script>
     </head>
@@ -353,11 +410,17 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 						?>
                         <li>
                             <a href="vrf_plan.php?lang=<?=$lang?>">
-							    <i class="fa fa-location-arrow fa-fw fa-3x"></i> <?php echo get_lang($lang, 'k130'); ?></a>
+							    <i class="fa fa-location-arrow fa-fw fa-3x"></i> <?php echo get_lang($lang,'k130'); ?></a>
                         </li>
+                        <?php if ($user_settings['level'] > 10): ?>
+                        <li>
+                            <a href="repairs.php?lang=<?=$lang?>">
+							    <i class="fa fa-wrench fa-fw fa-3x"></i> <?php echo get_lang($lang,'k284'); ?></a>
+                        </li>
+                        <?php endif; ?>
                         <li>
                             <a href="vrf_activity.php?lang=<?=$lang?>">
-							    <i class="fa fa-pie-chart fa-fw fa-3x"></i> <?php echo get_lang($lang, 'k181'); ?></a>
+							    <i class="fa fa-pie-chart fa-fw fa-3x"></i> <?php echo get_lang($lang,'k181'); ?></a>
                         </li>
                         <li>
                             <a href="vrf_errors.php?lang=<?=$lang?>">
@@ -365,11 +428,11 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
                         </li>
 						<?php if ($user_settings['level'] > 10): ?>
                         <li>
-                            <a href="#"><i class="fa fa-cog fa-fw fa-3x"></i> <?php echo get_lang($lang, 'Settings'); ?><span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-cog fa-fw fa-3x"></i> <?php echo get_lang($lang,'Settings'); ?><span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
 							    <?php if ($user_settings['level'] > 20): ?>
                                 <li>
-                                    <a href="routers.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k09'); ?></a>
+                                    <a href="routers.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k09'); ?></a>
                                 </li>
                                 <li>
                                     <a href="#"><?php echo get_lang($lang, 'k10'); ?>&nbsp;<span class="fa arrow"></span></a>
@@ -386,8 +449,6 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 											          ".$routerx['router_name']."&nbsp;&nbsp;<span class=\"kcount\">".count_klimas($routerx['router_name'])."</span></a></li>";
 											}
 											echo "</ul>";
-										} else {
-													//do nothing
 										}
 									?>
                                 </li>
@@ -395,10 +456,10 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
                                 <li>
                                     <a href="users.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k12'); ?></a>
                                 </li>
-								<?php if ($user_settings['level'] > 20): ?>
                                 <li>
                                     <a href="logs.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k13'); ?></a>
                                 </li>
+								<?php if ($user_settings['level'] > 20): ?>
                                 <li>
                                     <a href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k11'); ?></a>
                                 </li>
@@ -437,12 +498,11 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6">
                         <div class="panel panel-primary text-center panel-eyecandy">
-                            <div class="panel-body peter-river tooltipx">
+                            <div class="panel-body peter-river tooltipx" style="height: 200px">
                                 <a href="sa_chart.php?lang=<?=$lang?>" id="sa" class="fr" data-toggle="tooltip" data-placement="top" title="<?php echo get_lang($lang,'k205');?>">
                                     <i class="fa fa-area-chart fa-2x"></i></a>
-                                <canvas id="icon" width="95" height="95" class="item-icon"></canvas>
+                                <h3 id="icond"><i class="wi"></i>&nbsp;</h3>
                                 <h3 id="temp_now"></h3>
-                                <div id="now5"></div>
 								<div id="up"></div>
                             </div>
                             <div class="panel-footer">
@@ -452,12 +512,18 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-6">
                         <div class="panel panel-primary text-center panel-eyecandy">
-                            <div class="panel-body peter-river">
-							    <span class="wi"></span>
-							    <div id="now2"></div>
-							    <div id="now4"></div>
-							    <div id="now3"></div>
-                                <div id="weather"></div>
+                            <div class="panel-body peter-river" style="height: 200px">
+                                <div id="weather">
+                                    <table id="ext">
+                                        <tr><td id="icond" colspan="2"><i class="wi"></i>&nbsp;</td></tr>
+                                        <tr><td id="condi" colspan="2">&nbsp;</td></tr>
+                                        <tr><td id="temp" colspan="2">&nbsp;</td></tr>
+                                    	<tr><td id="min">&nbsp;</td><td id="max">&nbsp;</td></tr>
+                                    	<tr><td id="hum">&nbsp;</td><td id="wind">&nbsp;</td></tr>
+                                    	<tr><td id="nuv">&nbsp;</td><td id="mb">&nbsp;</td></tr>
+                                    	<tr><td id="sunrise">&nbsp;</td><td id="sunset">&nbsp;</td></tr>
+                                    </table>
+                                </div>
                             </div>
                             <div class="panel-footer">
                                 <h5 class="hindex"><?php echo get_lang($lang,'k63');?>&nbsp;-&nbsp;<?php echo get_lang($lang,'k64');?></h5>
@@ -465,7 +531,7 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-6">
-                        <div class="panel panel-primary text-center panel-eyecandy">
+                        <div class="panel panel-primary text-center panel-eyecandy panel-eyecandy-2">
                             <div class="panel-body peter-river tooltipx">
                                 <i class="iconm-temperature-2 sz40"></i>
                                 <a href="sa_in_chart.php?lang=<?=$lang?>" id="sa" class="fr" data-toggle="tooltip" data-placement="top" title="<?php echo get_lang($lang,'k206');?>">
@@ -486,7 +552,7 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-6">
-                        <div class="panel panel-primary text-center panel-eyecandy">
+                        <div class="panel panel-primary text-center panel-eyecandy-2">
                             <div class="panel-body peter-river">
                                 <i class="iconm-calendar sz40"></i>
 								<div class="time">
@@ -639,7 +705,10 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
                     <div id="data2"></div>
                 </div>
                 -->
-                
+                <audio id="soundFX">
+                    <source src="audio/pager.mp3" type="audio/mpeg" />
+                    Update your browser to enjoy HTML5 audio!
+                </audio>
                 <?php
                 //access warning
                 if ($user_settings["access"] == 0) {
@@ -701,8 +770,7 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 				        if (y != null) {
 				        	if (y[1] != \"Error\") {
 				                html = \"<p><span>\"+y[1]+\": </span>\";
-				                html += \"<span>\"+y[2].toFixed(1)+\" ºC - </span>\";
-				                html += \"<span>\"+y[3]+\" %</span></p>\";
+				                html += \"<span>\"+y[2].toFixed(1)+\" ºC</span></p>\";
 				            } else {
 								html = \"<p><span>\"+y[1]+\": </span>\";
 								html += \"<span>\"+y[2]+\"</span></p>\";
@@ -723,8 +791,7 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 				    if (y != null) {
 				    	if (y[1] != \"Error\") {
 				            html = \"<p><span>\"+y[1]+\": </span>\";
-				            html += \"<span>\"+y[2].toFixed(1)+\" ºC - </span>\";
-				            html += \"<span>\"+y[3]+\" %</span></p>\";
+				            html += \"<span>\"+y[2].toFixed(1)+\" ºC</span></p>\";
 				        } else {
 							html = \"<p><span>\"+y[1]+\": </span>\";
 							html += \"<span>\"+y[2]+\"</span></p>\";

@@ -25,11 +25,9 @@ $uid = mysql_prep($_GET['uid']);
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
         <script type="text/javascript" src="js/mint-admin.js"></script>
-		
 		<link type="text/css" rel="stylesheet" href="js/plugins/dataTables/dataTables.bootstrap.css" />
         <script type="text/javascript" src="js/plugins/dataTables/jquery.dataTables.js"></script>
         <script type="text/javascript" src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
-		
 	    <script type="text/javascript" src="js/ka-ex.js"></script>
     </head>
     <body>
@@ -232,8 +230,14 @@ $uid = mysql_prep($_GET['uid']);
 						?>
                         <li>
                             <a href="vrf_plan.php?lang=<?=$lang?>">
-							    <i class="fa fa-location-arrow fa-fw fa-3x"></i> <?php echo get_lang($lang, 'k130'); ?></a>
+							    <i class="fa fa-location-arrow fa-fw fa-3x"></i> <?php echo get_lang($lang,'k130'); ?></a>
                         </li>
+                        <?php if ($user_settings['level'] > 10): ?>
+                        <li>
+                            <a href="repairs.php?lang=<?=$lang?>">
+							    <i class="fa fa-wrench fa-fw fa-3x"></i> <?php echo get_lang($lang,'k284'); ?></a>
+                        </li>
+                        <?php endif; ?>
                         <li>
                             <a href="vrf_activity.php?lang=<?=$lang?>">
 							    <i class="fa fa-pie-chart fa-fw fa-3x"></i> <?php echo get_lang($lang, 'k181'); ?></a>
@@ -274,10 +278,10 @@ $uid = mysql_prep($_GET['uid']);
                                 <li class="active">
                                     <a class="active" href="users.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k12'); ?></a>
                                 </li>
-								<?php if ($user_settings['level'] > 20): ?>
                                 <li>
                                     <a href="logs.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k13'); ?></a>
                                 </li>
+								<?php if ($user_settings['level'] > 20): ?>
                                 <li>
                                     <a href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k11'); ?></a>
                                 </li>

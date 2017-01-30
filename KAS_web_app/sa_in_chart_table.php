@@ -10,7 +10,7 @@ DataBase::getInstance()->connect(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
 include('inc/config.php');
 check_login($lang,$web_dir);
 ?>
-<head>
+    <head>
         <title><?=$slogan?></title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no" />
@@ -23,15 +23,12 @@ check_login($lang,$web_dir);
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
         <script type="text/javascript" src="js/mint-admin.js"></script>
-		
 		<link type="text/css" rel="stylesheet" href="js/plugins/dataTables/dataTables.bootstrap.css" />
         <script type="text/javascript" src="js/plugins/dataTables/jquery.dataTables.js"></script>
         <script type="text/javascript" src="js/plugins/dataTables/dataTables.bootstrap.js"></script>
 		<script type="text/javascript" src="js/plugins/dataTables/jquery.dataTables.columnFilter.js"></script>
-		
 		<link type="text/css" rel="stylesheet" href="js/plugins/dataTables/plugins/TableTools/css/dataTables.tableTools.min.css" />
 		<script type="text/javascript" src="js/plugins/dataTables/plugins/TableTools/js/dataTables.tableTools.min.js"></script>
-		
 		<script type="text/javascript" src="js/ka-ex.js"></script>
 		<script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
     </head>
@@ -235,8 +232,14 @@ check_login($lang,$web_dir);
 						?>
                         <li>
                             <a href="vrf_plan.php?lang=<?=$lang?>">
-							    <i class="fa fa-location-arrow fa-fw fa-3x"></i> <?php echo get_lang($lang, 'k130'); ?></a>
+							    <i class="fa fa-location-arrow fa-fw fa-3x"></i> <?php echo get_lang($lang,'k130'); ?></a>
                         </li>
+                        <?php if ($user_settings['level'] > 10): ?>
+                        <li>
+                            <a href="repairs.php?lang=<?=$lang?>">
+							    <i class="fa fa-wrench fa-fw fa-3x"></i> <?php echo get_lang($lang,'k284'); ?></a>
+                        </li>
+                        <?php endif; ?>
                         <li>
                             <a href="vrf_activity.php?lang=<?=$lang?>">
 							    <i class="fa fa-pie-chart fa-fw fa-3x"></i> <?php echo get_lang($lang, 'k181'); ?></a>
@@ -277,10 +280,10 @@ check_login($lang,$web_dir);
                                 <li>
                                     <a href="users.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k12'); ?></a>
                                 </li>
-								<?php if ($user_settings['level'] > 20): ?>
                                 <li>
                                     <a href="logs.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k13'); ?></a>
                                 </li>
+								<?php if ($user_settings['level'] > 20): ?>
                                 <li>
                                     <a href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k11'); ?></a>
                                 </li>
@@ -323,12 +326,12 @@ check_login($lang,$web_dir);
 								        $dbtable = "arduino_in_temp_60m";
 								        $title = get_lang($lang,'k195')." - ".get_lang($lang,'k196')." 60 ".get_lang($lang,'k197'); 
 							        }
-							        echo $title;  
+							        echo $title;
 							    ?>
 							</div>
                             <div class="panel-body">
                             <?php 
-                            $devices = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_0004_2015_1.0","AR_0005_2015_1.0");
+                            $devices = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_0004_2015_1.0","AR_0005_2015_1.0","AR_0006_2015_1.0");
                             $colors = array("#0ca8f3","#fba504","#06f406","#da29f3","#fe1b01","#0eafab");
                             $i=0;
                             
@@ -340,7 +343,6 @@ check_login($lang,$web_dir);
                                                 <th>".get_lang($lang,'k207')."</th>
                                                 <th>".get_lang($lang,'k117')."</th>
                                                 <th>".get_lang($lang,'k177')."</th>
-                                                <th>".get_lang($lang,'k199')."</th>
                                             </tr>
                                         </thead>
                                         <tbody>";
@@ -355,16 +357,15 @@ foreach($devices as $ar) {
 		    $places[] = $place['place'];
 	    }
     }
-	$sql[$i] = mysql_query("SELECT `timestamp`,`temp2`,`humidity` FROM `".$dbtable."` WHERE `ar_id`='".$ar."' GROUP BY `timestamp` ORDER BY `timestamp` ASC");
+	$sql[$i] = mysql_query("SELECT `timestamp`,`temp2` FROM `".$dbtable."` WHERE `ar_id`='".$ar."' GROUP BY `timestamp` ORDER BY `timestamp` DESC");
 	confirm_query($sql[$i]);
 	if (mysql_num_rows($sql[$i]) != 0) {
         while($row[$i] = mysql_fetch_array($sql[$i])) {
 	        $date[$i] = $row[$i]['timestamp'];
 	        $datec[$i] = date("Y-m-d H:i",$date[$i]);
             $values[$i] = floatval($row[$i]['temp2']);
-            $hvalues[$i] = floatval($row[$i]['humidity']);
             echo "<tr>";
-            echo "<td>".$places[$i]."</td><td>".$datec[$i]."</td><td>".number_format($values[$i],2)."ºC</td><td>".$hvalues[$i]."%</td>";
+            echo "<td>".$places[$i]."</td><td>".$datec[$i]."</td><td>".number_format($values[$i],2)."ºC</td>";
             echo "</tr>";
 		}
     }
@@ -372,8 +373,7 @@ foreach($devices as $ar) {
 }
                                   echo "</tbody>
                                     </table>
-                                </div>
-                        ";
+                                </div>";
                             ?>
                             </div>
                         </div>
@@ -388,14 +388,13 @@ foreach($devices as $ar) {
             if(jQuery().dataTable) {
          if($("#sa_chart").length > 0) { 
              $('#sa_chart').dataTable({
-			     "aaSorting": [[ 0, "desc" ]],
+			     "aaSorting": [[ 1, "desc" ]],
 				 "iDisplayLength": 100,
 				 "aLengthMenu": [[100, 150, 200, -1], [100, 150, 200, "Всички"]],
                  "aoColumns": [
 				     { "bSortable": false, "bSearchable": true },
-					 { "bSortable": false, "bSearchable": true },
-					 { "bSortable": false, "bSearchable": false },
-					 { "bSortable": false, "bSearchable": false } 
+					 { "bSortable": true, "bSearchable": true },
+					 { "bSortable": false, "bSearchable": false }
                  ],
                  dom: 'T<"clear">lfrtip',
                  tableTools: {

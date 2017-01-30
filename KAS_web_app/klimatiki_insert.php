@@ -29,7 +29,6 @@ include('inc/socket.php');
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
         <script type="text/javascript" src="js/mint-admin.js"></script>
-		
 	    <script type="text/javascript" src="js/ka-ex.js"></script>
     </head>
     <body>
@@ -234,8 +233,14 @@ include('inc/socket.php');
 						?>
                         <li>
                             <a href="vrf_plan.php?lang=<?=$lang?>">
-							    <i class="fa fa-location-arrow fa-fw fa-3x"></i> <?php echo get_lang($lang, 'k130'); ?></a>
+							    <i class="fa fa-location-arrow fa-fw fa-3x"></i> <?php echo get_lang($lang,'k130'); ?></a>
                         </li>
+                        <?php if ($user_settings['level'] > 10): ?>
+                        <li>
+                            <a href="repairs.php?lang=<?=$lang?>">
+							    <i class="fa fa-wrench fa-fw fa-3x"></i> <?php echo get_lang($lang,'k284'); ?></a>
+                        </li>
+                        <?php endif; ?>
                         <li>
                             <a href="vrf_activity.php?lang=<?=$lang?>">
 							    <i class="fa fa-pie-chart fa-fw fa-3x"></i> <?php echo get_lang($lang, 'k181'); ?></a>
@@ -282,10 +287,10 @@ include('inc/socket.php');
                                 <li>
                                     <a href="users.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k12'); ?></a>
                                 </li>
-								<?php if ($user_settings['level'] > 20): ?>
                                 <li>
                                     <a href="logs.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k13'); ?></a>
                                 </li>
+								<?php if ($user_settings['level'] > 20): ?>
                                 <li>
                                     <a href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k11'); ?></a>
                                 </li>
@@ -344,9 +349,8 @@ include('inc/socket.php');
 									$check = check_klimatik_before_add($ak_inv,$ak_rtu);
 									if (($ak_router != NULL) && ($check == FALSE)) {
 										//try to insert
-	                                    mysql_query("SET NAMES utf8");
 		                                $query = "INSERT INTO `klimatiki` (`router`, `inv`, `rtu`, `addr`, `building`, `floor`, `group`, `zona`, `place`, `type`, `vrf`, `prog`, `start_w`, `stop_w`, `start_s`, `stop_s`) 
-										          VALUES ('$ak_router', '$ak_inv', '$ak_rtu', '$ak_addr', '$ak_building', '$ak_floor', '$ak_group', '$ak_zona', '$ak_place', '$ak_type', '$ak_vrf', '$ak_prog', '$ak_start_w', '$ak_stop_w', '$ak_start_s', '$ak_stop_s')";
+										          VALUES ('".$ak_router."', '".$ak_inv."', '".$ak_rtu."', '".$ak_addr."', '".$ak_building."', '".$ak_floor."', '".$ak_group."', '".$ak_zona."', '".$ak_place."', '".$ak_type."', '".$ak_vrf."', '".$ak_prog."', '".$ak_start_w."', '".$ak_stop_w."', '".$ak_start_s."', '".$ak_stop_s."')";
                                         $result = mysql_query($query);
                                         confirm_query($result);
                                         if ($result) {
@@ -412,10 +416,10 @@ include('inc/socket.php');
 									//error //not submited
                                     echo "<div class=\"panel panel-primary\">";
                                     echo "<div class=\"panel-heading\">
-                                              ".get_lang($lang, 'k50')."
+                                              ".get_lang($lang,'k50')."
                                           </div>";
 									echo "<div class=\"panel-body\"><div class=\"alert alert-danger\">";
-                                    echo get_lang($lang, 'k33');
+                                    echo get_lang($lang,'k33');
                                     echo "</div></div>";
 								    echo "<div class=\"panel-footer\">";
                                     echo "<button type=\"button\" class=\"btn btn-primary btn-lg\" onClick=\"javascript: history.go(-1); return false;\"><i class=\"fa fa-arrow-left\"></i>&nbsp;".get_lang($lang, 'k34')."</button>";

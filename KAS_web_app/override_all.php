@@ -24,7 +24,6 @@ $ad = $_GET['addr'];
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
         <script type="text/javascript" src="js/mint-admin.js"></script>
-		
 		<script type="text/javascript" src="js/ka-ex.js"></script>
     </head>
     <body>
@@ -93,7 +92,6 @@ $ad = $_GET['addr'];
                                 </div>
                             </div>
                         </li>
-
                         <li>
                             <a href="index.php?lang=<?=$lang?>">
 							    <i class="fa fa-dashboard fa-fw fa-3x"></i> <?php echo get_lang($lang, 'Home'); ?></a>
@@ -228,8 +226,14 @@ $ad = $_GET['addr'];
 						?>
                         <li>
                             <a href="vrf_plan.php?lang=<?=$lang?>">
-							    <i class="fa fa-location-arrow fa-fw fa-3x"></i> <?php echo get_lang($lang, 'k130'); ?></a>
+							    <i class="fa fa-location-arrow fa-fw fa-3x"></i> <?php echo get_lang($lang,'k130'); ?></a>
                         </li>
+                        <?php if ($user_settings['level'] > 10): ?>
+                        <li>
+                            <a href="repairs.php?lang=<?=$lang?>">
+							    <i class="fa fa-wrench fa-fw fa-3x"></i> <?php echo get_lang($lang,'k284'); ?></a>
+                        </li>
+                        <?php endif; ?>
                         <li>
                             <a href="vrf_activity.php?lang=<?=$lang?>">
 							    <i class="fa fa-pie-chart fa-fw fa-3x"></i> <?php echo get_lang($lang, 'k181'); ?></a>
@@ -270,10 +274,10 @@ $ad = $_GET['addr'];
                                 <li>
                                     <a href="users.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k12'); ?></a>
                                 </li>
-								<?php if ($user_settings['level'] > 20): ?>
                                 <li>
                                     <a href="logs.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k13'); ?></a>
                                 </li>
+								<?php if ($user_settings['level'] > 20): ?>
                                 <li>
                                     <a href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k11'); ?></a>
                                 </li>
@@ -308,7 +312,6 @@ $ad = $_GET['addr'];
                 </div>
                 <!-- /.col-lg-12 -->
 				<?php if ($user_settings['level'] > 10): ?>
-
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-danger">
@@ -319,7 +322,6 @@ $ad = $_GET['addr'];
                         </div>
                     </div>
 				</div>
-				
                 <div class="row">
                 <?php
 			        //get all routers
@@ -384,6 +386,7 @@ $ad = $_GET['addr'];
                                     <center>
                                     <div class=\"btn-group btn-group-lg\" id=\"prog\">";
                                     //echo $r_settings['router_name'];
+                                    /*
 								    if ($r_settings['work_sche'] == "Off") {
 									    echo "<button type=\"button\" class=\"btn btn-danger\" id=\"pg-off-".$x."\" disabled=\"disabled\">".get_lang($lang,'off')."</button>";
 								    } else {
@@ -395,6 +398,11 @@ $ad = $_GET['addr'];
 								    } else {
 									    echo "<button type=\"button\" class=\"btn btn-success\" id=\"pg-on-".$x."\">".get_lang($lang,'on')."</button>";
 								    }
+								    */ /* NEW 2016-08-08 */
+								    echo "<button type=\"button\" class=\"btn btn-danger\" id=\"pg-off-".$x."\">".get_lang($lang,'off')."</button>";
+								    echo "<button type=\"button\" class=\"btn btn-default active\" disabled=\"disabled\">".get_lang($lang,'k90')."</button>";
+								    echo "<button type=\"button\" class=\"btn btn-success\" id=\"pg-on-".$x."\">".get_lang($lang,'on')."</button>";
+								    /* END OF NEW */
 							        echo "</div>
                                     <script type=\"text/javascript\">
                                         var pg = 'all';

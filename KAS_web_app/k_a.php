@@ -86,14 +86,18 @@ else { $mode_name = $mode; }
 	else { $led = 'err'; $checked = ""; $data_off = "danger"; }
 	$klima = get_klima_settings($d0);
 	$user = get_user_settings($u);
-	if (!in_array($d0, $ex)) {
+	$prog_status = r($d0,$r);
+	if ($prog_status == "Off") { $regime = "M"; }
+	if ($prog_status == "On") { $regime = "A"; }
+	if (!in_array($d0,$ex)) {
 	echo "
-        <div class=\"col-xs-6 col-sm-3\">
+        <div class=\"col-xs-6 col-sm-3 status_".$prog_status."\">
             <a href=\"klima_i.php?lang=".$lang."&user=".$u."&klima=".$d0."&r=".$r."\" class=\"list-group-item\">
                 <i class=\"fa fa-square fa-fw\"></i>&nbsp;".$d0."
                 <span>&nbsp;&nbsp;&nbsp;".$set_point."<i class=\"icon ka-celcius ka-status-lg\"></i></span>
-                <span>&nbsp;&nbsp;&nbsp;".$mode_name."</span>
+                <span>&nbsp;&nbsp;".$mode_name."</span>
                 <span>&nbsp;&nbsp;&nbsp;<i class=\"icon ka-cooler ka-status\"></i>&nbsp;".$vent."</span>
+                <span>&nbsp;&nbsp;".$regime."</span>
                 <span class=\"pull-right\" style=\"margin-top:4px;vertical-align:middle;\">
 				    <span class=\"lamp fr\"><span class=\"".$led."\"></span></span>
 				</span>
@@ -102,4 +106,15 @@ else { $mode_name = $mode; }
 	}
 }
 DataBase::getInstance()->disconnect();
+function r($d,$r) {
+	$query = "SELECT `prog` FROM `klimatiki` WHERE `router`='".$r."' AND `inv`='".$d."'";
+    $result = mysql_query($query);
+    confirm_query($result);
+    if (mysql_num_rows($result) != 0) {
+        while($status = mysql_fetch_array($result)) {
+		    $prog_status = $status['prog'];
+	    }
+    }
+    return $prog_status;
+}
 ?>

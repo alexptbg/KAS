@@ -265,6 +265,13 @@ function check_username_id_and_username($uid,$user_name) {
     $c = mysql_num_rows($result);
 	if ($c != NULL) { return TRUE; } else { return FALSE; }	
 }
+function get_klima_repair($kinv,$rid) {
+    $query = "SELECT * FROM `maintenance` WHERE `inv`='".$kinv."' AND `id`='".$rid."'";
+    $result = mysql_query($query);
+    confirm_query($result);
+    $klima_repair = mysql_fetch_array($result);
+    return $klima_repair;
+}
 function insert_log($lang,$device,$user,$filter,$action,$obs) {
 	$date = date('Y-m-d');
 	$time = date('H:i:s');
@@ -526,6 +533,51 @@ function getOS($userAgent) {
 	}
 	return 'Unknown';
 }
+function humanTiming ($time) {
+    $time = time() - $time;
+    $time = ($time<1)? 1 : $time;
+    $tokens = array (
+        31536000 => 'year',
+        2592000 => 'month',
+        604800 => 'week',
+        86400 => 'day',
+        3600 => 'hour',
+        60 => 'minute',
+        1 => 'second'
+    );
+    foreach ($tokens as $unit => $text) {
+        if ($time < $unit) continue;
+        $numberOfUnits = floor($time / $unit);
+        return $numberOfUnits.' '.$text.(($numberOfUnits>1)?'s':'');
+    }
+}
+function time_elapsed_string($ptime,$lang) {
+    $etime = time() - $ptime;
+    if ($etime < 1) {
+        return '0 seconds';
+    }
+    $a = array( 365 * 24 * 60 * 60  =>  'year',
+                 30 * 24 * 60 * 60  =>  'month',
+                      24 * 60 * 60  =>  'day',
+                           60 * 60  =>  'hour',
+                                60  =>  'minute',
+                                 1  =>  'second'
+              );
+    $a_plural = array( 'year'   => 'years',
+                       'month'  => 'months',
+                       'day'    => 'days',
+                       'hour'   => 'hours',
+                       'minute' => 'minutes',
+                       'second' => 'seconds'
+              );
+    foreach ($a as $secs => $str) {
+        $d = $etime / $secs;
+        if ($d >= 1) {
+            $r = round($d);
+            return $r . ' ' . ($r > 1 ? $a_plural[$str] : $str) . ' ago';
+        }
+    }
+}
 function crc16($values) {
 	$o=0;
     $crc16 = 0xFFFF;//the CRC seed
@@ -543,7 +595,7 @@ function crc16($values) {
 	$lo = (int)($crc16/256);
 	$mid = $lo*256;
 	$hi = $crc16-$mid;
-	return dechex($hi) ." ". dechex($lo);
+	return dechex($hi)." ".dechex($lo);
 }
 function array_random($arr,$num=1) {
     shuffle($arr);

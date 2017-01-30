@@ -26,7 +26,7 @@ echo "
         if (mysql_num_rows($result) != 0) {
             echo "
 			<div class=\"table-responsive\">
-                <table class=\"table table-striped\">
+                <table class=\"table table-striped\" style=\"margin-bottom:0;\">
                     <thead>
                         <tr>
                             <th class=\"h\">".get_lang($lang, 'k117')." / ".get_lang($lang, 'k118')."</th>
