@@ -10,7 +10,7 @@ DataBase::getInstance()->connect(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
 include('inc/config.php');
 check_login($lang,$web_dir);
 ?>
-<head>
+    <head>
         <title><?=$slogan?></title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no" />
@@ -23,16 +23,13 @@ check_login($lang,$web_dir);
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
         <script type="text/javascript" src="js/mint-admin.js"></script>
-		
 		<script type="text/javascript" src="js/ka-ex.js"></script>
 		<script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
-		
         <script type="text/javascript" src="js/plugins/hcharts/highstock.js"></script>
         <script type="text/javascript" src="js/plugins/hcharts/highcharts-more.js"></script>
         <script type="text/javascript" src="js/plugins/hcharts/unica.js"></script>
         <script type="text/javascript" src="js/plugins/hcharts/highcharts.<?=$lang?>.js"></script>
         <script type="text/javascript" src="js/plugins/hcharts/exporting.js"></script>
-        
         <script type="text/javascript" src="js/plugins/hcharts/export-csv.js"></script>
     </head>
     <body>
@@ -235,8 +232,14 @@ check_login($lang,$web_dir);
 						?>
                         <li>
                             <a href="vrf_plan.php?lang=<?=$lang?>">
-							    <i class="fa fa-location-arrow fa-fw fa-3x"></i> <?php echo get_lang($lang, 'k130'); ?></a>
+							    <i class="fa fa-location-arrow fa-fw fa-3x"></i> <?php echo get_lang($lang,'k130'); ?></a>
                         </li>
+                        <?php if ($user_settings['level'] > 10): ?>
+                        <li>
+                            <a href="repairs.php?lang=<?=$lang?>">
+							    <i class="fa fa-wrench fa-fw fa-3x"></i> <?php echo get_lang($lang,'k284'); ?></a>
+                        </li>
+                        <?php endif; ?>
                         <li>
                             <a href="vrf_activity.php?lang=<?=$lang?>">
 							    <i class="fa fa-pie-chart fa-fw fa-3x"></i> <?php echo get_lang($lang, 'k181'); ?></a>
@@ -277,10 +280,10 @@ check_login($lang,$web_dir);
                                 <li>
                                     <a href="users.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k12'); ?></a>
                                 </li>
-								<?php if ($user_settings['level'] > 20): ?>
                                 <li>
                                     <a href="logs.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k13'); ?></a>
                                 </li>
+								<?php if ($user_settings['level'] > 20): ?>
                                 <li>
                                     <a href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k11'); ?></a>
                                 </li>
@@ -396,7 +399,7 @@ check_login($lang,$web_dir);
                                                 },
 		                                        offset: 20,
 		                                        max: 50,
-		                                        min: 0
+		                                        min: -20
                                             },
                                             plotOptions: {
                                                 series: {
@@ -518,7 +521,7 @@ check_login($lang,$web_dir);
                                                 },
 		                                        offset: 20,
 		                                        max: 50,
-		                                        min: 0
+		                                        min: -20
                                             },
                                             plotOptions: {
                                                 series: {
@@ -555,128 +558,6 @@ check_login($lang,$web_dir);
 								<div id="hchart" style="height:534px;width:100%;margin:0;padding:0;margin-bottom:10px;"></div>
 								<button type="button" class="btn btn-info btn-lg fr" onClick="document.location.href='sa_chart_table.php?lang=<?=$lang?>&args=t60m'">
 								    <i class="fa fa-file-text-o"></i>&nbsp;<?php echo get_lang($lang,'k275'); ?></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-							    <?php echo get_lang($lang,'k264')." - ".get_lang($lang,'k196')." 60 ".get_lang($lang,'k197'); ?>
-							</div>
-                            <div class="panel-body" style="margin:4px 5px 10px 5px;padding:0;">
-                                <script type="text/javascript">
-	                            Highcharts.setOptions({
-		                            global : { useUTC: false }
-	                            });
-                                $(function () {
-	                                $.getJSON('ar_out_data_history_hum_60m.php?lang=<?=$lang?>', function(data) {
-		                                $('#humchart').highcharts('StockChart', {
-		                                    chart: {
-				                                spacingTop: 10,
-				                                spacingBottom: 10,
-				                                marginBottom: 50,
-                                                animation: {
-                                                    duration: 2000,
-                                                    easing: 'easeOutBounce'
-                                                }
-		                                    },
-                                            navigator: {
-                                                series: {
-                                                    includeInCSVExport: false
-                                                }
-                                            },
-                                            rangeSelector: {
-                                                buttons: [{
-                                                    type: 'hour',
-                                                    count: 8,
-                                                    text: '8H'
-			                                    }, {
-                                                    type: 'day',
-                                                    count: 1,
-                                                    text: '1D'
-                                                }, {
-                                                    type: 'day',
-                                                    count: 2,
-                                                    text: '2D'
-                                                }, {
-                                                    type: 'day',
-                                                    count: 3,
-                                                    text: '3D'
-                                                }, {
-                                                    type: 'day',
-                                                    count: 7,
-                                                    text: '7D'
-                                                }, {
-                                                    type: 'day',
-                                                    count: 15,
-                                                    text: '15D'
-                                                }, {
-                                                    type: 'month',
-                                                    count: 1,
-                                                    text: '1M'
-                                                }, {
-                                                    type: 'all',
-                                                    text: 'All'
-                                                }],
-                                                selected: 0,
-			                                    inputEnabled : false
-                                            },
-		                                    title: {
-		                                        text: '<?php echo get_lang($lang,'k264'); ?>'
-		                                    },
-                                            subtitle: {
-                                                text: '<?php echo get_lang($lang,'k196')." 60 ".get_lang($lang,'k197'); ?>'
-                                            },	
-                                            xAxis: {
-                                                title: {
-                                                    text: null
-                                                }
-                                            },
-                                            yAxis: {
-		                                        showLastLabel: false,
-                                                title: {
-                                                    text: '<?php echo get_lang($lang,'k199'); ?> %'
-                                                },
-		                                        offset: 20,
-		                                        max: 100,
-		                                        min: 20
-                                            },
-                                            plotOptions: {
-                                                series: {
-                                                    animation: {
-                                                        duration: 2000,
-                                                        easing: 'easeOutBounce'
-                                                    }
-                                                }
-                                            },
-                                            credits: {
-                                                enabled: false
-                                            },
-                                            tooltip: {
-                                                shared: true,
-                                                formatter: function() {
-                                                    var p = '';
-                                                    p += '<b>' + Highcharts.dateFormat('%b %e, %Y, %H:%M',this.x) +'</b><br/>';
-                                                    $.each(this.points, function(i, series){
-                                                        p +='<span style="color:' + this.series.color + '">' + this.series.name + '</span>: ' + Highcharts.numberFormat(this.y,0) + ' %<br/>'
-                                                    });
-                                                    return p;
-                                                }
-                                            },
-                                            legend: {
-			                                    enabled: true,
-                                                floating: false,
-			                                    borderWidth: 0
-                                            },
-		                                    series: data
-		                                });
-	                                });
-                                });
-                                </script>
-								<div id="humchart" style="height:534px;width:100%;margin:0;padding:0;"></div>
                             </div>
                         </div>
                     </div>

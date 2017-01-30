@@ -23,9 +23,7 @@ check_login($lang,$web_dir);
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
         <script type="text/javascript" src="js/mint-admin.js"></script>
-		
 	    <script type="text/javascript" src="js/ka-ex.js"></script>
-		
 		<link rel="stylesheet" type="text/css" href="js/plugins/validation/jquery.validationEngine.css" />
 		<script type="text/javascript" src="js/plugins/validation/jquery.validationEngine.js"></script>
 		<script type="text/javascript" src="js/plugins/validation/lang/jquery.validationEngine-<?=$lang?>.js"></script>
@@ -233,8 +231,14 @@ check_login($lang,$web_dir);
 						?>
                         <li>
                             <a href="vrf_plan.php?lang=<?=$lang?>">
-							    <i class="fa fa-location-arrow fa-fw fa-3x"></i> <?php echo get_lang($lang, 'k130'); ?></a>
+							    <i class="fa fa-location-arrow fa-fw fa-3x"></i> <?php echo get_lang($lang,'k130'); ?></a>
                         </li>
+                        <?php if ($user_settings['level'] > 10): ?>
+                        <li>
+                            <a href="repairs.php?lang=<?=$lang?>">
+							    <i class="fa fa-wrench fa-fw fa-3x"></i> <?php echo get_lang($lang,'k284'); ?></a>
+                        </li>
+                        <?php endif; ?>
                         <li>
                             <a href="vrf_activity.php?lang=<?=$lang?>">
 							    <i class="fa fa-pie-chart fa-fw fa-3x"></i> <?php echo get_lang($lang, 'k181'); ?></a>
@@ -275,10 +279,10 @@ check_login($lang,$web_dir);
                                 <li>
                                     <a href="users.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k12'); ?></a>
                                 </li>
-								<?php if ($user_settings['level'] > 20): ?>
                                 <li class="active">
-                                    <a class="active" href="logs.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k13'); ?></a>
+                                    <a class="active" href="logs.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k13'); ?></a>
                                 </li>
+								<?php if ($user_settings['level'] > 20): ?>
                                 <li>
                                     <a href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k11'); ?></a>
                                 </li>
@@ -313,28 +317,29 @@ check_login($lang,$web_dir);
                 </div>
                 <!-- /.col-lg-12 -->
                 <?php if ($user_settings['level'] > 20): ?>
+                <!--proceeed-->
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
-                                <?php echo get_lang($lang, 'k122'); ?>
+                                <?php echo get_lang($lang,'k122'); ?>
                             </div>
 							<form method="POST" action="logs_remove.php?lang=<?=$lang?>" id="forms">
                             <div class="panel-body">
                                 <div class="form-group">
-                                    <label><?php echo get_lang($lang, 'k145'); ?></label>
+                                    <label><?php echo get_lang($lang,'k145'); ?></label>
                                     <select class="form-control validate[required]" name="sure" id="sure">
 									    <option></option>
-                                        <option value="no"><?php echo get_lang($lang, 'No'); ?></option>
-                                        <option value="yes"><?php echo get_lang($lang, 'Yes'); ?></option>
+                                        <option value="no"><?php echo get_lang($lang,'No'); ?></option>
+                                        <option value="yes"><?php echo get_lang($lang,'Yes'); ?></option>
                                     </select>
                                 </div>
                             </div>
                             <div class="panel-footer">
                                 <button type="button" class="btn btn-primary btn-lg" onClick="javascript: history.go(-1); return false;">
-								    <i class="fa fa-times"></i>&nbsp;<?php echo get_lang($lang, 'k28'); ?></button>
+								    <i class="fa fa-times"></i>&nbsp;<?php echo get_lang($lang,'k28'); ?></button>
 								<button type="submit" name="submit" class="btn btn-danger btn-lg" id="send" disabled="disabled">
-								    <i class="fa fa-trash-o"></i>&nbsp;<?php echo get_lang($lang, 'k23'); ?></button>
+								    <i class="fa fa-trash-o"></i>&nbsp;<?php echo get_lang($lang,'k23'); ?></button>
                             </div>
 							</form>
                         </div>
@@ -345,11 +350,11 @@ check_login($lang,$web_dir);
                     <div class="col-lg-12">
                         <div class="panel panel-danger">
                             <div class="panel-heading">
-                                <?php echo get_lang($lang, 'Error'); ?>
+                                <?php echo get_lang($lang,'Error'); ?>
                             </div>
                             <div class="panel-body">
 							    <div class="alert alert-warning">
-                                    <?php echo get_lang($lang, 'k30'); ?>
+                                    <?php echo get_lang($lang,'k30'); ?>
 								</div>
                             </div>
                             <div class="panel-footer">

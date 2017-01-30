@@ -27,9 +27,7 @@ $k_settings = get_klima_settings($k);
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
         <script type="text/javascript" src="js/mint-admin.js"></script>
-		
 	    <script type="text/javascript" src="js/ka-ex.js"></script>
-		
 		<link rel="stylesheet" type="text/css" href="js/plugins/validation/jquery.validationEngine.css" />
 		<script type="text/javascript" src="js/plugins/validation/jquery.validationEngine.js"></script>
 		<script type="text/javascript" src="js/plugins/validation/lang/jquery.validationEngine-<?=$lang?>.js"></script>
@@ -253,8 +251,14 @@ $k_settings = get_klima_settings($k);
 						?>
                         <li>
                             <a href="vrf_plan.php?lang=<?=$lang?>">
-							    <i class="fa fa-location-arrow fa-fw fa-3x"></i> <?php echo get_lang($lang, 'k130'); ?></a>
+							    <i class="fa fa-location-arrow fa-fw fa-3x"></i> <?php echo get_lang($lang,'k130'); ?></a>
                         </li>
+                        <?php if ($user_settings['level'] > 10): ?>
+                        <li>
+                            <a href="repairs.php?lang=<?=$lang?>">
+							    <i class="fa fa-wrench fa-fw fa-3x"></i> <?php echo get_lang($lang,'k284'); ?></a>
+                        </li>
+                        <?php endif; ?>
                         <li>
                             <a href="vrf_activity.php?lang=<?=$lang?>">
 							    <i class="fa fa-pie-chart fa-fw fa-3x"></i> <?php echo get_lang($lang, 'k181'); ?></a>
@@ -295,10 +299,10 @@ $k_settings = get_klima_settings($k);
                                 <li>
                                     <a href="users.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k12'); ?></a>
                                 </li>
-								<?php if ($user_settings['level'] > 20): ?>
                                 <li>
                                     <a href="logs.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k13'); ?></a>
                                 </li>
+								<?php if ($user_settings['level'] > 20): ?>
                                 <li>
                                     <a href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k11'); ?></a>
                                 </li>
@@ -343,15 +347,15 @@ $k_settings = get_klima_settings($k);
 							<form method="POST" action="klimatiki_sche_update.php?lang=<?=$lang?>&klima=<?=$k?>&user=<?=$u?>&r=<?=$r?>" id="forms">
                             <div class="panel-body">
                                 <div class="form-group">
-                                    <label><?php echo get_lang($lang, 'k27'); ?>:</label>
+                                    <label><?php echo get_lang($lang,'k27'); ?>:</label>
                                     <input class="form-control" type="text" name="k_id" value="<?php echo $k_settings['id']; ?>" readonly="readonly" />
                                 </div>
                                 <div class="form-group">
-                                    <label><?php echo get_lang($lang, 'k51'); ?>:</label>
+                                    <label><?php echo get_lang($lang,'k51'); ?>:</label>
                                     <input class="form-control validate[required,custom[onlyNnumbers]]" maxlength="6" type="text" name="inv" value="<?php echo $k_settings['inv']; ?>" readonly="readonly" />
                                 </div>
                                 <div class="form-group">
-                                    <label><?php echo get_lang($lang, 'k132'); ?>:</label>
+                                    <label><?php echo get_lang($lang,'k132'); ?>:</label>
                                     <select class="form-control validate[required]" id="prog" name="prog">
 									    <option value="<?php echo $k_settings['prog']; ?>"><?php echo get_lang($lang,lcfirst($k_settings['prog'])); ?></option>
 									    <option></option>
@@ -360,18 +364,18 @@ $k_settings = get_klima_settings($k);
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label><?php echo get_lang($lang, 'k133'); ?>:</label>
+                                    <label><?php echo get_lang($lang,'k133'); ?>:</label>
 									<table class="table">
 									    <thead>
 											<tr>
-												<th colspan="2"><?php echo get_lang($lang, 'k137'); ?>:&nbsp;&nbsp;<span id="time_status_w"></span></th>
+												<th colspan="2"><?php echo get_lang($lang,'k137'); ?>:&nbsp;&nbsp;<span id="time_status_w"></span></th>
 												<th>&nbsp;</th>
 												<th>&nbsp;</th>
 											</tr>
 										</thead>
 										<tbody>
 											<tr>
-											    <td class="fr"><label><?php echo get_lang($lang, 'k133'); ?>:</label>&nbsp;</td>
+											    <td class="fr"><label><?php echo get_lang($lang,'k133'); ?>:</label>&nbsp;</td>
 												<td>
                                     <select class="form-control validate[required]" id="time_start_w" name="start_w">
 									    <option value="<?php echo $k_settings['start_w']; ?>"><?php echo $k_settings['start_w']; ?></option>

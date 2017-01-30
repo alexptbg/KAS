@@ -17,14 +17,13 @@ if(isset($_GET['ar_id'])) {
         }
     }
     if ($where != NULL) {
-        $query = "SELECT `datetime`,`timestamp`,`humidity`,`temp2` FROM `arduino_in_temp` WHERE `ar_id`='".$ar_id."' ORDER BY `id` DESC LIMIT 1";
+        $query = "SELECT `datetime`,`timestamp`,`temp2` FROM `arduino_in_temp` WHERE `ar_id`='".$ar_id."' ORDER BY `id` DESC LIMIT 1";
         $result = mysql_query($query);
         confirm_query($result);
         if (mysql_num_rows($result) != 0) {
             while ($row = mysql_fetch_array($result)) {
         	    $time = $row['datetime'];
         	    $dbdate = $row['timestamp'];
-    	        $hum = number_format($row['humidity'],0); 
     	        $temp = number_format($row['temp2'],1);
             }
         }
@@ -32,7 +31,7 @@ if(isset($_GET['ar_id'])) {
         header("Content-type: text/json");
         //if not old than 60 seconds
         if ((time() - $dbdate) < 60) {
-            $ret = array($x,$where,$temp,$hum,$time);
+            $ret = array($x,$where,$temp,$time);
         } else {
             $ret = array($x,"Error","Data","","");
 		}
@@ -42,8 +41,8 @@ if(isset($_GET['ar_id'])) {
     $json = json_encode($ret);
     $json = preg_replace('/"(-?\d+\.?\d*)"/','$1',$json);
     echo $json;
-    DataBase::getInstance()->disconnect();
 } else {
 	echo "error: ar_id";
 }
+DataBase::getInstance()->disconnect();
 ?>

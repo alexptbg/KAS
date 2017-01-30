@@ -10,7 +10,7 @@ DataBase::getInstance()->connect(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
 include('inc/config.php');
 check_login($lang,$web_dir);
 ?>
-<head>
+    <head>
         <title><?=$slogan?></title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no" />
@@ -23,10 +23,8 @@ check_login($lang,$web_dir);
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
         <script type="text/javascript" src="js/mint-admin.js"></script>
-		
 		<script type="text/javascript" src="js/ka-ex.js"></script>
 		<script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
-		
         <script type="text/javascript" src="js/plugins/hcharts/highstock.js"></script>
         <script type="text/javascript" src="js/plugins/hcharts/unica.js"></script>
         <script type="text/javascript" src="js/plugins/hcharts/highcharts.<?=$lang?>.js"></script>
@@ -227,8 +225,14 @@ check_login($lang,$web_dir);
 						?>
                         <li>
                             <a href="vrf_plan.php?lang=<?=$lang?>">
-							    <i class="fa fa-location-arrow fa-fw fa-3x"></i> <?php echo get_lang($lang, 'k130'); ?></a>
+							    <i class="fa fa-location-arrow fa-fw fa-3x"></i> <?php echo get_lang($lang,'k130'); ?></a>
                         </li>
+                        <?php if ($user_settings['level'] > 10): ?>
+                        <li>
+                            <a href="repairs.php?lang=<?=$lang?>">
+							    <i class="fa fa-wrench fa-fw fa-3x"></i> <?php echo get_lang($lang,'k284'); ?></a>
+                        </li>
+                        <?php endif; ?>
                         <li>
                             <a href="vrf_activity.php?lang=<?=$lang?>" class="active">
 							    <i class="fa fa-pie-chart fa-fw fa-3x"></i> <?php echo get_lang($lang, 'k181'); ?></a>
@@ -269,10 +273,10 @@ check_login($lang,$web_dir);
                                 <li>
                                     <a href="users.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k12'); ?></a>
                                 </li>
-								<?php if ($user_settings['level'] > 20): ?>
                                 <li>
                                     <a href="logs.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k13'); ?></a>
                                 </li>
+								<?php if ($user_settings['level'] > 20): ?>
                                 <li>
                                     <a href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k11'); ?></a>
                                 </li>
@@ -375,7 +379,7 @@ Highcharts.setOptions({
 });
 $(function () {
     Highcharts.setOptions({
-        colors: ['#06a7ec', '#f9932d', '#20ed1b', '#f724e1', '#24CBE5', '#fd0909', '#de76b1', '#FFF263', '#6AF9C4', '#ec7792', '#d2dd86']
+        colors: ['#c8f906', '#f9932d', '#20ed1b', '#f724e1', '#24CBE5', '#fd0909', '#de76b1', '#FFF263', '#6AF9C4', '#ec7792', '#d2dd86', '#3c8aea']
     });
     Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function (color) {
         return {
@@ -496,10 +500,10 @@ $(function () {
                 if ($num_rows != 0) {
                 	echo "
                 <div class=\"row\">
-                    <div class=\"col-lg-4\">
+                    <div class=\"col-lg-6\">
                         <div class=\"panel panel-danger\">
                             <div class=\"panel-heading\">
-							    ".get_lang($lang,'k204')."
+							    ".get_lang($lang,'k298')."
 							</div>
                             <div class=\"panel-body\">
                                 <ul class=\"list-unstyled\">";
@@ -513,7 +517,7 @@ $(function () {
 					if (!empty($diff)) {
 					    //get names ($diff)
 						foreach ($diff as $alone) {
-                            $query = "SELECT `first_name`,`last_name`,`level` FROM `users` WHERE `user_name`='".$alone."'";
+                            $query = "SELECT `first_name`,`last_name` FROM `users` WHERE `user_name`='".$alone."'";
                             $result = mysql_query($query);
                             confirm_query($result);
                             $num_rows = mysql_num_rows($result);
@@ -534,12 +538,50 @@ $(function () {
                             </div>
                         </div>
                     </div>
-                </div>";
+                <!--</div>-->";
 				}
                 //print_r($all_usernames);
                 //echo "<br/>";
                 //print_r($all_users);
                 //echo "<br/>";
+                if (!empty($all_usernames)) {
+					//get last logins to the system
+                	echo "
+                <!--<div class=\"row\">-->
+                    <div class=\"col-lg-6\">
+                        <div class=\"panel panel-danger\">
+                            <div class=\"panel-heading\">
+							    ".get_lang($lang,'k300')."
+							</div>
+                            <div class=\"panel-body\">
+                                <ul class=\"list-unstyled\">";
+					foreach($all_usernames as $uname) {
+					    $query = "SELECT `first_name`,`last_name`,`last_login` FROM `users` WHERE `user_name`='".$uname."' ORDER BY `last_login` DESC";
+                        $result = mysql_query($query);
+                        confirm_query($result);
+                        $num_rows = mysql_num_rows($result);
+                        if ($num_rows != 0) {
+                        	while ($unames = mysql_fetch_array($result)) {
+                        		if (($uname != "Alex") && ($uname != "alex")) {
+                        		    //print_r($unames);
+                        		    $time = strtotime($unames['last_login']);
+                                    //echo $unames['first_name']."&nbsp;".$unames['last_name']."&nbsp;event happened ".time_elapsed_string($time,$lang)."<br/>";
+								    echo "
+                                    <li>
+                                        <i class=\"fa fa-user fa-fw\"></i>&nbsp;
+                                        <span class=\"text-danger uppercase\">
+                                            ".$unames['first_name']."&nbsp;".$unames['last_name']."&nbsp;&nbsp;=>&nbsp;&nbsp;".time_elapsed_string($time,$lang)."</span>
+                                    </li>";
+                        		}
+                        	}
+                        }
+					}
+					echo "      </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>";
+				}
                 ?>
             </div>
         </div>

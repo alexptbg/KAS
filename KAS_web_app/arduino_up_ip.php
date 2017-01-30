@@ -31,6 +31,6 @@ if(isset($_GET['ip'])) {
 	} else {
 		//do nothing
 	}
-	DataBase::getInstance()->disconnect();
 }
+DataBase::getInstance()->disconnect();
 ?>

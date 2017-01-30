@@ -31,7 +31,6 @@ include('inc/socket.php');
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
         <script type="text/javascript" src="js/mint-admin.js"></script>
-		
 	    <script type="text/javascript" src="js/ka-ex.js"></script>
     </head>
     <body>
@@ -251,8 +250,14 @@ include('inc/socket.php');
 						?>
                         <li>
                             <a href="vrf_plan.php?lang=<?=$lang?>">
-							    <i class="fa fa-location-arrow fa-fw fa-3x"></i> <?php echo get_lang($lang, 'k130'); ?></a>
+							    <i class="fa fa-location-arrow fa-fw fa-3x"></i> <?php echo get_lang($lang,'k130'); ?></a>
                         </li>
+                        <?php if ($user_settings['level'] > 10): ?>
+                        <li>
+                            <a href="repairs.php?lang=<?=$lang?>">
+							    <i class="fa fa-wrench fa-fw fa-3x"></i> <?php echo get_lang($lang,'k284'); ?></a>
+                        </li>
+                        <?php endif; ?>
                         <li>
                             <a href="vrf_activity.php?lang=<?=$lang?>">
 							    <i class="fa fa-pie-chart fa-fw fa-3x"></i> <?php echo get_lang($lang, 'k181'); ?></a>
@@ -293,10 +298,10 @@ include('inc/socket.php');
                                 <li>
                                     <a href="users.php?lang=<?=$lang?>"><?php echo get_lang($lang, 'k12'); ?></a>
                                 </li>
-								<?php if ($user_settings['level'] > 20): ?>
                                 <li>
                                     <a href="logs.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k13'); ?></a>
                                 </li>
+								<?php if ($user_settings['level'] > 20): ?>
                                 <li>
                                     <a href="settings.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k11'); ?></a>
                                 </li>
@@ -345,7 +350,6 @@ include('inc/socket.php');
 									$uk_stop_s = mysql_prep($_POST['stop_s']);
 									if (($uk_id != NULL) && ($uk_inv != NULL)) {
 										//try to update
-	                                    mysql_query("SET NAMES utf8");
 		                                $query = "UPDATE `klimatiki` SET `prog`='".$uk_prog."', `start_w`='".$uk_start_w."', `stop_w`='".$uk_stop_w."', `start_s`='".$uk_start_s."', `stop_s`='".$uk_stop_s."' WHERE `id`='".$uk_id."' AND `inv`='".$uk_inv."'";
                                         $result = mysql_query($query);
                                         confirm_query($result);
