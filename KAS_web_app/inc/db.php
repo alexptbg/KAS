@@ -1,7 +1,7 @@
 <?php
 defined('start') or die('Direct access not allowed.');
-define("DB_SERVER", "localhost");
-define("DB_NAME", "kas");
+define("DB_SERVER", "");
+define("DB_NAME", "");
 define("DB_USER", "");
 define("DB_PASS", "");
 $connection = mysql_connect(DB_SERVER, DB_USER, DB_PASS);
