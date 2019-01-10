@@ -104,7 +104,6 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
                 error: function(jqXhr,textStatus,errorThrown){
                   console.log(errorThrown);
                 },
-                type: 'GET',
                 timeout: 5000,
                 cache: false
               });
@@ -154,7 +153,6 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
               error: function(jqXhr,textStatus,errorThrown){
                 console.log(errorThrown);
               },
-              type: 'GET',
               timeout: 5000,
               cache: false
             });
@@ -492,9 +490,7 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
                         <h3 class="page-header text-asbestos"><i class="fa fa-dashboard"></i>&nbsp;<?php echo get_lang($lang,'Home'); ?></h3>
                     </div>
                 </div>
-                <?php 
-                
-                ?>
+
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6">
                         <div class="panel panel-primary text-center panel-eyecandy">

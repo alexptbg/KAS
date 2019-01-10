@@ -26,15 +26,18 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
         <link type="text/css" rel="stylesheet" href="css/font-awesome.min.css" />
         <link type="text/css" rel="stylesheet" href="css/mint-admin.css" />
         <link type="text/css" rel="stylesheet" href="css/iconmoon.min.css" />
+        <link type="text/css" rel="stylesheet" href="css/jquery.ml-keyboard.css" />
         <link type="text/css" rel="stylesheet" href="css/ka-ex.css" /><!--icon ka-thermometer-->
-        <link type="text/css" rel="stylesheet" href="css/weather.css" />
-        <link type="text/css" rel="stylesheet" href="css/weather-icons.min.css" />
+        <!--<link type="text/css" rel="stylesheet" href="css/weather.css" />
+        <link type="text/css" rel="stylesheet" href="css/weather-icons.min.css" />-->
         <script type="text/javascript" src="js/jquery-1.10.2.js"></script>
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/moment-with-locales.min.js"></script>
         <script type="text/javascript" src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
         <script type="text/javascript" src="js/mint-admin.js"></script>
         <script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
+        <script type="text/javascript" src="js/jquery.ml-keyboard.min.js"></script>
+		<!--
 		<script type="text/javascript">
         var wicon = {
           //day
@@ -156,6 +159,7 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
             });
         });
         </script>
+        -->
     </head>
     <body class="splash">
         <div class="container">
@@ -165,6 +169,7 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
                         <div class="panel-heading">
                             <h3 class="panel-title"><i class="fa fa-sun-o fa-spin fa-lg"></i>&nbsp;<span><?=$system_name?></span></h3>
                         </div>
+                        <!--
                         <div class="extend">
                             <div class="panel-body wet-ashpalt">
 							    <span style="text-transform:uppercase;text-decoration:underline;font-size:16px;">
@@ -182,6 +187,8 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
                                 </div>
                                 <div class="now2" style="text-align: center;font-size: 10px;"></div>
                             </div>
+                            -->
+                            <!--
                             <div class="panel-body nephritis">
                                 <span style="text-transform:uppercase;text-decoration:underline;font-size:16px;"><?php echo get_lang($lang,'k195'); ?></span>
                                 <i class="iconm-temperature-2 sz40l"></i>
@@ -196,19 +203,20 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 								</div>
                             </div>
                         </div>
+                        -->
                         <div class="panel-body wet-ashpalt">
-                            <p style="text-transform:uppercase;text-decoration:underline;font-size:16px;"><?php echo get_lang($lang,'k248'); ?></p>
-                            <form role="form" method="POST" action="check.php?lang=<?=$lang?>">
+                            <p style="text-transform:uppercase;text-decoration:underline;font-size:14px;margin-top:0px;padding-top:0px;"><?php echo get_lang($lang,'k248'); ?></p>
+                            <form id="forms" role="form" method="POST" action="check.php?lang=<?=$lang?>">
                                 <fieldset>
                                     <div class="form-group input-group">
 									    <span class="input-group-addon"><i class="fa fa-user"></i></span>
                         <?php
                             if ((!empty($USR)) && ($USR != "USR")) {
-								echo "<input type=\"text\" id=\"username\" class=\"form-control required\" name=\"username\"
-								          placeholder=\"".get_lang($lang,'k05')."\" value=\"".$USR."\" autofocus>";
+								echo "<input type=\"text\" id=\"username\" class=\"form-control required validate[required]\" name=\"username\"
+								          placeholder=\"".get_lang($lang,'k05')."\" value=\"".$USR."\" autofocus autocomplete=\"off\">";
                             } else {
-								echo "<input type=\"text\" id=\"username\" class=\"form-control required\" name=\"username\"
-								          placeholder=\"".get_lang($lang,'k05')."\" value=\"\">";
+								echo "<input type=\"text\" id=\"username\" class=\"form-control required validate[required]\" name=\"username\"
+								          placeholder=\"".get_lang($lang,'k05')."\" value=\"\" autocomplete=\"off\">";
 							}
                         ?>
                                     </div>
@@ -216,11 +224,11 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 									    <span class="input-group-addon"><i class="fa fa-lock"></i></span>
                         <?php
                             if ((!empty($PWD)) && ($PWD != "0000") && ($PWD != "PASSWORD") && ($PWD != "PASSWD")) {
-	                            echo "<input type=\"password\" id=\"password\" class=\"form-control required passwf\" name=\"password\"
-								          placeholder=\"".get_lang($lang,'k06')."\" value=\"".$PWD."\">";
+	                            echo "<input type=\"password\" id=\"password\" class=\"form-control required passwf validate[required]\" name=\"password\"
+								          placeholder=\"".get_lang($lang,'k06')."\" value=\"".$PWD."\" autocomplete=\"off\">";
                             } else {
-								echo "<input type=\"password\" id=\"password\" class=\"form-control required passwf\" name=\"password\"
-								          placeholder=\"".get_lang($lang,'k06')."\" value=\"\">";
+								echo "<input type=\"password\" id=\"password\" class=\"form-control required passwf validate[required]\" name=\"password\"
+								          placeholder=\"".get_lang($lang,'k06')."\" value=\"\" autocomplete=\"off\">";
 							}
                         ?>
                                     </div>
@@ -235,10 +243,24 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
                             </form>
                         </div>
                     </div>
+                    
                 </div>
             </div>
         </div>
+		<link rel="stylesheet" type="text/css" href="js/plugins/validation/jquery.validationEngine.css" />
+		<script type="text/javascript" src="js/plugins/validation/jquery.validationEngine.js"></script>
+		<script type="text/javascript" src="js/plugins/validation/lang/jquery.validationEngine-bg.js"></script>
+		<script type="text/javascript" src="js/forms.js"></script>
+		<script type="text/javascript">
+		$(function() {
+			$("#username").val("");
+			$("#password").val("");
+            $('#username').mlKeyboard({layout: 'en_US', active_shift: false});
+            $('#password').mlKeyboard({layout: 'en_US', active_shift: false});
+		});
+		</script>
 		<?php
+		/*
 		$inside_devices = 0;
 		foreach($inside as $ar) {
 			$inside_devices++;
@@ -290,6 +312,7 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 	    });
 		</script>";
 		}
+		*/
 	    ?>
     </body>
 </html>

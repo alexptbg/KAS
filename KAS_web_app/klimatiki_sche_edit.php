@@ -381,6 +381,7 @@ $k_settings = get_klima_settings($k);
 									    <option value="<?php echo $k_settings['start_w']; ?>"><?php echo $k_settings['start_w']; ?></option>
 									    <option></option>
                                         <option value="05:30">05:30</option>
+                                        <option value="05:45">05:45</option>
                                         <option value="06:00">06:00</option>
                                         <option value="06:30">06:30</option>
                                         <option value="07:00">07:00</option>
@@ -423,6 +424,7 @@ $k_settings = get_klima_settings($k);
                                     <select class="form-control validate[required]" id="time_stop_w" name="stop_w">
 									    <option value="<?php echo $k_settings['stop_w']; ?>"><?php echo $k_settings['stop_w']; ?></option>
 									    <option></option>
+									    <option value="05:45">05:45</option>
                                         <option value="06:00">06:00</option>
                                         <option value="06:30">06:30</option>
                                         <option value="07:00">07:00</option>
@@ -430,6 +432,7 @@ $k_settings = get_klima_settings($k);
                                         <option value="08:00">08:00</option>
                                         <option value="08:30">08:30</option>
                                         <option value="09:00">09:00</option>
+                                        <option value="09:02">09:02</option>
                                         <option value="09:30">09:30</option>
                                         <option value="10:00">10:00</option>
                                         <option value="10:30">10:30</option>
@@ -481,6 +484,7 @@ $k_settings = get_klima_settings($k);
 									    <option value="<?php echo $k_settings['start_s']; ?>"><?php echo $k_settings['start_s']; ?></option>
 									    <option></option>
                                         <option value="05:30">05:30</option>
+                                        <option value="05:45">05:45</option>
                                         <option value="06:00">06:00</option>
                                         <option value="06:30">06:30</option>
                                         <option value="07:00">07:00</option>
@@ -530,6 +534,7 @@ $k_settings = get_klima_settings($k);
                                         <option value="08:00">08:00</option>
                                         <option value="08:30">08:30</option>
                                         <option value="09:00">09:00</option>
+                                        <option value="09:02">09:02</option>
                                         <option value="09:30">09:30</option>
                                         <option value="10:00">10:00</option>
                                         <option value="10:30">10:30</option>

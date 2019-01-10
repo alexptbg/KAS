@@ -1585,7 +1585,7 @@ ul.inbox-pagination li {
 }
 h3#temp_now {
     font-size: 32px;
-	line-height: 18px;
+	line-height: 20px;
 }
 h3#temp_pro {
 	position: absolute;
@@ -1595,9 +1595,9 @@ h3#temp_pro {
 	line-height: 14px;
 }
 span#up {
-	padding-top: 5px;
+	padding-top:5px;
 	display: inline-block;
-	font-size:10px;
+	font-size:12px;
 }
 .fr {
 	float: right;

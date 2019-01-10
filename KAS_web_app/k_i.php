@@ -229,7 +229,7 @@ if($out_temp > $in_temp+1) { $s_class = "orange"; } else { $s_class = "emerald";
 </div>
 <div class=\"btn-group btn-group-lg\" id=\"mode\">
    <button type=\"button\" class=\"btn ".$m_class3."\" id=\"md-3\">".get_lang($lang,'k71')."</button>
-   <button type=\"button\" class=\"btn ".$m_class4."\" id=\"md-4\" disabled=\"disabled\">".get_lang($lang,'k72')."</button>
+   <button type=\"button\" class=\"btn ".$m_class4."\" id=\"md-4\">".get_lang($lang,'k72')."</button>
 </div>";
                                                 } else {
 													echo "
@@ -490,6 +490,22 @@ if($out_temp > $in_temp+1) { $s_class = "orange"; } else { $s_class = "emerald";
 			$(\"#md-1\").removeAttr(\"disabled\");
 			$(\"#md-2\").removeAttr(\"disabled\");
 			var md = \"3\";
+			mode(router,inv,status,md);
+        });
+        $(\"#md-4\").on(\"click\", function (e) {
+			setPause();
+			$(\"#md-1\").removeClass(\"btn-primary\");
+			$(\"#md-2\").removeClass(\"btn-primary\");
+			$(\"#md-3\").removeClass(\"btn-primary\");
+			$(\"#md-1\").addClass(\"btn-default\");
+			$(\"#md-2\").addClass(\"btn-default\");
+			$(\"#md-3\").addClass(\"btn-default\");
+			$(\"#md-4\").addClass(\"btn-primary\");
+			$(\"#md-4\").attr(\"disabled\", true);		
+			$(\"#md-1\").removeAttr(\"disabled\");
+			$(\"#md-2\").removeAttr(\"disabled\");
+			$(\"#md-3\").removeAttr(\"disabled\");
+			var md = \"4\";
 			mode(router,inv,status,md);
         });
         $(\"#pg-1\").on(\"click\", function (e) {

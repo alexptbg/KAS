@@ -27,7 +27,7 @@ include('inc/config.php');
         <div class="container">
             <div class="row">
 			<div style="width:100%; margin: 0 auto; padding: 0 auto; position: relative; display: inline-block;">
-				<h1 style="font-size:500px; text-align: center; vertical-align:middle; margin-top: 20%; margin-bottom: 20%;"><i class="fa fa-sun-o"></i><!-- fa-spin--></h1>
+				<h1 style="font-size:600px; text-align: center; vertical-align:middle; margin-top: 25%; margin-bottom: 20%;"><i class="fa fa-sun-o"></i><!-- fa-spin--></h1>
 			</div>
             </div>
         </div>
