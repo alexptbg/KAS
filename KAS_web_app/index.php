@@ -12,8 +12,6 @@ if (!empty($_GET['SYS'])) { $SYS = $_GET['SYS']; } else { $SYS = ""; }
 check_login($lang,$web_dir);
 //index only
 include('inc/moon.php');
-//arduino inside temp controllers
-$inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_0004_2015_1.0","AR_0005_2015_1.0","AR_0006_2015_1.0");
 ?>
     <head>
         <title><?=$slogan?></title>
@@ -36,126 +34,7 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 		<script type="text/javascript" src="js/index.js"></script>
 		<script type="text/javascript" src="js/ka-ex.js"></script>
 		<script type="text/javascript">
-        var wicon = {
-          //day
-          "01d": "wi-day-sunny",
-          "02d": "wi-day-cloudy",
-          "03d": "wi-cloud",
-          "04d": "wi-cloudy",
-          "09d": "wi-showers",
-          "10d": "wi-rain",
-          "11d": "wi-thunderstorm",
-          "13d": "wi-snow",
-          "50d": "wi-day-fog",
-          //night
-          "01n": "wi-night-clear",
-          "02n": "wi-night-alt-cloudy",
-          "03n": "wi-cloud",
-          "04n": "wi-cloudy",
-          "09n": "wi-showers",
-          "10n": "wi-rain",
-          "11n": "wi-thunderstorm",
-          "13n": "wi-snow",
-          "50n": "wi-night-fog"
-        };
-        function get_live_out() {
-	        setInterval(function () {
-			    $.ajax({
-				    url: 'ar_out_temp_now.php?ar_id=AR_0007_2015_1.0', 
-				    success: function(point) {
-				        y = eval(point);
-			            $('h3#temp_now').html(y[1].toFixed(1)+'ºC');
-			            $('td#temp').html(y[1].toFixed(1));
-			            $('div#up').html('<span>'+y[2]+'</span>');
-			            $("div#now3").html('<small>'+y[3]+'</small>');
-			        },
-				    cache: false
-			    });
-	        },10000);
-	    }
-	    function get_weather() {
-			setInterval(function () {
-              $.ajax({
-                url: '../weather/api.php',
-                dataType: 'json',
-                type: 'get',
-                contentType: 'application/json',
-                success: function(data,textStatus,jQxhr){
-                  //console.log(data);
-                  //alert(data[0].wdesc);
-                  var sunrise = moment(data[0].wsunrise,"HH:mm:ss").format("HH:mm");
-                  var sunset = moment(data[0].wsunset,"HH:mm:ss").format("HH:mm");
-                  //$('.td-weather-city').text('Гоце Делчев');//data.name
-                  $('td#condi').text(data[0].wdesc);
-                  //$('p#temp').text(data.main.temp);
-                  $('td#icond i.wi').addClass(wicon[data[0].wicon]);
-                  $('h3#icond i.wi').addClass(wicon[data[0].wicon]);
-                  //console.log(data[0].wicon);
-                  //console.log(data.weather[0].icon);
-                  $('td#min').text(data[0].wmin+'ºC');
-                  $('td#max').text(data[0].wmax+'ºC');
-                  $('td#hum').text(data[0].whum+'%');
-                  $('td#wind').text(data[0].wwind+'км/ч');
-                  $('td#nuv').text(data[0].wclouds+'%');
-                  $('td#mb').text(data[0].wpress+'mb');
-                  $('td#sunrise').text(sunrise);
-                  $('td#sunset').text(sunset);
-                },
-                error: function(jqXhr,textStatus,errorThrown){
-                  console.log(errorThrown);
-                },
-                timeout: 5000,
-                cache: false
-              });
-			},60000);
-		}
         $(function() {
-			$.ajax({
-				url: 'ar_out_temp_now.php?ar_id=AR_0007_2015_1.0',
-				success: function(point) {
-				    y = eval(point);
-			        $('h3#temp_now').html(y[1].toFixed(1)+'ºC');
-			        $('td#temp').html(y[1].toFixed(1));
-			        $('div#up').html('<span>'+y[2]+'</span>');
-			        $("div#now3").html('<small>'+y[3]+'</small>');
-			    },
-				cache: false
-			});
-	        get_live_out();
-	        get_weather();
-            //get weather
-            $.ajax({
-              url: '../weather/api.php',
-              dataType: 'json',
-              type: 'get',
-              contentType: 'application/json',
-              success: function(data,textStatus,jQxhr){
-                //console.log(data);
-                //alert(data[0].wdesc);
-                var sunrise = moment(data[0].wsunrise,"HH:mm:ss").format("HH:mm");
-                var sunset = moment(data[0].wsunset,"HH:mm:ss").format("HH:mm");
-                //$('.td-weather-city').text('Гоце Делчев');//data.name
-                $('td#condi').text(data[0].wdesc);
-                //$('p#temp').text(data.main.temp);
-                $('td#icond i.wi').addClass(wicon[data[0].wicon]);
-                $('h3#icond i.wi').addClass(wicon[data[0].wicon]);
-                //console.log(data[0].wicon);
-                //console.log(data.weather[0].icon);
-                $('td#min').text(data[0].wmin+'ºC');
-                $('td#max').text(data[0].wmax+'ºC');
-                $('td#hum').text(data[0].whum+'%');
-                $('td#wind').text(data[0].wwind+'км/ч');
-                $('td#nuv').text(data[0].wclouds+'%');
-                $('td#mb').text(data[0].wpress+'mb');
-                $('td#sunrise').text(sunrise);
-                $('td#sunset').text(sunset);
-              },
-              error: function(jqXhr,textStatus,errorThrown){
-                console.log(errorThrown);
-              },
-              timeout: 5000,
-              cache: false
-            });
             var isMobile = {
                 Android: function() {
                     return navigator.userAgent.match(/Android/i);
@@ -280,7 +159,6 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 							    <i class="fa fa-dashboard fa-fw fa-3x"></i> <?php echo get_lang($lang, 'Home'); ?></a>
                         </li>
 						<?php
-						//air conditioners by user
 						    //get all buildings/router access from user
                             $queryb = "SELECT `buildings` FROM `users` WHERE `user_name`='".$user_settings["user_name"]."'";
                             $resultb = mysql_query($queryb);
@@ -291,6 +169,46 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 	                            }
 	                            $buildings = explode(", ",$buildings_list);
                             }
+						//all klimas by router //status for admins //all klimas by building//router
+                        if ($user_settings['level'] > 10) {
+                            echo "
+                            <li>
+                                <a href=\"#\"><i class=\"fa fa-exclamation-circle fa-fw fa-3x\"></i> ".get_lang($lang, 'k90')."
+                                    <span class=\"fa arrow\"></span></a>";
+                                $query = "SELECT `router_name` FROM `routers` ORDER BY `router_name` ASC";
+                                $result = mysql_query($query);
+                                confirm_query($result);
+                                if (mysql_num_rows($result) != 0) {
+                                    echo "<ul class=\"nav nav-second-level\">";
+                                    while($routers = mysql_fetch_array($result)) {
+                                        echo "
+                                            <li><a href=\"status.php?lang=".$lang."&router=".$routers['router_name']."\">
+                                                ".$routers['router_name']."</a></li>";
+                                    }
+                                    echo "</ul>";
+                                }
+                                echo "
+                            </li>";
+                            //all klimas by router by user //status for users
+                            } elseif ($user_settings['level'] == 10) {
+                                //get routers by user
+                                if (!empty($buildings)) {
+                            echo "
+                            <li>
+                                <a href=\"#\"><i class=\"fa fa-exclamation-circle fa-fw fa-3x\"></i> ".get_lang($lang, 'k90')."
+                                    <span class=\"fa arrow\"></span></a>";
+                                    echo "<ul class=\"nav nav-second-level\">";
+                                    foreach ($buildings as $building) {
+                                        echo "
+                                            <li><a href=\"status.php?lang=".$lang."&router=".$building."\">
+                                                ".$building."</a></li>";
+                                    }
+                            echo "
+                                </ul>
+                            </li>";
+                                }
+                            }
+						//air conditioners by user
 							//klimas from users
                             $queryu = "SELECT `klimas` FROM `users` WHERE `user_name`='".$user_settings["user_name"]."'";
                             $resultu = mysql_query($queryu);
@@ -336,45 +254,7 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 									}
 							    }
 						    }
-						//all klimas by router //status for admins //all klimas by building//router
-                        if ($user_settings['level'] > 10) {
-						echo "
-                        <li>
-                            <a href=\"#\"><i class=\"fa fa-exclamation-circle fa-fw fa-3x\"></i> ".get_lang($lang, 'k90')."
-							    <span class=\"fa arrow\"></span></a>";
-                            $query = "SELECT `router_name` FROM `routers` ORDER BY `router_name` ASC";
-                            $result = mysql_query($query);
-                            confirm_query($result);
-                            if (mysql_num_rows($result) != 0) {
-								echo "<ul class=\"nav nav-second-level\">";
-								while($routers = mysql_fetch_array($result)) {
-									echo "
-                                        <li><a href=\"status.php?lang=".$lang."&router=".$routers['router_name']."\">
-										    ".$routers['router_name']."</a></li>";
-								}
-								echo "</ul>";
-							}
-                            echo "
-                        </li>";
-                        //all klimas by router by user //status for users
-						} elseif ($user_settings['level'] == 10) {
-                            //get routers by user
-                            if (!empty($buildings)) {
-						echo "
-                        <li>
-                            <a href=\"#\"><i class=\"fa fa-exclamation-circle fa-fw fa-3x\"></i> ".get_lang($lang, 'k90')."
-							    <span class=\"fa arrow\"></span></a>";
-							    echo "<ul class=\"nav nav-second-level\">";
-	                            foreach ($buildings as $building) {
-									echo "
-                                        <li><a href=\"status.php?lang=".$lang."&router=".$building."\">
-										    ".$building."</a></li>";
-	                            }
-	                    echo "
-	                        </ul>
-                        </li>";
-	                        }
-						}
+
                         //by addr
 						if ($user_settings['level'] > 10) {
 							if (!empty($buildings)) {
@@ -411,6 +291,13 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 							    <i class="fa fa-location-arrow fa-fw fa-3x"></i> <?php echo get_lang($lang,'k130'); ?></a>
                         </li>
                         <?php if ($user_settings['level'] > 10): ?>
+                        <li>
+                            <a href="#"><i class="fa fa-clock-o fa-fw fa-3x"></i> <?php echo get_lang($lang,'k327'); ?><span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="tempo.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k319'); ?></a></li>
+                                <li><a href="tempo_filter.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k328'); ?></a></li>
+                            </ul>
+                        </li>
                         <li>
                             <a href="repairs.php?lang=<?=$lang?>">
 							    <i class="fa fa-wrench fa-fw fa-3x"></i> <?php echo get_lang($lang,'k284'); ?></a>
@@ -483,14 +370,12 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
 					</div>
                 </div>
             </nav>
-
             <div id="page-wrapper">
                 <div class="row">
                     <div class="col-lg-12">
                         <h3 class="page-header text-asbestos"><i class="fa fa-dashboard"></i>&nbsp;<?php echo get_lang($lang,'Home'); ?></h3>
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6">
                         <div class="panel panel-primary text-center panel-eyecandy">
@@ -533,13 +418,10 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
                                 <a href="sa_in_chart.php?lang=<?=$lang?>" id="sa" class="fr" data-toggle="tooltip" data-placement="top" title="<?php echo get_lang($lang,'k206');?>">
                                     <i class="fa fa-area-chart fa-2x"></i></a>
 								<div class="system">
-		                        <?php
-		                        $inside_devices = 0;
-		                        foreach($inside as $ar) {
-		                        	$inside_devices++;
-		                        	echo "<div id=\"inside-".$inside_devices."\"></div>";
-		                        }
-		                        ?>
+                                    <div id="inside-11">Strellson/joop 1: <span></span></div>
+                                    <div id="inside-12">Strellson/joop 2: <span></span></div>
+                                    <div id="inside-21">Boss 1: <span></span></div>
+                                    <div id="inside-22">Boss 2: <span></span></div>
 								</div>
                             </div>
                             <div class="panel-footer">
@@ -750,58 +632,90 @@ $inside = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_000
             </div>
         </div>
 		<a href="#" id="toTop"><i class="fa fa-arrow-up"></i></a>
-		<?php
-		$inside_devices = 0;
-		foreach($inside as $ar) {
-			$inside_devices++;
-			$timerz = $inside_devices+14;
-			echo "
-		<script type=\"text/javascript\">
-        function get_live_in_s".$inside_devices."() {
-	        setInterval(function () {
-			    $.ajax({
-				    url: \"ar_in_temp_now.php?ar_id=".$ar."\", 
-				    success: function(point) {
-				        y = eval(point);
-				        if (y != null) {
-				        	if (y[1] != \"Error\") {
-				                html = \"<p><span>\"+y[1]+\": </span>\";
-				                html += \"<span>\"+y[2].toFixed(1)+\" ºC</span></p>\";
-				            } else {
-								html = \"<p><span>\"+y[1]+\": </span>\";
-								html += \"<span>\"+y[2]+\"</span></p>\";
-							}
-							$(\"#inside-".$inside_devices."\").html(html);
-				        }
-			        },
-				    cache: false,
-				    error: function(error) { $(\"#inside-".$inside_devices."\").html(\"<p>\"+error+\"</p>\"); }
-			    });
-	        },".$timerz."000);
-	    }
-	    $(function() {
-			$.ajax({
-			    url: \"ar_in_temp_now.php?ar_id=".$ar."\", 
-			    success: function(point) {
-				    y = eval(point);
-				    if (y != null) {
-				    	if (y[1] != \"Error\") {
-				            html = \"<p><span>\"+y[1]+\": </span>\";
-				            html += \"<span>\"+y[2].toFixed(1)+\" ºC</span></p>\";
-				        } else {
-							html = \"<p><span>\"+y[1]+\": </span>\";
-							html += \"<span>\"+y[2]+\"</span></p>\";
-						}
-						$(\"#inside-".$inside_devices."\").html(html);
-				    }
-			    },
-				cache: false,
-				error: function(error) { $(\"#inside-".$inside_devices."\").html(\"<p>\"+error+\"</p>\"); }
-			});
-	        get_live_in_s".$inside_devices."();
-	    });
-		</script>";
-		}
-	    ?>
+        <script type="text/javascript">
+      var wicon = {
+        "01d": "wi-day-sunny",
+        "02d": "wi-day-cloudy",
+        "03d": "wi-cloud",
+        "04d": "wi-cloudy",
+        "09d": "wi-showers",
+        "10d": "wi-rain",
+        "11d": "wi-thunderstorm",
+        "13d": "wi-snow",
+        "50d": "wi-day-fog",
+        
+        "01n": "wi-night-clear",
+        "02n": "wi-night-alt-cloudy",
+        "03n": "wi-cloud",
+        "04n": "wi-cloudy",
+        "09n": "wi-showers",
+        "10n": "wi-rain",
+        "11n": "wi-thunderstorm",
+        "13n": "wi-snow",
+        "50n": "wi-night-fog"
+      };
+    function get_weather() {
+      //weather
+      $.ajax({
+        url: '../weather/api.php',
+        dataType: 'json',
+        type: 'get',
+        contentType: 'application/json',
+        success: function(data,textStatus,jQxhr){
+          //console.log(data);
+          //alert(data[0].wdesc);
+          var sunrise = moment(data[0].wsunrise,"HH:mm:ss").format("HH:mm");
+          var sunset = moment(data[0].wsunset,"HH:mm:ss").format("HH:mm");
+          //$('.td-weather-city').text('Гоце Делчев');//data.name
+          $('td#condi').text(data[0].wdesc);
+          //$('p#temp').text(data.main.temp);
+          $('h3#icond i.wi').addClass(wicon[data[0].wicon]);
+          $('td#icond i.wi').addClass(wicon[data[0].wicon]);
+          $('div#up').text(data[0].datetime);
+          //console.log(data[0].wicon);
+          //console.log(data.weather[0].icon);
+          $('td#min').text(data[1].wuwmin+" ºC");
+          $('td#max').text(data[1].wuwmax+" ºC");
+          $('td#hum').text(data[0].whum+'%');
+          $('td#wind').text(data[0].wwind+'км/ч');
+          $('td#nuv').text(data[0].wclouds+'%');
+          $('td#mb').text(data[0].wpress+'мб');
+          $('td#sunrise').text(sunrise);
+          $('td#sunset').text(sunset);
+        },
+        error: function(jqXhr,textStatus,errorThrown){
+          console.log(errorThrown);
+        },
+        timeout: 5000
+      });
+    }
+    function get_temp_in_out() {
+      $.ajax({
+        url: 'ar_in_out_temp_now_sql.php',
+        dataType: 'json',
+        type: 'get',
+        contentType: 'application/json',
+        success: function(data,textStatus,jQxhr){
+          //console.log(data);//#inside-22
+          $('h3#temp_now').text(data[1]+" ºC");
+          $('td#temp').text(data[1]+" ºC");
+          $("#inside-11 span").text(data[2]+" ºC");
+          $("#inside-12 span").text(data[3]+" ºC");
+          $("#inside-21 span").text(data[4]+" ºC");
+          $("#inside-22 span").text(data[5]+" ºC");
+        },
+        error: function(jqXhr,textStatus,errorThrown){
+          console.log(errorThrown);
+        },
+        timeout: 5000
+      });
+    }
+    get_weather();
+    get_temp_in_out();
+    setInterval(function(){
+        get_weather();
+        get_temp_in_out();
+    },15000);
+        </script>
     </body>
 </html>

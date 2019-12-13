@@ -344,10 +344,6 @@ a {
   height: 350px;
   overflow-y: scroll; }
 
-/* Login Page */
-.login-panel {
-  margin-top: 25%; }
-
 /* Flot Chart Containers */
 .flot-chart {
   display: block;

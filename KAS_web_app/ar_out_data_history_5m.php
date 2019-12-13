@@ -6,39 +6,64 @@ include('inc/functions.php');
 include('inc/init.php');
 DataBase::getInstance()->connect(DB_SERVER,DB_USER,DB_PASS,DB_NAME);
 include('inc/config.php');
-$inside = array("AR_0007_2015_1.0");
+//weather DB
+define("WDB_SERVER", "localhost");
+define("WDB_NAME", "weather");
+define("WDB_USER", "root");
+define("WDB_PASS", "11543395");
+$local = new mysqli(WDB_SERVER,WDB_USER,WDB_PASS,WDB_NAME);
+$local->set_charset("utf8");
+//$zones = array("Gotse Delchev","Sofia");
 $color = array("#0ca8f3","#fba504","#06f406","#da29f3","#fe1b01","#0eafab");
 $i=0;
-foreach($inside as $ar) {
-    $query = "SELECT `place` FROM `arduino_devices` WHERE `ar_id`='".$ar."'ORDER BY `id` ASC";
-    $result = mysql_query($query);
-    confirm_query($result);
-    $num_rows = mysql_num_rows($result);
-    if ($num_rows != 0) {
-        while($place = mysql_fetch_array($result)) {
-		    $places[] = $place['place'];
-	    }
+//only one zone
+$sql="SELECT * FROM `out_temp` ORDER BY `id` ASC";
+$result=$local->query($sql);
+if($result === false) {
+    trigger_error('Wrong SQL: '.$sql.' Error: '.$local->error,E_USER_ERROR);
+} else {
+    if($result->num_rows > 0) {
+        while($row = mysqli_fetch_assoc($result)) {
+            $timestamp[$i] = $row['timestamp'];
+            $values[$i] = floatval($row['temp']);
+            $response[$i] = array($timestamp[$i]*1000,$values[$i]);
+            $i++;
+        }
+        $series[] = array(
+            'name' => 'Gotse Delchev',
+            'data' => $response,
+            'color' => $color[1],
+            'type' => 'spline'
+            //'tooltip' => array('valueDecimals' => '2','valueSuffix' => ' °C')
+       );
     }
-	$sql[$i] = mysql_query("SELECT `timestamp`,`temp2` FROM `arduino_out_temp_5m` WHERE `ar_id`='".$ar."' GROUP BY `timestamp` ORDER BY `timestamp` ASC");
-	confirm_query($sql[$i]);
-	if (mysql_num_rows($sql[$i]) != 0) {
-        while($row[$i] = mysql_fetch_array($sql[$i])) {
-	        $date[$i] = $row[$i]['timestamp'];
-	        $datec[$i] = date("Y-m-d H:i",$date[$i]);
-	        $timestamp[$i] = strtotime($datec[$i]);
-            $values[$i] = floatval($row[$i]['temp2']);
-            $response[$i][] = array($timestamp[$i]*1000,$values[$i]);
-		}
-		$series[] = array(
-             'name' => $places[$i],
-             'data' => $response[$i],
-			 'color' => $color[$i],
-		     'type' => 'spline'
-             //'tooltip' => array('valueDecimals' => '2','valueSuffix' => ' °C')
-        );
-    }
-	$i++;
 }
+//more than one zone
+/*
+foreach($zones as $zone) {
+    $sql="SELECT * FROM `weather` WHERE `zone`='".$zone."' ORDER BY `id` ASC";
+    $result=$local->query($sql);
+    if($result === false) {
+        trigger_error('Wrong SQL: '.$sql.' Error: '.$local->error,E_USER_ERROR);
+    } else {
+        if($result->num_rows > 0) {
+            while($row = mysqli_fetch_assoc($result)) {
+                $timestamp[$i] = $row['timestamp'];
+                $values[$i] = floatval($row['wtemp']);
+                $response[$i][] = array($timestamp[$i]*1000,$values[$i]);
+            }
+            $series[] = array(
+                'name' => $zone,
+                'data' => $response[$i],
+                'color' => $color[$i],
+                'type' => 'spline'
+                //'tooltip' => array('valueDecimals' => '2','valueSuffix' => ' °C')
+           );
+        }
+    }
+    $i++;
+}
+*/
 DataBase::getInstance()->disconnect();
 header('Content-type: application/json');
 echo json_encode($series);

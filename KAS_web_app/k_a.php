@@ -105,7 +105,6 @@ else { $mode_name = $mode; }
 	    </div>";
 	}
 }
-DataBase::getInstance()->disconnect();
 function r($d,$r) {
 	$query = "SELECT `prog` FROM `klimatiki` WHERE `router`='".$r."' AND `inv`='".$d."'";
     $result = mysql_query($query);
@@ -117,4 +116,5 @@ function r($d,$r) {
     }
     return $prog_status;
 }
+DataBase::getInstance()->disconnect();
 ?>

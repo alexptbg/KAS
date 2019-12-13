@@ -276,10 +276,103 @@ function insert_log($lang,$device,$user,$filter,$action,$obs) {
 	$date = date('Y-m-d');
 	$time = date('H:i:s');
 	if ($obs == NULL) { $obs = ""; }
-	$query = "INSERT INTO `logs` (`date`, `time`, `device`, `user`, `filter`, `action`, `obs`) 
-		      VALUES ('".$date."', '".$time."', '".$device."', '".$user."', '".$filter."', '".$action."', '".$obs."')";
+	$query = "INSERT INTO `logs` (`date`, `time`, `device`, `user`, `filter`, `action`, `obs`) VALUES ('".$date."', '".$time."', '".$device."', '".$user."', '".$filter."', '".$action."', '".$obs."')";
     $result = mysql_query($query);
     confirm_query($result);
+}
+function get_tempos_by_month_test($r,$i) {
+    $tempos = array();
+    $query = "SELECT EXTRACT(MONTH FROM datetime) as month, EXTRACT(YEAR FROM datetime) as year, COUNT(`id`) as total FROM `tempo` WHERE `router`='".$r."' AND `inv`='".$i."' GROUP BY month, year ORDER BY year DESC, month DESC";
+    $result = mysql_query($query);
+    confirm_query($result);
+    if (mysql_num_rows($result) != 0) {
+        while($row = mysql_fetch_array($result)) {
+            $tempos[] = $row; 
+        }
+    }
+    return $tempos;
+}
+function get_first_entry_for_tempo($r) {
+    $query = "SELECT day FROM `tempo` WHERE `router`='".$r."' ORDER BY `id` ASC LIMIT 1;";
+    $result = mysql_query($query);
+    confirm_query($result);
+    $entry = mysql_fetch_array($result);
+    return $entry['day'];
+}
+function get_klima_floor($inv) {
+    $query = "SELECT `floor` FROM `klimatiki` WHERE `inv`='".$inv."'";
+    $result = mysql_query($query);
+    confirm_query($result);
+    $entry = mysql_fetch_array($result);
+    return $entry['floor'];
+}
+function get_tempos_by_month($r,$i) {
+    $tempos = array();
+    $query = "SELECT EXTRACT(MONTH FROM datetime) as month, EXTRACT(YEAR FROM datetime) as year, SUM(`status`) as total FROM `tempo` WHERE `router`='".$r."' AND `inv`='".$i."' GROUP BY month, year ORDER BY year DESC, month DESC";
+    $result = mysql_query($query);
+    confirm_query($result);
+    if (mysql_num_rows($result) != 0) {
+        while($row = mysql_fetch_array($result)) {
+            $tempos[] = $row; 
+        }
+    }
+    return $tempos;
+}
+function get_filter_hours($r,$i,$since) {
+    if ($since === "N/A") {
+        $query = "SELECT COUNT(`id`) as total FROM `tempo` WHERE `router`='".$r."' AND `inv`='".$i."'";
+    } else {
+        $query = "SELECT COUNT(`id`) as total FROM `tempo` WHERE `router`='".$r."' AND `inv`='".$i."' AND `day` >= '".$since."'";
+    }
+    $result = mysql_query($query);
+    confirm_query($result);
+    if (mysql_num_rows($result) != 0) {
+        while($row = mysql_fetch_array($result)) {
+            $tempo = $row['total']; 
+        }
+    }
+    return $tempo;
+}
+function get_tempos_by_month_since_till($r,$i,$ini,$end) {
+    $tempos = array();
+    $query = "SELECT EXTRACT(MONTH FROM datetime) as month, EXTRACT(YEAR FROM datetime) as year, COUNT(`id`) as total,inv FROM `tempo` WHERE `router`='".$r."' AND `inv`='".$i."' AND `day` >= '".$ini."' AND `day` <= '".$end."' GROUP BY month, year ORDER BY year ASC, month ASC";
+    $result = mysql_query($query);
+    confirm_query($result);
+    if (mysql_num_rows($result) != 0) {
+        while($row = mysql_fetch_array($result)) {
+            $tempos[] = $row; 
+        }
+    }
+    return $tempos;
+}
+function get_tempos_by_month_since_cleaned($r,$i,$since) {
+    $tempos = array();
+    if ($since === "N/A") {
+        $query = "SELECT EXTRACT(MONTH FROM datetime) as month, EXTRACT(YEAR FROM datetime) as year, SUM(`status`) as total FROM `tempo` WHERE `router`='".$r."' AND `inv`='".$i."' GROUP BY month, year ORDER BY year DESC, month DESC";
+    } else {
+        $query = "SELECT EXTRACT(MONTH FROM datetime) as month, EXTRACT(YEAR FROM datetime) as year, SUM(`status`) as total FROM `tempo` WHERE `router`='".$r."' AND `inv`='".$i."' AND `datetime` > '".$since."' GROUP BY month, year ORDER BY year DESC, month DESC";
+    }
+    $result = mysql_query($query);
+    confirm_query($result);
+    if (mysql_num_rows($result) != 0) {
+        while($row = mysql_fetch_array($result)) {
+            $tempos[] = $row; 
+        }
+    }
+    return $tempos;
+}
+function get_tempo_last_cleaned($r,$i) {
+    $query = "SELECT * FROM `klimatiki` WHERE `router`='".$r."' AND `inv`='".$i."'";
+    $result = mysql_query($query);
+    confirm_query($result);
+    $last = mysql_fetch_array($result);
+    if($last['last_cleaned']===NULL) {
+        $last_cleaned = "N/A";
+    } else {
+        $timed = $time = new DateTime($last['last_cleaned']);
+        $last_cleaned = date_format($timed,"Y-m-d");
+    }
+    return $last_cleaned;
 }
 function get_table_size($table) {
 	$query = "SHOW TABLE STATUS LIKE '".$table."'";
@@ -303,6 +396,14 @@ function redir($url,$seconds) {
             timer = setTimeout('redirect()','".($seconds*1000)."')
         </script>\n";
     return true;
+}
+function convertToHoursMins($time,$format='%02d:%02d') {
+    if ($time < 1) {
+        return;
+    }
+    $hours = floor($time / 60);
+    $minutes = ($time % 60);
+    return sprintf($format, $hours, $minutes);
 }
 function get_temp_from_sa() {
     $server = "192.168.17.10";

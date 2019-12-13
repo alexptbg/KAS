@@ -97,6 +97,45 @@ check_login($lang,$web_dir);
 							    <i class="fa fa-dashboard fa-fw fa-3x"></i> <?php echo get_lang($lang, 'Home'); ?></a>
                         </li>
 						<?php
+						//all klimas by router
+                        if ($user_settings['level'] > 10) {
+                            echo "
+                            <li>
+                                <a href=\"#\"><i class=\"fa fa-exclamation-circle fa-fw fa-3x\"></i> ".get_lang($lang, 'k90')."
+                                    <span class=\"fa arrow\"></span></a>";
+                                $query = "SELECT `router_name` FROM `routers` ORDER BY `router_name` ASC";
+                                $result = mysql_query($query);
+                                confirm_query($result);
+                                if (mysql_num_rows($result) != 0) {
+                                    echo "<ul class=\"nav nav-second-level\">";
+                                    while($routers = mysql_fetch_array($result)) {
+                                        echo "
+                                            <li><a href=\"status.php?lang=".$lang."&router=".$routers['router_name']."\">
+                                                ".$routers['router_name']."</a></li>";
+                                    }
+                                    echo "</ul>";
+                                }
+                                echo "
+                            </li>";
+                            //all klimas by router by user //status for users
+                            } elseif ($user_settings['level'] == 10) {
+                                //get routers by user
+                                if (!empty($buildings)) {
+                            echo "
+                            <li>
+                                <a href=\"#\"><i class=\"fa fa-exclamation-circle fa-fw fa-3x\"></i> ".get_lang($lang, 'k90')."
+                                    <span class=\"fa arrow\"></span></a>";
+                                    echo "<ul class=\"nav nav-second-level\">";
+                                    foreach ($buildings as $building) {
+                                        echo "
+                                            <li><a href=\"status.php?lang=".$lang."&router=".$building."\">
+                                                ".$building."</a></li>";
+                                    }
+                            echo "
+                                </ul>
+                            </li>";
+                                }
+                            }
 						//air conditioners by user
 						    //get all buildings/router access from user
                             $queryb = "SELECT `buildings` FROM `users` WHERE `user_name`='".$user_settings["user_name"]."'";
@@ -154,45 +193,7 @@ check_login($lang,$web_dir);
 									}
 							    }
 						    }
-						//all klimas by router
-                        if ($user_settings['level'] > 10) {
-						echo "
-                        <li>
-                            <a href=\"#\"><i class=\"fa fa-exclamation-circle fa-fw fa-3x\"></i> ".get_lang($lang, 'k90')."
-							    <span class=\"fa arrow\"></span></a>";
-                            $query = "SELECT `router_name` FROM `routers` ORDER BY `router_name` ASC";
-                            $result = mysql_query($query);
-                            confirm_query($result);
-                            if (mysql_num_rows($result) != 0) {
-								echo "<ul class=\"nav nav-second-level\">";
-								while($routers = mysql_fetch_array($result)) {
-									echo "
-                                        <li><a href=\"status.php?lang=".$lang."&router=".$routers['router_name']."\">
-										    ".$routers['router_name']."</a></li>";
-								}
-								echo "</ul>";
-							}
-                            echo "
-                        </li>";
-                        //all klimas by router by user //status for users
-						} elseif ($user_settings['level'] == 10) {
-                            //get routers by user
-                            if (!empty($buildings)) {
-						echo "
-                        <li>
-                            <a href=\"#\"><i class=\"fa fa-exclamation-circle fa-fw fa-3x\"></i> ".get_lang($lang, 'k90')."
-							    <span class=\"fa arrow\"></span></a>";
-							    echo "<ul class=\"nav nav-second-level\">";
-	                            foreach ($buildings as $building) {
-									echo "
-                                        <li><a href=\"status.php?lang=".$lang."&router=".$building."\">
-										    ".$building."</a></li>";
-	                            }
-	                    echo "
-	                        </ul>
-                        </li>";
-	                        }
-						}
+
                         //by addr
 						if ($user_settings['level'] > 10) {
 							if (!empty($buildings)) {
@@ -229,6 +230,13 @@ check_login($lang,$web_dir);
 							    <i class="fa fa-location-arrow fa-fw fa-3x"></i> <?php echo get_lang($lang,'k130'); ?></a>
                         </li>
                         <?php if ($user_settings['level'] > 10): ?>
+                        <li>
+                            <a href="#"><i class="fa fa-clock-o fa-fw fa-3x"></i> <?php echo get_lang($lang,'k327'); ?><span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="tempo.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k319'); ?></a></li>
+                                <li><a href="tempo_filter.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k328'); ?></a></li>
+                            </ul>
+                        </li>
                         <li>
                             <a href="repairs.php?lang=<?=$lang?>">
 							    <i class="fa fa-wrench fa-fw fa-3x"></i> <?php echo get_lang($lang,'k284'); ?></a>
@@ -326,7 +334,7 @@ check_login($lang,$web_dir);
                             <div class="panel-body">
 								<img src="img/vrf1.php" width="100%" class="vrf1" />
                                 <div class="modal fade" id="md1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
+                                    <div class="modal-dialog" style="width:80%;">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -362,7 +370,7 @@ check_login($lang,$web_dir);
                             <div class="panel-body">
                                 <img src="img/vrf2.php" width="100%" class="vrf2" />
                                 <div class="modal fade" id="md2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
+                                    <div class="modal-dialog" style="width:80%;">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -405,6 +413,78 @@ check_login($lang,$web_dir);
 							</div>
                             <div class="panel-body">
                                 <img src="img/vrf4.jpg" width="100%" class="vrf4" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+				<!--end row-->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <?php echo "Boss"; ?> \ <?php echo get_lang($lang,'k44'); ?> 1
+                                <div class="btn-group pull-right">
+                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#md3" style="margin-top:-10px;margin-right:-15px;border-radius:0;padding-top:9px;padding-left:16px;padding-right:16px;padding-bottom:9px;">
+                                        <i class="fa fa-question-circle"></i>
+                                    </button>
+                                </div>
+							</div>
+                            <div class="panel-body">
+                                <img src="img/boss1k.png" width="100%" class="b1" />
+                                <div class="modal fade" id="md3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" style="width:80%;">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title" id="myModalLabel">
+                                                    <?php echo "Boss"; ?> \ <?php echo get_lang($lang,'k44'); ?> 1</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <img src="img/boss1k.png" width="100%" class="vrf2" />
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary" data-dismiss="modal">
+                                                    <i class="fa fa-sign-in"></i>&nbsp;&nbsp;OK</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+				<!--end row-->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <?php echo "Boss"; ?> \ <?php echo get_lang($lang,'k44'); ?> 2
+                                <div class="btn-group pull-right">
+                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#md4" style="margin-top:-10px;margin-right:-15px;border-radius:0;padding-top:9px;padding-left:16px;padding-right:16px;padding-bottom:9px;">
+                                        <i class="fa fa-question-circle"></i>
+                                    </button>
+                                </div>
+							</div>
+                            <div class="panel-body">
+                                <img src="img/boss2k.png" width="100%" class="b2" />
+                                <div class="modal fade" id="md4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" style="width:80%;">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title" id="myModalLabel">
+                                                    <?php echo "Boss"; ?> \ <?php echo get_lang($lang,'k44'); ?> 2</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <img src="img/boss2k.png" width="100%" class="vrf2" />
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary" data-dismiss="modal">
+                                                    <i class="fa fa-sign-in"></i>&nbsp;&nbsp;OK</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

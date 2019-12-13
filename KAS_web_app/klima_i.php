@@ -32,6 +32,9 @@ if($k_settings['type'] == "1") { $class="primary"; } else { $class="success"; }
 	    <script type="text/javascript" src="js/ka-ex.js"></script>
         <link type="text/css" rel="stylesheet" href="js/plugins/switch/css/bootstrapSwitch.min.css" />
 		<script type="text/javascript" src="js/plugins/switch/js/bootstrapSwitch.min.js"></script>
+		<link type="text/css" rel="stylesheet" href="js/plugins/datepicker/css/bootstrap-datetimepicker.min.css" />
+		<script type="text/javascript" src="js/plugins/moment/moment-with-locales.min.js"></script>
+		<script type="text/javascript" src="js/plugins/datepicker/js/bootstrap-datetimepicker.min.js"></script>
     </head>
     <body>
         <div id="wrapper">
@@ -101,7 +104,7 @@ if($k_settings['type'] == "1") { $class="primary"; } else { $class="success"; }
                         </a>
                     </li>
                     <li>
-                        <a href="klima_l.php?lang=<?=$lang?>&user=<?php echo $user_settings['user_name']; ?>&router=<?php echo $r; ?>">
+                        <a href="status.php?lang=<?=$lang?>&user=<?php echo $user_settings['user_name']; ?>&router=<?php echo $r; ?>">
                             <i class="icon ka-modem fa-2x fa-fw"></i>
                         </a>
                     </li>
@@ -153,6 +156,45 @@ if($k_settings['type'] == "1") { $class="primary"; } else { $class="success"; }
 							    <i class="fa fa-dashboard fa-fw fa-3x"></i> <?php echo get_lang($lang, 'Home'); ?></a>
                         </li>
 						<?php
+						//all klimas by router
+                        if ($user_settings['level'] > 10) {
+                            echo "
+                            <li>
+                                <a href=\"#\"><i class=\"fa fa-exclamation-circle fa-fw fa-3x\"></i> ".get_lang($lang, 'k90')."
+                                    <span class=\"fa arrow\"></span></a>";
+                                $query = "SELECT `router_name` FROM `routers` ORDER BY `router_name` ASC";
+                                $result = mysql_query($query);
+                                confirm_query($result);
+                                if (mysql_num_rows($result) != 0) {
+                                    echo "<ul class=\"nav nav-second-level\">";
+                                    while($routers = mysql_fetch_array($result)) {
+                                        echo "
+                                            <li><a href=\"status.php?lang=".$lang."&router=".$routers['router_name']."\">
+                                                ".$routers['router_name']."</a></li>";
+                                    }
+                                    echo "</ul>";
+                                }
+                                echo "
+                            </li>";
+                            //all klimas by router by user //status for users
+                            } elseif ($user_settings['level'] == 10) {
+                                //get routers by user
+                                if (!empty($buildings)) {
+                            echo "
+                            <li>
+                                <a href=\"#\"><i class=\"fa fa-exclamation-circle fa-fw fa-3x\"></i> ".get_lang($lang, 'k90')."
+                                    <span class=\"fa arrow\"></span></a>";
+                                    echo "<ul class=\"nav nav-second-level\">";
+                                    foreach ($buildings as $building) {
+                                        echo "
+                                            <li><a href=\"status.php?lang=".$lang."&router=".$building."\">
+                                                ".$building."</a></li>";
+                                    }
+                            echo "
+                                </ul>
+                            </li>";
+                                }
+                            }
 						    //from here
                             if (!empty($buildings)) {
 	                            foreach ($buildings as $building) {
@@ -204,45 +246,7 @@ if($k_settings['type'] == "1") { $class="primary"; } else { $class="success"; }
 									}
 							    }
 						    }
-						//all klimas by router
-                        if ($user_settings['level'] > 10) {
-						echo "
-                        <li>
-                            <a href=\"#\"><i class=\"fa fa-exclamation-circle fa-fw fa-3x\"></i> ".get_lang($lang, 'k90')."
-							    <span class=\"fa arrow\"></span></a>";
-                            $query = "SELECT `router_name` FROM `routers` ORDER BY `router_name` ASC";
-                            $result = mysql_query($query);
-                            confirm_query($result);
-                            if (mysql_num_rows($result) != 0) {
-								echo "<ul class=\"nav nav-second-level\">";
-								while($routers = mysql_fetch_array($result)) {
-									echo "
-                                        <li><a href=\"status.php?lang=".$lang."&router=".$routers['router_name']."\">
-										    ".$routers['router_name']."</a></li>";
-								}
-								echo "</ul>";
-							}
-                            echo "
-                        </li>";
-                        //all klimas by router by user //status for users
-						} elseif ($user_settings['level'] == 10) {
-                            //get routers by user
-                            if (!empty($buildings)) {
-						echo "
-                        <li>
-                            <a href=\"#\"><i class=\"fa fa-exclamation-circle fa-fw fa-3x\"></i> ".get_lang($lang, 'k90')."
-							    <span class=\"fa arrow\"></span></a>";
-							    echo "<ul class=\"nav nav-second-level\">";
-	                            foreach ($buildings as $building) {
-									echo "
-                                        <li><a href=\"status.php?lang=".$lang."&router=".$building."\">
-										    ".$building."</a></li>";
-	                            }
-	                    echo "
-	                        </ul>
-                        </li>";
-	                        }
-						}
+
                         //by addr
 						if ($user_settings['level'] > 10) {
 							if (!empty($buildings)) {
@@ -279,6 +283,13 @@ if($k_settings['type'] == "1") { $class="primary"; } else { $class="success"; }
 							    <i class="fa fa-location-arrow fa-fw fa-3x"></i> <?php echo get_lang($lang,'k130'); ?></a>
                         </li>
                         <?php if ($user_settings['level'] > 10): ?>
+                        <li>
+                            <a href="#"><i class="fa fa-clock-o fa-fw fa-3x"></i> <?php echo get_lang($lang,'k327'); ?><span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="tempo.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k319'); ?></a></li>
+                                <li><a href="tempo_filter.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k328'); ?></a></li>
+                            </ul>
+                        </li>
                         <li>
                             <a href="repairs.php?lang=<?=$lang?>">
 							    <i class="fa fa-wrench fa-fw fa-3x"></i> <?php echo get_lang($lang,'k284'); ?></a>
@@ -372,6 +383,16 @@ if($k_settings['type'] == "1") { $class="primary"; } else { $class="success"; }
                     </script>
                     <div id="data"></div>
                 </div>
+
+                <div class="row">
+                    <script type="text/javascript">
+                        $(function() {
+ 	                        $('#tempo').load('k_t.php?lang=<?=$lang?>&r=<?=$r?>&b=<?=$k_settings["building"]?>&f=<?=$k_settings["floor"]?>&i=<?=$k?>&u=<?=$u?>&x=');
+                        });
+                    </script>
+                    <div id="tempo"></div>
+                </div>           
+
                 <div class="row">
                     <script type="text/javascript">
                         $(function() {

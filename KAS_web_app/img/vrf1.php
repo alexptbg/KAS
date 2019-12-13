@@ -73,24 +73,24 @@ if(!empty($dev0106)) {
 if(!empty($dev0301)) {
     $d0301 = explode(" ",$dev0301);
     $d0301_5 = $d0301[5];//mode2
-    if ($d0301_5 < 8) { imagestring($im,$font,387,980,$text_off,$red); }
-    if ($d0301_5 > 7) { imagestring($im,$font,402,980,$text_on,$green); }
+    if ($d0301_5 < 8) { imagestring($im,$font,336,760,$text_off,$red); }
+    if ($d0301_5 > 7) { imagestring($im,$font,334,760,$text_on,$green); }
 } else {
-	imagestring($im,$font,387,980,$text_err,$err);
+	imagestring($im,$font,336,760,$text_err,$err);
 }
 if(!empty($dev0302)) {
     $d0302 = explode(" ",$dev0302);
     $d0302_5 = $d0302[5];//mode2
-    if ($d0302_5 < 8) { imagestring($im,$font,468,940,$text_off,$red); }
-    if ($d0302_5 > 7) { imagestring($im,$font,468,940,$text_on,$green); }
+    if ($d0302_5 < 8) { imagestring($im,$font,660,825,$text_off,$red); }
+    if ($d0302_5 > 7) { imagestring($im,$font,662,825,$text_on,$green); }
 } else {
-	imagestring($im,$font,468,940,$text_err,$err);
+	imagestring($im,$font,660,825,$text_err,$err);
 }
 //04
 if(!empty($dev0401)) {
     $d0401 = explode(" ",$dev0401);
     $d0401_5 = $d0401[5];//mode2
-    if ($d0401_5 < 8) { imagestring($im,$font,726,870,$text_off,$red); }
+    if ($d0401_5 < 8) { imagestring($im,$font,675,890,$text_off,$red); }
     if ($d0401_5 > 7) { imagestring($im,$font,726,870,$text_on,$green); }
 } else {
 	imagestring($im,$font,726,870,$text_err,$err);
@@ -128,6 +128,7 @@ if(!empty($dev0405)) {
 	imagestring($im,$font,552,640,$text_err,$err);
 }
 //10
+/*
 if(!empty($dev1001)) {
     $d1001 = explode(" ",$dev1001);
     $d1001_5 = $d1001[5];//mode2
@@ -136,6 +137,7 @@ if(!empty($dev1001)) {
 } else {
 	imagestring($im,$font,823,258,$text_err,$err);
 }
+*/
 //12
 if(!empty($dev1201)) {
     $d1201 = explode(" ",$dev1201);
@@ -195,6 +197,7 @@ if(!empty($dev1404)) {
 	imagestring($im,$font,330,477,$text_err,$err);
 }
 //15
+/*
 if(!empty($dev1501)) {
     $d1501 = explode(" ",$dev1501);
     $d1501_5 = $d1501[5];//mode2
@@ -203,6 +206,7 @@ if(!empty($dev1501)) {
 } else {
 	imagestring($im,$font,430,257,$text_err,$err);
 }
+*/
 //generate image
 imagejpeg($im);
 ?>

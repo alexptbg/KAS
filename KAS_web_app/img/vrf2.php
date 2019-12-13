@@ -65,35 +65,35 @@ if(!empty($dev0205)) {
 if(!empty($dev0501)) {
     $d0501 = explode(" ",$dev0501);
     $d0501_5 = $d0501[5];//mode2
-    if ($d0501_5 < 8) { imagestring($im,$font,308,535,$text_off,$red); }
-    if ($d0501_5 > 7) { imagestring($im,$font,323,535,$text_on,$green); }
+    if ($d0501_5 < 8) { imagestring($im,$font,298,413,$text_off,$red); }
+    if ($d0501_5 > 7) { imagestring($im,$font,299,413,$text_on,$green); }
 } else {
-	imagestring($im,$font,308,535,$text_err,$err);
+	imagestring($im,$font,298,413,$text_err,$err);
 }
 if(!empty($dev0502)) {
     $d0502 = explode(" ",$dev0502);
     $d0502_5 = $d0502[5];//mode2
-    if ($d0502_5 < 8) { imagestring($im,$font,481,535,$text_off,$red); }
-    if ($d0502_5 > 7) { imagestring($im,$font,481,535,$text_on,$green); }
+    if ($d0502_5 < 8) { imagestring($im,$font,512,372,$text_off,$red); }
+    if ($d0502_5 > 7) { imagestring($im,$font,523,372,$text_on,$green); }
 } else {
-	imagestring($im,$font,481,535,$text_err,$err);
+	imagestring($im,$font,512,372,$text_err,$err);
 }
 //06
 if(!empty($dev0601)) {
     $d0601 = explode(" ",$dev0601);
     $d0601_5 = $d0601[5];//mode2
-    if ($d0601_5 < 8) { imagestring($im,$font,461,623,$text_off,$red); }
-    if ($d0601_5 > 7) { imagestring($im,$font,476,623,$text_on,$green); }
+    if ($d0601_5 < 8) { imagestring($im,$font,250,740,$text_off,$red); }
+    if ($d0601_5 > 7) { imagestring($im,$font,254,740,$text_on,$green); }
 } else {
-	imagestring($im,$font,461,623,$text_err,$err);
+	imagestring($im,$font,250,740,$text_err,$err);
 }
 if(!empty($dev0602)) {
     $d0602 = explode(" ",$dev0602);
     $d0602_5 = $d0602[5];//mode2
-    if ($d0602_5 < 8) { imagestring($im,$font,633,623,$text_off,$red); }
-    if ($d0602_5 > 7) { imagestring($im,$font,633,623,$text_on,$green); }
+    if ($d0602_5 < 8) { imagestring($im,$font,678,746,$text_off,$red); }
+    if ($d0602_5 > 7) { imagestring($im,$font,682,746,$text_on,$green); }
 } else {
-	imagestring($im,$font,633,623,$text_err,$err);
+	imagestring($im,$font,678,746,$text_err,$err);
 }
 //07
 if(!empty($dev0701)) {
@@ -140,18 +140,18 @@ if(!empty($dev0705)) {
 if(!empty($dev0801)) {
     $d0801 = explode(" ",$dev0801);
     $d0801_5 = $d0801[5];//mode2
-    if ($d0801_5 < 8) { imagestring($im,$font,1275,377,$text_off,$red); }
-    if ($d0801_5 > 7) { imagestring($im,$font,1275,377,$text_on,$green); }
+    if ($d0801_5 < 8) { imagestring($im,$font,1189,140,$text_off,$red); }
+    if ($d0801_5 > 7) { imagestring($im,$font,1186,140,$text_on,$green); }
 } else {
-	imagestring($im,$font,1275,377,$text_err,$err);
+	imagestring($im,$font,1189,140,$text_err,$err);
 }
 if(!empty($dev0802)) {
     $d0802 = explode(" ",$dev0802);
     $d0802_5 = $d0802[5];//mode2
-    if ($d0802_5 < 8) { imagestring($im,$font,1275,417,$text_off,$red); }
-    if ($d0802_5 > 7) { imagestring($im,$font,1275,417,$text_on,$green); }
+    if ($d0802_5 < 8) { imagestring($im,$font,1156,318,$text_off,$red); }
+    if ($d0802_5 > 7) { imagestring($im,$font,1156,318,$text_on,$green); }
 } else {
-	imagestring($im,$font,1275,417,$text_err,$err);
+	imagestring($im,$font,1156,318,$text_err,$err);
 }
 //09
 if(!empty($dev0901)) {
@@ -214,10 +214,10 @@ if(!empty($dev0907)) {
 if(!empty($dev1101)) {
     $d1101 = explode(" ",$dev1101);
     $d1101_5 = $d1101[5];//mode2
-    if ($d1101_5 < 8) { imagestring($im,$font,572,351,$text_off,$red); }
-    if ($d1101_5 > 7) { imagestring($im,$font,572,351,$text_on,$green); }
+    if ($d1101_5 < 8) { imagestring($im,$font,517,307,$text_off,$red); }
+    if ($d1101_5 > 7) { imagestring($im,$font,517,307,$text_on,$green); }
 } else {
-	imagestring($im,$font,572,351,$text_err,$err);
+	imagestring($im,$font,517,307,$text_err,$err);
 }
 if(!empty($dev1102)) {
     $d1102 = explode(" ",$dev1102);
@@ -263,10 +263,10 @@ if(!empty($dev1302)) {
 if(!empty($dev1303)) {
     $d1303 = explode(" ",$dev1303);
     $d1303_5 = $d1303[5];//mode2
-    if ($d1303_5 < 8) { imagestring($im,$font,333,346,$text_off,$red); }
-    if ($d1303_5 > 7) { imagestring($im,$font,333,346,$text_on,$green); }
+    if ($d1303_5 < 8) { imagestring($im,$font,371,307,$text_off,$red); }
+    if ($d1303_5 > 7) { imagestring($im,$font,371,307,$text_on,$green); }
 } else {
-	imagestring($im,$font,333,346,$text_err,$err);
+	imagestring($im,$font,371,307,$text_err,$err);
 }
 if(!empty($dev1304)) {
     $d1304 = explode(" ",$dev1304);

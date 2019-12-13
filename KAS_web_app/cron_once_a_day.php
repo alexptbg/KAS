@@ -23,6 +23,9 @@ $del_old6 = mysql_query("DELETE FROM `arduino_out_temp_5m` WHERE `datetime` < DA
 confirm_query($del_old6);
 $del_old7 = mysql_query("DELETE FROM `arduino_out_temp_60m` WHERE `datetime` < DATE_SUB(NOW(), INTERVAL $track DAY);");
 confirm_query($del_old7);
+//del tempo table
+$del_old8 = mysql_query("DELETE FROM `tempo` WHERE `datetime` < DATE_SUB(NOW(), INTERVAL $track DAY);");
+confirm_query($del_old8);
 //end
 DataBase::getInstance()->disconnect();
 ?>

@@ -60,14 +60,14 @@ function out_temp() {
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "SELECT * FROM `out_temp` ORDER BY `id` DESC LIMIT 1";
+    $sql = "SELECT * FROM `darksky` ORDER BY `id` DESC LIMIT 1";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         //output data of each row
         while($row = $result->fetch_assoc()) {
             $data = $row;
         }
-        return $data['temp'];
+        return ($data['curTemp']);
     }
     $conn->close();
 }

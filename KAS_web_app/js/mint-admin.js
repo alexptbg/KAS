@@ -34,3 +34,15 @@ $('document').ready(function() {
         selector: "[data-toggle=tooltip]"
     });
 });
+function infoModal(title,content,color) {
+	//usage = infoModal("titlex","this is a contentex","header-color");
+	//green=#5CB85C red=#d9534f primary=#428bca info=#5bc0de warning=#ffb70a
+	$("#infoModal").on("show.bs.modal", function(e) {
+		$(this).find(".modal-header").css({ "background-color":color });
+		$(this).find("h4.modal-title").text(title);
+		$(this).find(".modal-body").html(content);
+		$(this).find(".modal-footer").html('<button type="button" class="btn btn-themed" data-dismiss="modal">OK</button>');
+	});
+	$('#infoModal').modal('show');
+	return false;
+}

@@ -97,6 +97,45 @@ $ad = $_GET['addr'];
 							    <i class="fa fa-dashboard fa-fw fa-3x"></i> <?php echo get_lang($lang, 'Home'); ?></a>
                         </li>
 						<?php
+						//all klimas by router
+                        if ($user_settings['level'] > 10) {
+                            echo "
+                            <li>
+                                <a href=\"#\"><i class=\"fa fa-exclamation-circle fa-fw fa-3x\"></i> ".get_lang($lang, 'k90')."
+                                    <span class=\"fa arrow\"></span></a>";
+                                $query = "SELECT `router_name` FROM `routers` ORDER BY `router_name` ASC";
+                                $result = mysql_query($query);
+                                confirm_query($result);
+                                if (mysql_num_rows($result) != 0) {
+                                    echo "<ul class=\"nav nav-second-level\">";
+                                    while($routers = mysql_fetch_array($result)) {
+                                        echo "
+                                            <li><a href=\"status.php?lang=".$lang."&router=".$routers['router_name']."\">
+                                                ".$routers['router_name']."</a></li>";
+                                    }
+                                    echo "</ul>";
+                                }
+                                echo "
+                            </li>";
+                            //all klimas by router by user //status for users
+                            } elseif ($user_settings['level'] == 10) {
+                                //get routers by user
+                                if (!empty($buildings)) {
+                            echo "
+                            <li>
+                                <a href=\"#\"><i class=\"fa fa-exclamation-circle fa-fw fa-3x\"></i> ".get_lang($lang, 'k90')."
+                                    <span class=\"fa arrow\"></span></a>";
+                                    echo "<ul class=\"nav nav-second-level\">";
+                                    foreach ($buildings as $building) {
+                                        echo "
+                                            <li><a href=\"status.php?lang=".$lang."&router=".$building."\">
+                                                ".$building."</a></li>";
+                                    }
+                            echo "
+                                </ul>
+                            </li>";
+                                }
+                            }
 						//air conditioners by user
 						    //get all buildings/router access from user
                             $queryb = "SELECT `buildings` FROM `users` WHERE `user_name`='".$user_settings["user_name"]."'";
@@ -154,45 +193,7 @@ $ad = $_GET['addr'];
 									}
 							    }
 						    }
-						//all klimas by router
-                        if ($user_settings['level'] > 10) {
-						echo "
-                        <li>
-                            <a href=\"#\"><i class=\"fa fa-exclamation-circle fa-fw fa-3x\"></i> ".get_lang($lang, 'k90')."
-							    <span class=\"fa arrow\"></span></a>";
-                            $query = "SELECT `router_name` FROM `routers` ORDER BY `router_name` ASC";
-                            $result = mysql_query($query);
-                            confirm_query($result);
-                            if (mysql_num_rows($result) != 0) {
-								echo "<ul class=\"nav nav-second-level\">";
-								while($routers = mysql_fetch_array($result)) {
-									echo "
-                                        <li><a href=\"status.php?lang=".$lang."&router=".$routers['router_name']."\">
-										    ".$routers['router_name']."</a></li>";
-								}
-								echo "</ul>";
-							}
-                            echo "
-                        </li>";
-                        //all klimas by router by user //status for users
-						} elseif ($user_settings['level'] == 10) {
-                            //get routers by user
-                            if (!empty($buildings)) {
-						echo "
-                        <li>
-                            <a href=\"#\"><i class=\"fa fa-exclamation-circle fa-fw fa-3x\"></i> ".get_lang($lang, 'k90')."
-							    <span class=\"fa arrow\"></span></a>";
-							    echo "<ul class=\"nav nav-second-level\">";
-	                            foreach ($buildings as $building) {
-									echo "
-                                        <li><a href=\"status.php?lang=".$lang."&router=".$building."\">
-										    ".$building."</a></li>";
-	                            }
-	                    echo "
-	                        </ul>
-                        </li>";
-	                        }
-						}
+
                         //by addr
 						if ($user_settings['level'] > 10) {
 							if (!empty($buildings)) {
@@ -229,6 +230,13 @@ $ad = $_GET['addr'];
 							    <i class="fa fa-location-arrow fa-fw fa-3x"></i> <?php echo get_lang($lang,'k130'); ?></a>
                         </li>
                         <?php if ($user_settings['level'] > 10): ?>
+                        <li>
+                            <a href="#"><i class="fa fa-clock-o fa-fw fa-3x"></i> <?php echo get_lang($lang,'k327'); ?><span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="tempo.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k319'); ?></a></li>
+                                <li><a href="tempo_filter.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k328'); ?></a></li>
+                            </ul>
+                        </li>
                         <li>
                             <a href="repairs.php?lang=<?=$lang?>">
 							    <i class="fa fa-wrench fa-fw fa-3x"></i> <?php echo get_lang($lang,'k284'); ?></a>
@@ -480,5 +488,1081 @@ $ad = $_GET['addr'];
         </div>
         <!-- /#wrapper -->
 		<a href="#" id="toTop"><i class="fa fa-arrow-up"></i></a>
+
+		<script type="text/javascript">
+
+			var x1 = setTimeout(function(){ 
+				//var k1 = '1001';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1001&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 1300);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x2 = setTimeout(function(){ 
+				//var k2 = '1501';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1501&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 2600);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x3 = setTimeout(function(){ 
+				//var k3 = '1601';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1601&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 3900);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x4 = setTimeout(function(){ 
+				//var k4 = '1602';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1602&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 5200);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x5 = setTimeout(function(){ 
+				//var k5 = '1603';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1603&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 6500);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x6 = setTimeout(function(){ 
+				//var k6 = '1604';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1604&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 7800);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x7 = setTimeout(function(){ 
+				//var k7 = '1605';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1605&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 9100);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x8 = setTimeout(function(){ 
+				//var k8 = '1606';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1606&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 10400);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x9 = setTimeout(function(){ 
+				//var k9 = '1607';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1607&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 11700);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x10 = setTimeout(function(){ 
+				//var k10 = '1608';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1608&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 13000);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x11 = setTimeout(function(){ 
+				//var k11 = '1609';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1609&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 14300);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x12 = setTimeout(function(){ 
+				//var k12 = '1610';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1610&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 15600);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x13 = setTimeout(function(){ 
+				//var k13 = '1611';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1611&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 16900);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x14 = setTimeout(function(){ 
+				//var k14 = '1612';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1612&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 18200);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x15 = setTimeout(function(){ 
+				//var k15 = '1613';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1613&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 19500);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x16 = setTimeout(function(){ 
+				//var k16 = '1701';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1701&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 20800);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x17 = setTimeout(function(){ 
+				//var k17 = '1702';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1702&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 22100);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x18 = setTimeout(function(){ 
+				//var k18 = '1703';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1703&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 23400);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x19 = setTimeout(function(){ 
+				//var k19 = '1704';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1704&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 24700);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x20 = setTimeout(function(){ 
+				//var k20 = '1705';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1705&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 26000);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x21 = setTimeout(function(){ 
+				//var k21 = '1706';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1706&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 27300);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x22 = setTimeout(function(){ 
+				//var k22 = '1707';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1707&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 28600);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x23 = setTimeout(function(){ 
+				//var k23 = '1708';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1708&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 29900);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x24 = setTimeout(function(){ 
+				//var k24 = '1709';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1709&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 31200);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x25 = setTimeout(function(){ 
+				//var k25 = '1801';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1801&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 32500);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x26 = setTimeout(function(){ 
+				//var k26 = '1802';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1802&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 33800);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x27 = setTimeout(function(){ 
+				//var k27 = '1803';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1803&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 35100);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x28 = setTimeout(function(){ 
+				//var k28 = '1804';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1804&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 36400);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x29 = setTimeout(function(){ 
+				//var k29 = '1805';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1805&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 37700);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x30 = setTimeout(function(){ 
+				//var k30 = '1806';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1806&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 39000);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x31 = setTimeout(function(){ 
+				//var k31 = '1807';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1807&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 40300);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x32 = setTimeout(function(){ 
+				//var k32 = '1808';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1808&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 41600);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x33 = setTimeout(function(){ 
+				//var k33 = '1809';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1809&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 42900);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x34 = setTimeout(function(){ 
+				//var k34 = '1810';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1810&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 44200);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x35 = setTimeout(function(){ 
+				//var k35 = '1811';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1811&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 45500);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x36 = setTimeout(function(){ 
+				//var k36 = '1901';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1901&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 46800);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x37 = setTimeout(function(){ 
+				//var k37 = '1902';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1902&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 48100);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x38 = setTimeout(function(){ 
+				//var k38 = '1903';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1903&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 49400);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x39 = setTimeout(function(){ 
+				//var k39 = '1904';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1904&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 50700);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x40 = setTimeout(function(){ 
+				//var k40 = '1905';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1905&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 52000);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x41 = setTimeout(function(){ 
+				//var k41 = '1906';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1906&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 53300);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x42 = setTimeout(function(){ 
+				//var k42 = '1907';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1907&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 54600);
+			
+			</script>
+			
+		<script type="text/javascript">
+
+			var x43 = setTimeout(function(){ 
+				//var k43 = '1908';
+
+
+				$.ajax({
+					url: 'k_handle_setpoint_fix2.php?router=Boss&kinv=1908&action=SP&first=1&second=24',
+					//dataType: 'json',
+					type: 'GET',
+					contentType: 'application/json',
+					success: function(data,textStatus,jQxhr){
+					  console.log(data);
+					  
+					},
+					error: function(jqXhr,textStatus,errorThrown){
+					  console.log(errorThrown);
+					},
+					timeout: 3000
+				  });
+
+			}, 55900);
+			
+			</script>
+			
     </body>
 </html>

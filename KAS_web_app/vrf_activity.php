@@ -97,6 +97,45 @@ check_login($lang,$web_dir);
 							    <i class="fa fa-dashboard fa-fw fa-3x"></i> <?php echo get_lang($lang, 'Home'); ?></a>
                         </li>
 						<?php
+						//all klimas by router
+                        if ($user_settings['level'] > 10) {
+                            echo "
+                            <li>
+                                <a href=\"#\"><i class=\"fa fa-exclamation-circle fa-fw fa-3x\"></i> ".get_lang($lang, 'k90')."
+                                    <span class=\"fa arrow\"></span></a>";
+                                $query = "SELECT `router_name` FROM `routers` ORDER BY `router_name` ASC";
+                                $result = mysql_query($query);
+                                confirm_query($result);
+                                if (mysql_num_rows($result) != 0) {
+                                    echo "<ul class=\"nav nav-second-level\">";
+                                    while($routers = mysql_fetch_array($result)) {
+                                        echo "
+                                            <li><a href=\"status.php?lang=".$lang."&router=".$routers['router_name']."\">
+                                                ".$routers['router_name']."</a></li>";
+                                    }
+                                    echo "</ul>";
+                                }
+                                echo "
+                            </li>";
+                            //all klimas by router by user //status for users
+                            } elseif ($user_settings['level'] == 10) {
+                                //get routers by user
+                                if (!empty($buildings)) {
+                            echo "
+                            <li>
+                                <a href=\"#\"><i class=\"fa fa-exclamation-circle fa-fw fa-3x\"></i> ".get_lang($lang, 'k90')."
+                                    <span class=\"fa arrow\"></span></a>";
+                                    echo "<ul class=\"nav nav-second-level\">";
+                                    foreach ($buildings as $building) {
+                                        echo "
+                                            <li><a href=\"status.php?lang=".$lang."&router=".$building."\">
+                                                ".$building."</a></li>";
+                                    }
+                            echo "
+                                </ul>
+                            </li>";
+                                }
+                            }
 						//air conditioners by user
 						    //get all buildings/router access from user
                             $queryb = "SELECT `buildings` FROM `users` WHERE `user_name`='".$user_settings["user_name"]."'";
@@ -153,45 +192,7 @@ check_login($lang,$web_dir);
 									}
 							    }
 						    }
-						//all klimas by router
-                        if ($user_settings['level'] > 10) {
-						echo "
-                        <li>
-                            <a href=\"#\"><i class=\"fa fa-exclamation-circle fa-fw fa-3x\"></i> ".get_lang($lang, 'k90')."
-							    <span class=\"fa arrow\"></span></a>";
-                            $query = "SELECT `router_name` FROM `routers` ORDER BY `router_name` ASC";
-                            $result = mysql_query($query);
-                            confirm_query($result);
-                            if (mysql_num_rows($result) != 0) {
-								echo "<ul class=\"nav nav-second-level\">";
-								while($routers = mysql_fetch_array($result)) {
-									echo "
-                                        <li><a href=\"status.php?lang=".$lang."&router=".$routers['router_name']."\">
-										    ".$routers['router_name']."</a></li>";
-								}
-								echo "</ul>";
-							}
-                            echo "
-                        </li>";
-                        //all klimas by router by user //status for users
-						} elseif ($user_settings['level'] == 10) {
-                            //get routers by user
-                            if (!empty($buildings)) {
-						echo "
-                        <li>
-                            <a href=\"#\"><i class=\"fa fa-exclamation-circle fa-fw fa-3x\"></i> ".get_lang($lang, 'k90')."
-							    <span class=\"fa arrow\"></span></a>";
-							    echo "<ul class=\"nav nav-second-level\">";
-	                            foreach ($buildings as $building) {
-									echo "
-                                        <li><a href=\"status.php?lang=".$lang."&router=".$building."\">
-										    ".$building."</a></li>";
-	                            }
-	                    echo "
-	                        </ul>
-                        </li>";
-	                        }
-						}
+
                         //by addr
 						if ($user_settings['level'] > 10) {
 							if (!empty($buildings)) {
@@ -228,6 +229,13 @@ check_login($lang,$web_dir);
 							    <i class="fa fa-location-arrow fa-fw fa-3x"></i> <?php echo get_lang($lang,'k130'); ?></a>
                         </li>
                         <?php if ($user_settings['level'] > 10): ?>
+                        <li>
+                            <a href="#"><i class="fa fa-clock-o fa-fw fa-3x"></i> <?php echo get_lang($lang,'k327'); ?><span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="tempo.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k319'); ?></a></li>
+                                <li><a href="tempo_filter.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k328'); ?></a></li>
+                            </ul>
+                        </li>
                         <li>
                             <a href="repairs.php?lang=<?=$lang?>">
 							    <i class="fa fa-wrench fa-fw fa-3x"></i> <?php echo get_lang($lang,'k284'); ?></a>
@@ -321,7 +329,7 @@ check_login($lang,$web_dir);
                                 $num_rows = mysql_num_rows($result);
                                 if ($num_rows != 0) {
 									while ($users = mysql_fetch_array($result)) {
-										if (($users['user'] != 'Alex') && ($users['user'] != 'alex')) {
+										if (($users['user'] != 'Alex') && ($users['user'] != 'alex') && ($users['user'] != 'SYSTEM')) {
 											$all_users[] = $users['user'];
 										}
 									}
@@ -347,8 +355,8 @@ check_login($lang,$web_dir);
 									                	$actions[] = $row['COUNT(*)'];
 									                }
 									            }
-									        }
-									    }
+                                            }
+                                        }
 									    if ((!empty($all_names)) && (!empty($actions))) {
 									        //first date
 									        $query = "SELECT `date` FROM `logs` ORDER BY `id` ASC LIMIT 1";
@@ -436,10 +444,10 @@ $(function () {
             type: 'pie',
             name: '".get_lang($lang, 'k181')."',
             data: [";
-                $z=0;
+                $o=0;
                 foreach($all_users as $single){
-					echo " ['".$all_names[$z]."',   ".$actions[$z]."], ";
-					$z++;
+					echo " ['".$all_names[$o]."',   ".$actions[$o]."], ";
+					$o++;
 				}
                 echo "
             ]
@@ -452,7 +460,7 @@ $(function () {
 											echo "<br/>
 											      <div class=\"alert alert-warning\">".get_lang($lang, 'k183')."</div>";
 										}
-									}
+                                    }
 								} else {
 									//do nothing for now
 								}
@@ -492,6 +500,7 @@ $(function () {
                 ?>
                 <!--end row-->
                 <?php
+                /*
                 //get all usernames from system
                 $query = "SELECT `user_name` FROM `users`";
                 $result = mysql_query($query);
@@ -581,7 +590,8 @@ $(function () {
                         </div>
                     </div>
                 </div>";
-				}
+                }
+                */
                 ?>
             </div>
         </div>

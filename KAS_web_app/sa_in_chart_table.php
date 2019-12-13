@@ -104,6 +104,45 @@ check_login($lang,$web_dir);
 							    <i class="fa fa-dashboard fa-fw fa-3x"></i> <?php echo get_lang($lang, 'Home'); ?></a>
                         </li>
 						<?php
+						//all klimas by router
+                        if ($user_settings['level'] > 10) {
+                            echo "
+                            <li>
+                                <a href=\"#\"><i class=\"fa fa-exclamation-circle fa-fw fa-3x\"></i> ".get_lang($lang, 'k90')."
+                                    <span class=\"fa arrow\"></span></a>";
+                                $query = "SELECT `router_name` FROM `routers` ORDER BY `router_name` ASC";
+                                $result = mysql_query($query);
+                                confirm_query($result);
+                                if (mysql_num_rows($result) != 0) {
+                                    echo "<ul class=\"nav nav-second-level\">";
+                                    while($routers = mysql_fetch_array($result)) {
+                                        echo "
+                                            <li><a href=\"status.php?lang=".$lang."&router=".$routers['router_name']."\">
+                                                ".$routers['router_name']."</a></li>";
+                                    }
+                                    echo "</ul>";
+                                }
+                                echo "
+                            </li>";
+                            //all klimas by router by user //status for users
+                            } elseif ($user_settings['level'] == 10) {
+                                //get routers by user
+                                if (!empty($buildings)) {
+                            echo "
+                            <li>
+                                <a href=\"#\"><i class=\"fa fa-exclamation-circle fa-fw fa-3x\"></i> ".get_lang($lang, 'k90')."
+                                    <span class=\"fa arrow\"></span></a>";
+                                    echo "<ul class=\"nav nav-second-level\">";
+                                    foreach ($buildings as $building) {
+                                        echo "
+                                            <li><a href=\"status.php?lang=".$lang."&router=".$building."\">
+                                                ".$building."</a></li>";
+                                    }
+                            echo "
+                                </ul>
+                            </li>";
+                                }
+                            }
 						//air conditioners by user
 						    //get all buildings/router access from user
                             $queryb = "SELECT `buildings` FROM `users` WHERE `user_name`='".$user_settings["user_name"]."'";
@@ -160,45 +199,7 @@ check_login($lang,$web_dir);
 									}
 							    }
 						    }
-						//all klimas by router
-                        if ($user_settings['level'] > 10) {
-						echo "
-                        <li>
-                            <a href=\"#\"><i class=\"fa fa-exclamation-circle fa-fw fa-3x\"></i> ".get_lang($lang, 'k90')."
-							    <span class=\"fa arrow\"></span></a>";
-                            $query = "SELECT `router_name` FROM `routers` ORDER BY `router_name` ASC";
-                            $result = mysql_query($query);
-                            confirm_query($result);
-                            if (mysql_num_rows($result) != 0) {
-								echo "<ul class=\"nav nav-second-level\">";
-								while($routers = mysql_fetch_array($result)) {
-									echo "
-                                        <li><a href=\"status.php?lang=".$lang."&router=".$routers['router_name']."\">
-										    ".$routers['router_name']."</a></li>";
-								}
-								echo "</ul>";
-							}
-                            echo "
-                        </li>";
-                        //all klimas by router by user //status for users
-						} elseif ($user_settings['level'] == 10) {
-                            //get routers by user
-                            if (!empty($buildings)) {
-						echo "
-                        <li>
-                            <a href=\"#\"><i class=\"fa fa-exclamation-circle fa-fw fa-3x\"></i> ".get_lang($lang, 'k90')."
-							    <span class=\"fa arrow\"></span></a>";
-							    echo "<ul class=\"nav nav-second-level\">";
-	                            foreach ($buildings as $building) {
-									echo "
-                                        <li><a href=\"status.php?lang=".$lang."&router=".$building."\">
-										    ".$building."</a></li>";
-	                            }
-	                    echo "
-	                        </ul>
-                        </li>";
-	                        }
-						}
+
                         //by addr
 						if ($user_settings['level'] > 10) {
 							if (!empty($buildings)) {
@@ -235,6 +236,13 @@ check_login($lang,$web_dir);
 							    <i class="fa fa-location-arrow fa-fw fa-3x"></i> <?php echo get_lang($lang,'k130'); ?></a>
                         </li>
                         <?php if ($user_settings['level'] > 10): ?>
+                        <li>
+                            <a href="#"><i class="fa fa-clock-o fa-fw fa-3x"></i> <?php echo get_lang($lang,'k327'); ?><span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li><a href="tempo.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k319'); ?></a></li>
+                                <li><a href="tempo_filter.php?lang=<?=$lang?>"><?php echo get_lang($lang,'k328'); ?></a></li>
+                            </ul>
+                        </li>
                         <li>
                             <a href="repairs.php?lang=<?=$lang?>">
 							    <i class="fa fa-wrench fa-fw fa-3x"></i> <?php echo get_lang($lang,'k284'); ?></a>
@@ -331,10 +339,10 @@ check_login($lang,$web_dir);
 							</div>
                             <div class="panel-body">
                             <?php 
-                            $devices = array("AR_0001_2015_1.0","AR_0002_2015_1.0","AR_0003_2015_1.0","AR_0004_2015_1.0","AR_0005_2015_1.0","AR_0006_2015_1.0");
                             $colors = array("#0ca8f3","#fba504","#06f406","#da29f3","#fe1b01","#0eafab");
+                            $places = array("Strellson/Joop 1","Strellson/Joop 2","Boss 1","Boss 2");
+                            $invs = array("11029","12028","21020","22005");
                             $i=0;
-                            
                             echo "
 								<div class=\"table-responsive\">
                                     <table class=\"table table-striped table-bordered table-hover\" id=\"sa_chart\">
@@ -346,31 +354,19 @@ check_login($lang,$web_dir);
                                             </tr>
                                         </thead>
                                         <tbody>";
-                                        
-foreach($devices as $ar) {
-    $query = "SELECT `place` FROM `arduino_devices` WHERE `ar_id`='".$ar."'ORDER BY `id` ASC";
-    $result = mysql_query($query);
-    confirm_query($result);
-    $num_rows = mysql_num_rows($result);
-    if ($num_rows != 0) {
-        while($place = mysql_fetch_array($result)) {
-		    $places[] = $place['place'];
-	    }
-    }
-	$sql[$i] = mysql_query("SELECT `timestamp`,`temp2` FROM `".$dbtable."` WHERE `ar_id`='".$ar."' GROUP BY `timestamp` ORDER BY `timestamp` DESC");
-	confirm_query($sql[$i]);
-	if (mysql_num_rows($sql[$i]) != 0) {
-        while($row[$i] = mysql_fetch_array($sql[$i])) {
-	        $date[$i] = $row[$i]['timestamp'];
-	        $datec[$i] = date("Y-m-d H:i",$date[$i]);
-            $values[$i] = floatval($row[$i]['temp2']);
-            echo "<tr>";
-            echo "<td>".$places[$i]."</td><td>".$datec[$i]."</td><td>".number_format($values[$i],2)."ºC</td>";
-            echo "</tr>";
-		}
-    }
-	$i++;
-}
+                                        foreach($invs as $inv) {
+                                            $query = "SELECT * FROM `raspi_in_temps_60m` WHERE `inv`='".$inv."' ORDER BY `id` DESC";
+                                            $result = mysql_query($query);
+                                            confirm_query($result);
+                                            $num_rows = mysql_num_rows($result);
+                                            if ($num_rows > 0) {
+                                                while($row = mysql_fetch_assoc($result)) {
+                                                    echo "<tr><td>".$row['place']."</td><td>".date("Y-m-d H:i",strtotime($row['datetime']))."</td><td>".$row['temp']."</td></tr>";
+                                                }
+                                            }
+                                            $i++;
+                                        }
+
                                   echo "</tbody>
                                     </table>
                                 </div>";

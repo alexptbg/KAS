@@ -1,5 +1,5 @@
 Highcharts.createElement('link', {
-	href: 'http://fonts.googleapis.com/css?family=Unica+One',
+	href: 'https://fonts.googleapis.com/css?family=Unica+One',
 	rel: 'stylesheet',
 	type: 'text/css'
 }, 
